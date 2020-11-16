@@ -1,3 +1,4 @@
+import 'package:bnic/OverseasMedical/omih.dart';
 import 'package:bnic/webview/about.dart';
 import 'package:bnic/webview/branchoffice.dart';
 import 'package:bnic/webview/claiminformation.dart';
@@ -6,6 +7,7 @@ import 'package:bnic/webview/directorboard.dart';
 import 'package:bnic/webview/management.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'MotorInsurance/motorinsurance.dart';
@@ -44,14 +46,44 @@ class _MyHomePageState extends State<MyHomePage> {
     Fluttertoast.showToast(
         msg: "Not valid at this time",
         toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
+        gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
         backgroundColor: Colors.red,
         textColor: Colors.white,
         fontSize: 16.0
     );
   }
-
+  
+  void customDialog(BuildContext context){
+    showDialog(context: context,
+    builder: (context){
+      return Dialog(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10.0))
+        ),
+        child: Container(
+          height: 200.0,
+          width: 100.0,
+          child: Column(
+            children: <Widget> [
+              SizedBox(height: 10.0,),
+              Image.asset("assetimage/logo.png", color: Colors.amberAccent, height: 100.0,),
+              SizedBox(height: 10.0,),
+              Text("This feature will be available soon.", style: TextStyle(fontSize: 14.0,),),
+              SizedBox(height: 10.0,),
+              RaisedButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(5.0))
+                ),
+                color: Colors.amberAccent,
+                onPressed: (){Navigator.pop(context);},
+                child: Text("OK", style: TextStyle(color: Colors.white),),)
+            ],
+          ),
+        ),
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -135,17 +167,21 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
 
-      body: Center(
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
         child: Column(
           children: <Widget>[
-            SizedBox(
-              height: 10.0,
-            ),
+
+            SizedBox(height: 10.0,),
+
             Container(
               height: 100.0,
               width: 100.0,
               child: Image.asset("assetimage/logo.png"),
             ),
+
+            SizedBox(height: 20.0,),
+
             Text(
               "Buy Insurance Online",
               style: TextStyle(
@@ -155,7 +191,7 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(
               height: 20.0,
             ),
-
+            /// first row with two property MOTOR & OVERPASS MEDICAL insurance
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -220,7 +256,9 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ],
                     ),
-                    onPressed: (){},
+                    onPressed: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => OMIH()));
+                    },
                   ),
                 ),
               ],
@@ -229,7 +267,7 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(
               height: 20.0,
             ),
-
+            /// first row with two property MARIN & FIRE insurance
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -260,7 +298,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ],
                     ),
                     onPressed: (){
-                      inValidToast();
+                      customDialog(context);
                     },
                   ),
                 ),
@@ -296,7 +334,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ],
                     ),
                     onPressed: (){
-                      inValidToast();
+                      customDialog(context);
                     },
                   ),
                 ),
