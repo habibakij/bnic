@@ -35,6 +35,7 @@ dependencies:
   webview_flutter: 1.0.7
   fluttertoast: ^7.1.1
   menu_button: 1.2.1
+  http: 0.12.2
 
 
 dev_dependencies:
