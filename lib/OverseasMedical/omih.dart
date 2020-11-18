@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bnic/Network/omihmodel.dart';
 import 'package:bnic/util/constants.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,46 +11,75 @@ class OMIH extends StatefulWidget {
   _OMIHState createState() => _OMIHState();
 }
 
-Future<TypeModel> postType() async{
-  String postTypeUrl= Constant.TYPE_LIST;
-
-  final response= await http.post(postTypeUrl, body: {
-    "type_id","4",
-  });
-  if(response.statusCode == 201){
-    final String allDate= response.body;
-    print(allDate);
-    return typeModelFromJson(allDate);
-  } else{
-    return null;
-  }
-}
-
-
 class _OMIHState extends State<OMIH> {
-  Future<TypeModel> _future;
-  var list;
-  var _list= ["one","two","tree"];
-  var _selectItem = "one";
-  DateTime _dateTime;
+
   var date = DateTime.parse("2019-04-16 12:18:06.018950");
   var formattedDate;
   var years;
 
+  /// Type select area
+  var typeList;
+  var typeListItem;
+  var getTypeId;
+  String postTypeUrl= 'http://online.bnicl.net/api/insurance-sub-type/list';
+  Future<String> postType() async{
+    await http.post(postTypeUrl, body: {
+      'type_id':'4',
+    }).then((response){
+      var decode= json.decode(response.body);
+      setState((){
+        typeList = decode['list'];
+      });
+      print("Type area: $decode");
+    });
+  }
+
+  /// Category select area
+  var categoryList;
+  var categoryListItem;
+  var getCategoryId;
+  String postCategoryUrl= 'http://online.bnicl.net/api/insurance-category/list';
+  Future<String> postCategory(var id) async{
+    print("get_type_id: $id");
+    await http.post(postCategoryUrl, body: {
+      'sub_type_id':id,
+    }).then((response){
+      var decode= json.decode(response.body);
+      setState((){
+        categoryList = decode['list'];
+      });
+      print("Category area: $decode");
+    });
+  }
+
+
+  /// Stay period select area
+  var stayPeriodList;
+  var stayPeriodListItem;
+  var getStayPeriodId;
+  String postStayPeriodUrl= 'http://online.bnicl.net/api/insurance-omp-charge/list';
+  Future<String> postStayPeriod(var getTypeID, var getCategoryID) async{
+    print("get_type_id: $getTypeID");
+    print("get_category_id: $getCategoryID");
+    await http.post(postStayPeriodUrl, body: {
+      'type_id':'4',
+      'sub_type_id':getTypeID,
+      'category_id':getCategoryID,
+
+    }).then((response){
+      var decode= json.decode(response.body);
+      setState((){
+        stayPeriodList = decode['list'];
+      });
+      print("Stay period area: $decode");
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
+    postType();
     super.initState();
-    _future= postType();
-  }
-
-  Future<void> getJsonTypeData () async {
-    list.add("select type");
-    TypeModel typeModel= await postType();
-    int length= typeModel.list.length;
-    for(int i=0; i<length; i++){
-      list.add([i]);
-    }
   }
 
   @override
@@ -76,20 +107,6 @@ class _OMIHState extends State<OMIH> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
 
-                /*FutureBuilder<TypeModel>(
-                  future: _future,
-                  builder: (context, snapshot){
-                    if(snapshot.hasData){
-                      int len= snapshot.data.list.length;
-                      print(snapshot.data);
-                      for(int i=0; i<len; i++){
-                        list.add(snapshot.data.list[i].name);
-                      }
-                    }
-                    return CircularProgressIndicator();
-                  },
-                ),*/
-
                 Container(
                   height: 40.0,
                   width: 320.0,
@@ -108,16 +125,9 @@ class _OMIHState extends State<OMIH> {
                   height: 10.0,
                 ),
 
-                Text(
-                  "Type",
-                  style: TextStyle(
-                    fontSize: 12.0,
-                  ),
-                ),
+                Text("Type", style: TextStyle(fontSize: 12.0,),),
 
-                SizedBox(
-                  height: 2.0,
-                ),
+                SizedBox(height: 2.0,),
 
                 /// select type spinner(dropdown list)
                 Container(
@@ -133,7 +143,8 @@ class _OMIHState extends State<OMIH> {
                         width: 257.0,
                         color: Colors.white,
                         alignment: Alignment.centerLeft,
-                        child: Text(_selectItem)),
+                        child: Text(typeListItem == null ? "Select Type":typeListItem)
+                    ),
 
                     Container(
                       width: 40.0,
@@ -141,41 +152,34 @@ class _OMIHState extends State<OMIH> {
                       alignment: Alignment.centerRight,
                       child: DropdownButton<String>(
                         isExpanded: true,
-                        items: _list.map((String _currentSelected) {
-                          return DropdownMenuItem<String>(
-                            value: _currentSelected,
-                            child: Text(
-                              _currentSelected,
-                              style: TextStyle(fontSize: 12.0),
-                            ),
-                          );
-                        }).toList(),
-
-                        onChanged: (String _newSelected) {
+                        onChanged: (_newSelected) {
                           setState(() {
-                            this._selectItem = _newSelected;
+                            typeListItem = _newSelected;
+                            postType();
+                            print("type: $typeListItem");
                           });
                         },
-                        //value: _selectItem,
+                        items: typeList?.map<DropdownMenuItem<String>>((_item) {
+                          return DropdownMenuItem<String>(
+                            child: new Text(_item['name'], style: TextStyle(fontSize: 12.0),),
+                            value: _item['name'].toString(),
+                            onTap: (){
+                              getTypeId= _item['id'].toString();
+                              print("type id: $getTypeId for select category.");
+                              postCategory(getTypeId);
+                            },
+                          );
+                        })?.toList(),
                       ),
                     ),
                   ]),
                 ),
 
-                SizedBox(
-                  height: 10.0,
-                ),
+                SizedBox(height: 10.0,),
 
-                Text(
-                  "Category",
-                  style: TextStyle(
-                    fontSize: 12.0,
-                  ),
-                ),
+                Text("Category", style: TextStyle(fontSize: 12.0,)),
 
-                SizedBox(
-                  height: 2.0,
-                ),
+                SizedBox(height: 2.0,),
 
                 /// select category type spinner(dropdown list)
                 Container(
@@ -183,42 +187,44 @@ class _OMIHState extends State<OMIH> {
                   width: 320.0,
                   alignment: Alignment.centerLeft,
                   padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                  decoration:
-                  BoxDecoration(border: Border.all(color: Colors.black26)),
+                  decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+
                   child: Row(
                       children: <Widget>[
                     Container(
                         width: 257.0,
                         color: Colors.white,
-                        child: Text(_selectItem)),
+                        child: Text(categoryListItem == null ? "Select Type":categoryListItem)
+                    ),
+
                     Container(
                       width: 40.0,
                       color: Colors.amberAccent,
                       child: DropdownButton<String>(
                         isExpanded: true,
-                        items: _list.map((String _currentSelected) {
-                          return DropdownMenuItem<String>(
-                            value: _currentSelected,
-                            child: Text(
-                              _currentSelected,
-                              style: TextStyle(fontSize: 12.0),
-                            ),
-                          );
-                        }).toList(),
-                        onChanged: (String _newSelected) {
+                        onChanged: (_newSelected) {
                           setState(() {
-                            this._selectItem = _newSelected;
+                            categoryListItem = _newSelected;
+                            print("category $categoryListItem");
                           });
                         },
-                        //value: _selectItem,
+                        items: categoryList?.map<DropdownMenuItem<String>>((_item) {
+                          return DropdownMenuItem<String>(
+                            child: new Text(_item['name'], style: TextStyle(fontSize: 12.0),),
+                            value: _item['name'].toString(),
+                            onTap: (){
+                              getCategoryId= _item['id'].toString();
+                              print("category id: $getCategoryId for stay period.");
+                              postStayPeriod(getTypeId, getCategoryId);
+                            },
+                          );
+                        })?.toList(),
                       ),
                     ),
                   ]),
                 ),
 
-                SizedBox(
-                  height: 10.0,
-                ),
+                SizedBox(height: 10.0,),
 
                 /// birth day and age text in row
                 Row(
@@ -245,9 +251,7 @@ class _OMIHState extends State<OMIH> {
                   ],
                 ),
 
-                SizedBox(
-                  height: 2.0,
-                ),
+                SizedBox(height: 2.0,),
 
                 /// birth date picker and age calculate in a row
                 Row(
@@ -300,9 +304,7 @@ class _OMIHState extends State<OMIH> {
                       ]),
                     ),
 
-                    SizedBox(
-                      width: 10.0,
-                    ),
+                    SizedBox(width: 10.0,),
                     /// Calculate year
                     Container(
                       height: 40.0,
@@ -317,64 +319,51 @@ class _OMIHState extends State<OMIH> {
                   ],
                 ),
 
-                SizedBox(
-                  height: 10.0,
-                ),
+                SizedBox(height: 10.0,),
 
-                Text(
-                  "Stay Period (in day's)",
-                  style: TextStyle(
-                    fontSize: 12.0,
-                  ),
-                ),
+                Text("Stay Period (in day's)", style: TextStyle(fontSize: 12.0,),),
 
-                SizedBox(
-                  height: 2.0,
-                ),
+                SizedBox(height: 2.0,),
 
-                /// select type spinner(dropdown list)
+                /// select Stay period spinner(dropdown list)
                 Container(
                   height: 40.0,
                   width: 320.0,
                   alignment: Alignment.centerLeft,
                   padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                  decoration:
-                  BoxDecoration(border: Border.all(color: Colors.black26)),
+                  decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
                   child: Row(children: <Widget>[
                     Container(
                         width: 257.0,
                         color: Colors.white,
                         alignment: Alignment.centerLeft,
-                        child: Text(_selectItem)),
+                        child: Text(stayPeriodListItem == null ? "Select Period":stayPeriodListItem)
+                    ),
                     Container(
                       width: 40.0,
                       color: Colors.amberAccent,
                       alignment: Alignment.centerRight,
                       child: DropdownButton<String>(
                         isExpanded: true,
-                        items: _list.map((String _currentSelected) {
-                          return DropdownMenuItem<String>(
-                            value: _currentSelected,
-                            child: Text(
-                              _currentSelected,
-                              style: TextStyle(fontSize: 12.0),
-                            ),
-                          );
-                        }).toList(),
-                        onChanged: (String _newSelected) {
+                        onChanged: (_newSelected) {
                           setState(() {
-                            this._selectItem = _newSelected;
+                            stayPeriodListItem = _newSelected;
+                            print("Stay Period: $stayPeriodListItem");
                           });
                         },
-                        //value: _selectItem,
+
+                        items: stayPeriodList?.map<DropdownMenuItem<String>>((_item) {
+                          return DropdownMenuItem<String>(
+                            child: new Text(_item['stay'], style: TextStyle(fontSize: 12.0),),
+                            value: _item['stay'].toString(),
+                          );
+                        })?.toList(),
                       ),
                     ),
                   ]),
                 ),
 
-                SizedBox(
-                  height: 15.0,
-                ),
+                SizedBox(height: 15.0,),
 
                 /// RaiseButton
                 Row(
