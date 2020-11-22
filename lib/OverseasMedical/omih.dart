@@ -23,13 +23,7 @@ class _OMIHState extends State<OMIH> {
   final DateTime currentDateTime = DateTime.now();
   String formattedDate;
   String currentDate;
-  int count=0;
-
-  /*String selectDateTimeYear;
-  String todayDateTimeYear;
-
-  int convertSelectDateTimeYear;
-  int convertTodayDateTimeYear;*/
+  int flagType=0, flagCategory=0, flagBirthDay=0, flagStayPeriod=0;
   String years;
 
   /// Type select area
@@ -243,6 +237,7 @@ class _OMIHState extends State<OMIH> {
                                         child: new Text(_item['name'], style: TextStyle(fontSize: 12.0),),
                                         value: _item['id'].toString(),
                                         onTap: () {
+                                          flagType++;
                                           getTypeId = _item['id'].toString();
                                           print("type id: $getTypeId for select category.");
                                           postCategory(getTypeId);
@@ -315,6 +310,7 @@ class _OMIHState extends State<OMIH> {
                                       child: new Text(_item['name'], style: TextStyle(fontSize: 12.0),),
                                       value: _item['id'].toString(),
                                       onTap: () {
+                                        flagCategory++;
                                         getCategoryId = _item['id'].toString();
                                         print("category id: $getCategoryId for stay period.");
                                         postStayPeriod(getTypeId, getCategoryId);
@@ -390,6 +386,7 @@ class _OMIHState extends State<OMIH> {
                                           formattedDate = dateFormat.format(date);
                                           print("Formatted date is: $formattedDate");
                                           setState(() {
+                                            flagBirthDay++;
                                             String selectDateTimeYear= formattedDate.substring(6);
                                             String todayDateTimeYear= currentDate.substring(6);
                                             print("selected year $selectDateTimeYear and current year $todayDateTimeYear");
@@ -400,9 +397,6 @@ class _OMIHState extends State<OMIH> {
                                             print("calculated year: $year");
                                             years= year.toString();
                                             print("string converted year: $years");
-
-
-
                                       });
                                     });
                                   },
@@ -496,7 +490,7 @@ class _OMIHState extends State<OMIH> {
                                       child: new Text(_item['stay'], style: TextStyle(fontSize: 12.0),),
                                       value: _item['stay'].toString(),
                                       onTap: (){
-                                        count++;
+                                        flagStayPeriod++;
                                         quoteMax= _item['max_stay'].toString();
                                         quoteMin= _item['min_stay'].toString();
                                         postGetQuote(getTypeId, getCategoryId, quoteMax, quoteMin, formattedDate);
@@ -527,10 +521,16 @@ class _OMIHState extends State<OMIH> {
                             ),
                           ),
                           onPressed: () {
-                            if(count > 0){
-                              YYDialogDemo(context);
-                            } else {
+                            if(flagType == 0){
                               getQuoteInValidToast();
+                            } else if(flagCategory == 0) {
+                              getQuoteInValidToast();
+                            } else if(flagBirthDay == 0){
+                              getQuoteInValidToast();
+                            } else if(flagStayPeriod == 0){
+                              getQuoteInValidToast();
+                            } else{
+                              YYDialogDemo(context);
                             }
                           }
                         ),
@@ -653,7 +653,7 @@ class _OMIHState extends State<OMIH> {
                                         color: HexColor("#e6e6e6"),
                                         alignment: Alignment.center,
                                         child: Text(
-                                          netAmount,
+                                          netAmount == null ? "null" : netAmount.toString(),
                                           style: TextStyle(
                                             fontSize: 12.0,
                                           ),
@@ -681,7 +681,7 @@ class _OMIHState extends State<OMIH> {
                                         color: Colors.white,
                                         alignment: Alignment.center,
                                         child: Text(
-                                          vatAmount,
+                                          vatAmount == null ? "null" : vatAmount.toString(),
                                           style: TextStyle(
                                             fontSize: 12.0,
                                           ),
@@ -709,7 +709,7 @@ class _OMIHState extends State<OMIH> {
                                         color: HexColor("#e6e6e6"),
                                         alignment: Alignment.center,
                                         child: Text(
-                                          totalAmount,
+                                          totalAmount == null ? "null" : totalAmount.toString(),
                                           style: TextStyle(
                                             fontSize: 12.0,
                                           ),
