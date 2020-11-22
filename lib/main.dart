@@ -88,6 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: AppBar(
         title: Text(widget.title),
         backgroundColor: Colors.amberAccent,
@@ -182,12 +183,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
             SizedBox(height: 20.0,),
 
-            Text(
-              "Buy Insurance Online",
-              style: TextStyle(
-                fontSize: 18.0,
-              ),
-            ),
+            Text("Buy Insurance Online", style: TextStyle(fontSize: 18.0,),),
             SizedBox(
               height: 20.0,
             ),
@@ -226,9 +222,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     },
                   ),
                 ),
-                SizedBox(
-                  width: 10.0,
-                ),
+                SizedBox(width: 10.0,),
+
                 Container(
                   //margin: const EdgeInsets.all(5.0),
                   //padding: const EdgeInsets.all(10.0),
@@ -264,9 +259,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
 
-            SizedBox(
-              height: 20.0,
-            ),
+            SizedBox(height: 20.0,),
             /// first row with two property MARIN & FIRE insurance
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
