@@ -1,3 +1,6 @@
+/// created by AK IJ
+/// 16-11-2020
+
 import 'dart:convert';
 import 'package:intl/intl.dart';
 
@@ -9,6 +12,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_custom_dialog/flutter_custom_dialog.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'omihinfoentry.dart';
 
@@ -18,7 +22,6 @@ class OMIH extends StatefulWidget {
 }
 
 class _OMIHState extends State<OMIH> {
-
   final DateFormat dateFormat = DateFormat('dd-MM-yyyy');
   final DateTime currentDateTime = DateTime.now();
   String formattedDate;
@@ -86,6 +89,8 @@ class _OMIHState extends State<OMIH> {
   }
 
   /// Get Quote area
+  int status;
+  String message;
   var netAmount, vatAmount, totalAmount;
   var quoteMax, quoteMin;
   var birthDate;
@@ -106,19 +111,88 @@ class _OMIHState extends State<OMIH> {
         netAmount = decode['net'];
         vatAmount = decode['vat'];
         totalAmount = decode['total_cost'];
+        status= decode['status'];
+        message= decode['message'];
 
-        print("Net Amount is: $netAmount"
-            "Vat Amount is: $vatAmount"
-            "total Amount is: $totalAmount");
+        print("net Amount is: $netAmount"
+            "vat Amount is: $vatAmount"
+            "total Amount is: $totalAmount"
+            "status is: $status"
+            "message is: $message");
       });
       print("Stay period area: $decode");
     });
   }
 
+  /// invalid status
+  void statusInValidToast(){
+    Fluttertoast.showToast(
+        msg: message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 12.0
+    );
+  }
 
+  /// invalid main Toast
   void getQuoteInValidToast(){
     Fluttertoast.showToast(
         msg: "Select OMP Information",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 12.0
+    );
+  }
+
+  /// invalid category Toast
+  void categoryInValidToast(){
+    Fluttertoast.showToast(
+        msg: "Select Category",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 12.0
+    );
+  }
+
+  /// invalid date select Toast
+  void dateInValidToast(){
+    Fluttertoast.showToast(
+        msg: "Select Date",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 12.0
+    );
+  }
+
+  /// invalid stay period Toast
+  void stayPeriodInValidToast(){
+    Fluttertoast.showToast(
+        msg: "Select Stay Period",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 12.0
+    );
+  }
+
+  /// custom toast
+  void customToast(String msg){
+    Fluttertoast.showToast(
+        msg: msg,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
@@ -144,7 +218,7 @@ class _OMIHState extends State<OMIH> {
       resizeToAvoidBottomInset: false,
 
       appBar: AppBar(
-        backgroundColor: Colors.amberAccent,
+        backgroundColor: HexColor("#F9A825"),
         title: Text(
           "Overseas Medical Insurance (Health)",
           style: TextStyle(
@@ -524,13 +598,17 @@ class _OMIHState extends State<OMIH> {
                             if(flagType == 0){
                               getQuoteInValidToast();
                             } else if(flagCategory == 0) {
-                              getQuoteInValidToast();
+                              categoryInValidToast();
                             } else if(flagBirthDay == 0){
-                              getQuoteInValidToast();
+                              dateInValidToast();
                             } else if(flagStayPeriod == 0){
-                              getQuoteInValidToast();
+                              stayPeriodInValidToast();
                             } else{
-                              YYDialogDemo(context);
+                              if(status != 1){
+                                statusInValidToast();
+                              } else {
+                                YYDialogDemo(context);
+                              }
                             }
                           }
                         ),
@@ -545,6 +623,14 @@ class _OMIHState extends State<OMIH> {
     );
   }
 
+  saveDate() async{
+    SharedPreferences preferences= await SharedPreferences.getInstance();
+    preferences.setString("type", typeListItem.toString());
+    preferences.setString("categoryType", categoryListItem.toString());
+    preferences.setString("stayPeriod", stayPeriodListItem.toString());
+    preferences.setString("date", formattedDate.toString());
+    customToast("Date save successfully");
+  }
 
   YYDialog YYDialogDemo(BuildContext context) {
     return YYDialog().build(context)
@@ -620,9 +706,8 @@ class _OMIHState extends State<OMIH> {
                                 alignment: Alignment.center,
                                 color: HexColor("#e6e6e6"),
                                 padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                                child: Text(
-                                    "Total Amount",
-                                    style: TextStyle(fontSize: 12.0),),
+
+                                child: Text("Total Amount", style: TextStyle(fontSize: 12.0),),
                               ),
                             ),
 
@@ -631,21 +716,15 @@ class _OMIHState extends State<OMIH> {
                               width: 250.0,
                               child: Table(
                                 border: TableBorder.all(),
-                                //columnWidths: {1:FractionColumnWidth(.2)},
                                 children: [
-
                                   TableRow(
                                     children: [
                                       Container(
                                         height: 40.0,
                                         color: HexColor("#e6e6e6"),
                                         alignment: Alignment.center,
-                                        child: Text(
-                                          "Net",
-                                          style: TextStyle(
-                                            fontSize: 12.0,
-                                          ),
-                                        ),
+
+                                        child: Text("Net", style: TextStyle(fontSize: 12.0,),),
                                       ),
 
                                       Container(
@@ -668,12 +747,7 @@ class _OMIHState extends State<OMIH> {
                                         height: 40.0,
                                         color: Colors.white,
                                         alignment: Alignment.center,
-                                        child: Text(
-                                          "Vat",
-                                          style: TextStyle(
-                                            fontSize: 12.0,
-                                          ),
-                                        ),
+                                        child: Text("Vat", style: TextStyle(fontSize: 12.0,),),
                                       ),
 
                                       Container(
@@ -745,6 +819,8 @@ class _OMIHState extends State<OMIH> {
                                   shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),
                                   color: Colors.amberAccent,
                                   onPressed: (){
+                                    saveDate();
+                                    Navigator.pop(context);
                                     Navigator.push(context, MaterialPageRoute(builder: (context)=> OmihInfoEntry()));
                                   },
                                   child: Text("Buy Insurance")
@@ -752,7 +828,6 @@ class _OMIHState extends State<OMIH> {
                             ],
                         ),
                       ),
-
                     ],
                   ),
                 ),
@@ -763,58 +838,6 @@ class _OMIHState extends State<OMIH> {
 
       )
       ..show();
-  }
-
-  Future<void> _showMyDialog() async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return Container(
-          height: 300.0,
-          width: 200.0,
-          child: Column(
-            children: <Widget> [
-
-              Container(
-                height: 40.0,
-                color: Colors.yellow[800],
-                child: Text(
-                  "OMP Insurance Quotation",
-                  style: TextStyle(
-                    fontSize: 12.0,
-                  ),
-                ),
-              ),
-
-              Text("Premium Calculation"),
-
-              Table(
-                border: TableBorder.all(),
-                columnWidths: {2:FractionColumnWidth(.3)},
-                children: [
-                  TableRow(
-                    children: [
-                      Container(
-                        height: 50.0,
-                        color: Colors.amber,
-                      ),
-
-                      Container(
-                        height: 50.0,
-                        color: Colors.blue,
-                      ),
-
-                    ],
-                  ),
-                ],
-              ),
-
-            ],
-          ),
-        );
-      },
-    );
   }
 }
 

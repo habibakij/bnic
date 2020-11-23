@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class BranchOffice extends StatefulWidget {
@@ -13,7 +14,7 @@ class _BranchOfficeState extends State<BranchOffice> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.amberAccent,
+        backgroundColor: HexColor("#F9A825"),
         title: Text(
           "Branch Office",
           style: TextStyle(

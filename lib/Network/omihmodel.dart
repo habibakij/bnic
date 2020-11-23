@@ -1,6 +1,5 @@
-// To parse this JSON data, do
-//
-//     final typeModel = typeModelFromJson(jsonString);
+/// created by AK IJ
+/// 13-11-2020
 
 import 'dart:convert';
 

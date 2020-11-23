@@ -1,3 +1,6 @@
+/// created by AK IJ
+/// 12-11-2020
+
 import 'package:bnic/OverseasMedical/omih.dart';
 import 'package:bnic/webview/about.dart';
 import 'package:bnic/webview/branchoffice.dart';
@@ -9,8 +12,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:hexcolor/hexcolor.dart';
+import 'package:sslcommerz/SSLCzPayment.dart';
 
 import 'MotorInsurance/motorinsurance.dart';
+
+import 'package:sslcommerz/sslcommerz.dart';
+
 
 void main() {
   runApp(MyApp());
@@ -67,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             children: <Widget> [
               SizedBox(height: 10.0,),
-              Image.asset("assetimage/logo.png", color: Colors.amberAccent, height: 100.0,),
+              Image.asset("assetimage/logo.png", color: HexColor("#F9A825"), height: 100.0,),
               SizedBox(height: 10.0,),
               Text("This feature will be available soon.", style: TextStyle(fontSize: 14.0,),),
               SizedBox(height: 10.0,),
@@ -75,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(5.0))
                 ),
-                color: Colors.amberAccent,
+                color: HexColor("#F9A825"),
                 onPressed: (){Navigator.pop(context);},
                 child: Text("OK", style: TextStyle(color: Colors.white),),)
             ],
@@ -91,7 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
       appBar: AppBar(
         title: Text(widget.title),
-        backgroundColor: Colors.amberAccent,
+        backgroundColor: HexColor("#F9A825"),
       ),
 
       drawer: Drawer(
@@ -184,9 +192,11 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(height: 20.0,),
 
             Text("Buy Insurance Online", style: TextStyle(fontSize: 18.0,),),
+
             SizedBox(
               height: 20.0,
             ),
+
             /// first row with two property MOTOR & OVERPASS MEDICAL insurance
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -201,7 +211,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         Container(
                           height: 80.0,
                           width: 120.0,
-                          child: Image.asset("assetimage/motor.png", color: Colors.amberAccent,),
+                          child: Image.asset("assetimage/motor.png", color: HexColor("#F9A825"),),
                         ),
                         SizedBox(height: 10.0,),
                         Container(
@@ -225,8 +235,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 SizedBox(width: 10.0,),
 
                 Container(
-                  //margin: const EdgeInsets.all(5.0),
-                  //padding: const EdgeInsets.all(10.0),
                   decoration: BoxDecoration(border: Border.all(color: Colors.black)),
                   child: FlatButton(
                     child: Column(
@@ -235,7 +243,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         Container(
                           height: 50.0,
                           width: 120.0,
-                          child: Image.asset("assetimage/travel.png", color: Colors.amberAccent),
+                          child: Image.asset("assetimage/travel.png", color: HexColor("#F9A825"),),
                         ),
                         SizedBox(height: 15.0,),
                         Container(
@@ -260,13 +268,12 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
 
             SizedBox(height: 20.0,),
-            /// first row with two property MARIN & FIRE insurance
+
+            /// second row with two property MARIN & FIRE insurance
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  //margin: const EdgeInsets.all(5.0),
-                  //padding: const EdgeInsets.all(10.0),
                   decoration: BoxDecoration(border: Border.all(color: Colors.black)),
                   child: FlatButton(
                     child: Column(
@@ -274,7 +281,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         Container(
                           height: 90.0,
                           width: 120.0,
-                          child: Image.asset("assetimage/marin.png", color: Colors.amberAccent),
+                          child: Image.asset("assetimage/marin.png", color: HexColor("#F9A825"),),
                         ),
                         SizedBox(height: 10.0,),
                         Container(
@@ -310,7 +317,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         Container(
                           height: 70.0,
                           width: 120.0,
-                          child: Image.asset("assetimage/fire.png", color: Colors.amberAccent),
+                          child: Image.asset("assetimage/fire.png", color: HexColor("#F9A825"),),
                         ),
                         SizedBox(height: 20.0,),
                         Container(
@@ -333,11 +340,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ],
             ),
+
           ],
         ),
       ),
     );
   }
+
 }
 
 // ignore: must_be_immutable
@@ -351,7 +360,7 @@ class CustomListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      splashColor: Colors.amberAccent,
+      splashColor: HexColor("#F9A825"),
       onTap: onTap,
       child: Container(
         height: 40.0,

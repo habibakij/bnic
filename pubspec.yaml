@@ -34,6 +34,8 @@ dependencies:
   flutter_custom_dialog: ^1.0.20
   hexcolor: ^1.0.6
   intl: ^0.16.1
+  sslcommerz: ^0.0.1
+  shared_preferences: ^0.5.12+4
 
 
 dev_dependencies:

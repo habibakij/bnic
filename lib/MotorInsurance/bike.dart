@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 class Bike extends StatefulWidget {
   @override
@@ -11,7 +12,7 @@ class _BikeState extends State<Bike> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.amberAccent,
+        backgroundColor: HexColor("#F9A825"),
         title: Text(
           "Motor Cycle Insurance",
           style: TextStyle(

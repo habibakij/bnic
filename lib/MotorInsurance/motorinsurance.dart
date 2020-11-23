@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 import 'bike.dart';
 import 'car.dart';
@@ -14,7 +15,7 @@ class _MotorInsuranceState extends State<MotorInsurance> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.amberAccent,
+        backgroundColor: HexColor("#F9A825"),
         title: Text("Motor Insurance"),
       ),
       body: Center(
