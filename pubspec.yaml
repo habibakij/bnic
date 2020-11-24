@@ -36,6 +36,8 @@ dependencies:
   intl: ^0.16.1
   sslcommerz: ^0.0.1
   shared_preferences: ^0.5.12+4
+  flutter_easyloading: ^2.2.0
+
 
 
 dev_dependencies:

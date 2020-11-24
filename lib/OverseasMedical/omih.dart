@@ -309,7 +309,7 @@ class _OMIHState extends State<OMIH> {
                                     items: typeList?.map<DropdownMenuItem<String>>((_item) {
                                       return DropdownMenuItem<String>(
                                         child: new Text(_item['name'], style: TextStyle(fontSize: 12.0),),
-                                        value: _item['id'].toString(),
+                                        value: _item['name'].toString(),
                                         onTap: () {
                                           flagType++;
                                           getTypeId = _item['id'].toString();
@@ -382,7 +382,7 @@ class _OMIHState extends State<OMIH> {
                                   items: categoryList?.map<DropdownMenuItem<String>>((_item) {
                                     return DropdownMenuItem<String>(
                                       child: new Text(_item['name'], style: TextStyle(fontSize: 12.0),),
-                                      value: _item['id'].toString(),
+                                      value: _item['name'].toString(),
                                       onTap: () {
                                         flagCategory++;
                                         getCategoryId = _item['id'].toString();
@@ -629,6 +629,8 @@ class _OMIHState extends State<OMIH> {
     preferences.setString("categoryType", categoryListItem.toString());
     preferences.setString("stayPeriod", stayPeriodListItem.toString());
     preferences.setString("date", formattedDate.toString());
+    preferences.setString("totalAmount", totalAmount.toString());
+    preferences.commit();
     customToast("Date save successfully");
   }
 

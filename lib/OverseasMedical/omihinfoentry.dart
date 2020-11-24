@@ -1,4 +1,3 @@
-
 /// created by AK IJ
 /// 22-11-2020
 import 'dart:convert';
@@ -129,6 +128,7 @@ class _containerBodyState extends State<containerBody> {
                 Container(
                   height: 40.0,
                   child: TextField(
+                    maxLines: 1,
                     controller: nameController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
@@ -149,6 +149,7 @@ class _containerBodyState extends State<containerBody> {
                 Container(
                   height: 40.0,
                   child: TextField(
+                    maxLines: 1,
                     controller: addressController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
@@ -228,73 +229,48 @@ class _containerBodyState extends State<containerBody> {
 
                 SizedBox(height: 10.0,),
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                        alignment: Alignment.centerLeft,
-                        width: 160.0,
-                        child: Text(
-                          "Mobile",
-                          style: TextStyle(
-                            fontSize: 12.0,
-                          ),
-                        )),
-                    Container(
-                        alignment: Alignment.centerLeft,
-                        width: 140.0,
-                        child: Text(
-                          "Email",
-                          style: TextStyle(
-                            fontSize: 12.0,
-                          ),
-                        )),
-                  ],
+                Text("Mobile", style: TextStyle(fontSize: 12.0,),),
+
+                SizedBox(height: 2.0,),
+
+                Container(
+                  height: 60.0,
+                  child: TextField(
+                    maxLines: 1,
+                    maxLength: 11,
+                    controller: mobileController,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Mobile',
+                    ),
+                    style: TextStyle(
+                      fontSize: 12.0,
+                    ),
+                  ),
                 ),
+
+                SizedBox(height: 10.0,),
+
+                Text("Email", style: TextStyle(fontSize: 12.0,),),
 
                 SizedBox(height: 2.0,),
 
                 Container(
                   height: 40.0,
-                  width: 300.0,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget> [
-                      Container(
-                        width: 145.0,
-                        child: TextField(
-                          controller: mobileController,
-                          keyboardType: TextInputType.number,
-                          inputFormatters: <TextInputFormatter>[
-                            FilteringTextInputFormatter.digitsOnly
-                          ],
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Mobile',
-                          ),
-                          style: TextStyle(
-                            fontSize: 12.0,
-                          ),
-                        ),
-                      ),
-
-                      SizedBox(width: 10.0,),
-
-                      Container(
-                        width: 145.0,
-                        child: TextField(
-                          controller: emailController,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Email',
-                          ),
-                          style: TextStyle(
-                            fontSize: 12.0,
-                          ),
-                        ),
-                      ),
-
-                    ],
+                  child: TextField(
+                    maxLines: 1,
+                    controller: emailController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Email',
+                    ),
+                    style: TextStyle(
+                      fontSize: 12.0,
+                    ),
                   ),
                 ),
 
@@ -335,11 +311,8 @@ class _containerBodyState extends State<containerBody> {
                       Container(
                         width: 145.0,
                         child: TextField(
+                          maxLines: 1,
                           controller: passportController,
-                          keyboardType: TextInputType.number,
-                          inputFormatters: <TextInputFormatter>[
-                            FilteringTextInputFormatter.digitsOnly
-                          ],
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             labelText: 'Passport Number',
@@ -419,6 +392,7 @@ class _containerBodyState extends State<containerBody> {
                 Container(
                   height: 40.0,
                   child: TextField(
+                    maxLines: 1,
                     controller: countryController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
@@ -451,7 +425,6 @@ class _containerBodyState extends State<containerBody> {
                           child: Text("Next", style: TextStyle(fontSize: 16.0, color: Colors.black),),
                           onPressed: (){
                             checkValidity();
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=> confirmInformation()));
                           },
                         ),
                       ),
@@ -485,19 +458,21 @@ class _containerBodyState extends State<containerBody> {
     } else{
       saveDate();
       customToast("data saved successfully");
+      Navigator.push(context, MaterialPageRoute(builder: (context)=> confirmInformation()));
     }
   }
 
   saveDate() async{
     SharedPreferences preferences= await SharedPreferences.getInstance();
-    preferences.setString("fullName", nameController.toString());
-    preferences.setString("address", addressController.toString());
-    preferences.setString("mobile", mobileController.toString());
-    preferences.setString("email", emailController.toString());
-    preferences.setString("password", passportController.toString());
-    preferences.setString("country", countryController.toString());
+    preferences.setString("fullName", nameController.text.toString());
+    preferences.setString("address", addressController.text.toString());
+    preferences.setString("mobile", mobileController.text.toString());
+    preferences.setString("email", emailController.text.toString());
+    preferences.setString("password", passportController.text.toString());
+    preferences.setString("country", countryController.text.toString());
     preferences.setString("selectedCity", cityListItem.toString());
     preferences.setString("selectedCategory", categoryListItem.toString());
+    preferences.commit();
   }
 }
 
