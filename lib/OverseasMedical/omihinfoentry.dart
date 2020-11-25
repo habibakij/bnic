@@ -21,6 +21,7 @@ class _OmihInfoEntryState extends State<OmihInfoEntry> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: AppBar(
         backgroundColor: HexColor("#F9A825"),
         title: Text(
@@ -30,6 +31,7 @@ class _OmihInfoEntryState extends State<OmihInfoEntry> {
           ),
         ),
       ),
+
       body: containerBody(),
     );
   }

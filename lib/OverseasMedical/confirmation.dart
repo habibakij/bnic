@@ -4,12 +4,14 @@
 
 import 'dart:convert';
 
+import 'package:bnic/webview/paymentpage.dart';
 import 'package:bnic/webview/privacy.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sslcommerz/sslcommerz.dart';
 import 'package:http/http.dart' as http;
@@ -52,32 +54,31 @@ class _infoDetailsState extends State<infoDetails> {
       "I also declare that all the documents to operate the vehicle on public road are current and valid.";
   bool check = false;
   String getNameFromSP, getAddressFromSP, getMobileFromSP, getEmailFromSP, getPassportFromSP, getVisitedCountryFromSP, getCityFromSP, getCategoryFromSP;
-  String getTypeFromSP, getOMPCategoryFromSP, getStayPeriodFromSP, getBirthDayFromSP;
+  String getTypeFromSP, getOMPCategoryFromSP, getStayPeriodFromSP, getBirthDayFromSP, taka;
+  double convertTaka;
 
   /// SSL Commerce area
   String status;
-  String id= "bnicllive";
-  String password= "5D89D9DCB840278023";
-  String amount= "";
-  String transactionId= "123456789098765";
-  String paymentMethod= "NO";
-  String productName= "food";
-  String productCategory= "food";
-  String productProfile= "general";
-  String currency= "BDT";
-  String successUrl= "https://securepay.sslcommerz.com/gw/apps/result.php";
-  String failUrl= "https://securepay.sslcommerz.com/gw/apps/result.php";
-  String cancelUrl= "https://securepay.sslcommerz.com/gw/apps/result.php";
+  String id= 'bnicllive';
+  String password= '5D89D9DCB840278023';
+  String amount= '';
+  String transactionId= '123456789098765';
+  String paymentMethod= 'NO';
+  String productName= 'food';
+  String productCategory= 'food';
+  String productProfile= 'general';
+  String currency= 'BDT';
+  String successUrl= 'https://securepay.sslcommerz.com/gw/apps/result.php';
+  String failUrl= 'https://securepay.sslcommerz.com/gw/apps/result.php';
+  String cancelUrl= 'https://securepay.sslcommerz.com/gw/apps/result.php';
 
-  String paymentPostUrl= "https://securepay.sslcommerz.com/gwprocess/v4/api.php";
-  String paymentPageUrl= "https://epay.sslcommerz.com/b96a25b5578d64dae9c141449093c7e44adaec0a";
+  String paymentPostUrl= 'https://securepay.sslcommerz.com/gwprocess/v4/api.php';
+  String paymentPageUrl;
 
   @override
   void initState() {
     // TODO: implement initState
-    setState(() {
-      getDataFormSP();
-    });
+    getDataFormSP();
     super.initState();
   }
 
@@ -145,7 +146,6 @@ class _infoDetailsState extends State<infoDetails> {
                           BoxDecoration(border: Border.all(color: Colors.black26)),
                           child: Text(
                             getNameFromSP == null ? "null" : getNameFromSP.toString(),
-                            //getNameFromSP,
                             style: TextStyle(
                               fontSize: 12.0,
                             ),
@@ -611,63 +611,87 @@ class _infoDetailsState extends State<infoDetails> {
       ..maskColor = Colors.blue.withOpacity(0.5)
       ..userInteractions = true
       ..dismissOnTap = false;
-    EasyLoading.show(status: "Loading...");
+    //EasyLoading.show(status: "Loading...");
     EasyLoading.isShow;
   }
 
   Future<String> postPaymentInformation() async {
+    convertTaka= double.parse(taka.replaceAll(',', ''));
+    print("convert: $convertTaka");
+    amount= convertTaka.toString();
+    print(id);
+    print(password);
+    print(amount);
+    print(transactionId);
+    print(getNameFromSP);
+    print(getEmailFromSP);
+    print(getAddressFromSP);
+    print(getCityFromSP);
+    print(getVisitedCountryFromSP);
+    print(getMobileFromSP);
+    print(paymentMethod);
+    print(productName);
+    print(productCategory);
+    print(productProfile);
+    print(currency);
+    print(successUrl);
+
     await http.post(paymentPostUrl, body: {
-      'store_id': id,
-      'store_passwd': password,
-      'total_amount': amount,
-      'tran_id': transactionId,
-      'cus_name': getNameFromSP,
-      'cus_email': getEmailFromSP,
-      'cus_add1': getAddressFromSP,
-      'cus_city': getCityFromSP,
-      'cus_country': getVisitedCountryFromSP,
-      'cus_phone': getMobileFromSP,
-      'shipping_method': paymentMethod,
-      'product_name': productName,
-      'product_category': productCategory,
-      'product_profile': productProfile,
-      'currency': currency,
-      'success_url': successUrl,
-      'fail_url': failUrl,
-      'cancel_url': cancelUrl,
+      'store_id': id.toString(),
+      'store_passwd': password.toString(),
+      'total_amount': amount.toString(),
+      'tran_id': transactionId.toString(),
+      'cus_name': getNameFromSP.toString(),
+      'cus_email': getEmailFromSP.toString(),
+      'cus_add1': getAddressFromSP.toString(),
+      'cus_city': getCityFromSP.toString(),
+      'cus_country': getVisitedCountryFromSP.toString(),
+      'cus_phone': getMobileFromSP.toString(),
+      'shipping_method': paymentMethod.toString(),
+      'product_name': productName.toString(),
+      'product_category': productCategory.toString(),
+      'product_profile': productProfile.toString(),
+      'currency': currency.toString(),
+      'success_url': 'https://securepay.sslcommerz.com/gw/apps/result.php',
+      'fail_url': 'https://securepay.sslcommerz.com/gw/apps/result.php',
+      'cancel_url': 'https://securepay.sslcommerz.com/gw/apps/result.php',
     }).then((response) {
       var decode = json.decode(response.body);
       setState(() {
         status= decode['status'];
-        print("Status is: $status");
+        paymentPageUrl= decode['GatewayPageURL'];
+        print("Status is: $status and $paymentPageUrl");
         configLoading();
         if(status.endsWith("SUCCESS")){
           customToast("You are able to pay");
           EasyLoading.dismiss();
-          Navigator.push(context, MaterialPageRoute(builder: (context)=> confirmInformation()));
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> PaymentPage(paymentPageUrl)));
         } else{
           customToast("Server Error");
         }
       });
-      print("Type area: $decode");
+      print("SSL area: $decode");
     });
   }
 
   void getDataFormSP() async{
     SharedPreferences preferences= await SharedPreferences.getInstance();
-    getNameFromSP = preferences.get("fullName");
-    getAddressFromSP = preferences.get("address");
-    getMobileFromSP = preferences.get("mobile");
-    getEmailFromSP = preferences.get("email");
-    getPassportFromSP = preferences.get("password");
-    getVisitedCountryFromSP = preferences.get("country");
-    getCityFromSP = preferences.get("selectedCity");
-    getCategoryFromSP = preferences.get("selectedCategory");
-    getTypeFromSP = preferences.get("type");
-    getOMPCategoryFromSP = preferences.get("categoryType");
-    getStayPeriodFromSP = preferences.get("stayPeriod");
-    getBirthDayFromSP = preferences.get("date");
-    amount= preferences.get("totalAmount");
+    setState(() {
+      getNameFromSP = preferences.get("fullName");
+      getAddressFromSP = preferences.get("address");
+      getMobileFromSP = preferences.get("mobile");
+      getEmailFromSP = preferences.get("email");
+      getPassportFromSP = preferences.get("password");
+      getVisitedCountryFromSP = preferences.get("country");
+      getCityFromSP = preferences.get("selectedCity");
+      getCategoryFromSP = preferences.get("selectedCategory");
+      getTypeFromSP = preferences.get("type");
+      getOMPCategoryFromSP = preferences.get("categoryType");
+      getStayPeriodFromSP = preferences.get("stayPeriod");
+      getBirthDayFromSP = preferences.get("date");
+      taka= preferences.get("totalAmount");
+    });
+    print("received for SP: $taka");
   }
 
 }

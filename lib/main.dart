@@ -13,11 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:sslcommerz/SSLCzPayment.dart';
-
 import 'MotorInsurance/motorinsurance.dart';
-
-import 'package:sslcommerz/sslcommerz.dart';
 
 
 void main() {

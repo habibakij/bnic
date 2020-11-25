@@ -30,9 +30,10 @@ class _OMIHState extends State<OMIH> {
   String years;
 
   /// Type select area
-  var typeList;
+  List typeList;
   var typeListItem;
   var getTypeId;
+  var oldId= 1;
   String postTypeUrl = 'http://online.bnicl.net/api/insurance-sub-type/list';
   Future<String> postType() async {
     await http.post(postTypeUrl, body: {
@@ -52,6 +53,7 @@ class _OMIHState extends State<OMIH> {
   var getCategoryId;
   String postCategoryUrl = 'http://online.bnicl.net/api/insurance-category/list';
   Future<String> postCategory(var id) async {
+    categoryList= new List();
     /*if(categoryList.isNotEmpty){
       categoryList.clear();
     }*/
@@ -630,6 +632,7 @@ class _OMIHState extends State<OMIH> {
     preferences.setString("stayPeriod", stayPeriodListItem.toString());
     preferences.setString("date", formattedDate.toString());
     preferences.setString("totalAmount", totalAmount.toString());
+    print("total amount passing :"+totalAmount.toString());
     preferences.commit();
     customToast("Date save successfully");
   }
