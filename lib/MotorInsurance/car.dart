@@ -1,10 +1,14 @@
+import 'dart:convert';
+
 ///CREATED BY AK IJ
 ///25-11-2020
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
 
 class Car extends StatefulWidget {
   @override
@@ -17,11 +21,86 @@ class _CarState extends State<Car> {
   final DateFormat dateFormat = DateFormat('dd-MM-yyyy');
   var formattedDate, newDateFormat;
   var newDate;
-  bool carPriceVisibility= false;
-  bool helperVisibility= false;
+  bool carPriceVisibility = false;
+  bool facilityVisibility = false;
+  bool facilityListVisibility = false;
+
+
+  bool check= true, check1= true, check2= true, check3= true;
+
+  void customToast(String msg) {
+    Fluttertoast.showToast(
+        msg: msg,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 12.0);
+  }
+
+  /// Plan Type area
+  var planList;
+  String planListItem;
+  String getPlanId;
+  String getPlanListUrl = 'http://online.bnicl.net/api/plan-type/list';
+  Future<String> getPlanList() async {
+    var response = await http.get(getPlanListUrl);
+    if (response.statusCode == 200) {
+      var decode = json.decode(response.body);
+      setState(() {
+        planList = decode['list'];
+      });
+      print("Plan list are: $planList");
+    } else {
+      customToast("Server Response Error");
+    }
+  }
+
+  /// Sub Type area
+  var subTypeList = ['Private Vehicle', 'Commercial Vehicle (CV)'];
+  String subTypeListItem;
+
+  /// Vehicles Type area
+  String matchDriver= 'Driver';
+  String matchPassenger= 'Passenger';
+  String matchHelper= 'Helper';
+  String driverSelectItem;
+  String passengerSelectItem;
+  String helperSelectItem;
+  var driverList;
+
+
+  var subTypeId;
+  var vehiclesTypeList;
+  var vehiclesSeatList;
+  String vehiclesTypeListItem;
+  String vehiclesTypeListId;
+  String getVehiclesTypeListUrl = 'http://online.bnicl.net/api/vehicle-type/list';
+  Future<String> getVehiclesTypeList() async {
+    await http.post(getVehiclesTypeListUrl, body: {
+      'type_id':'1',
+      'sub_type_id': subTypeId,
+    }).then((response) {
+      var decode = json.decode(response.body);
+      setState(() {
+        vehiclesTypeList= decode['list'];
+      });
+      print("Category area: $decode");
+    });
+  }
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    getPlanList();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
 
       appBar: AppBar(
@@ -45,29 +124,27 @@ class _CarState extends State<Car> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-
                     Container(
                       height: 40.0,
                       width: 320.0,
                       alignment: Alignment.centerLeft,
                       padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                      decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
-
-                      child: Text(
-                          "Please Enter Vehicle Information",
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black26)),
+                      child: Text("Please Enter Vehicle Information",
                           style: TextStyle(
                             fontSize: 16.0,
                             color: HexColor("#008577"),
-                          )
-                      ),
-
+                          )),
                     ),
 
                     SizedBox(height: 10.0,),
 
                     Text("Plan Name", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),),),
 
-                    SizedBox(height: 2.0,),
+                    SizedBox(
+                      height: 2.0,
+                    ),
 
                     /// select Plan type spinner(dropdown list)
                     Container(
@@ -75,9 +152,9 @@ class _CarState extends State<Car> {
                       width: 320.0,
                       alignment: Alignment.centerLeft,
                       padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                      decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black26)),
                       child: Stack(children: <Widget>[
-
                         Container(
                           height: 40.0,
                           width: 297.0,
@@ -93,7 +170,6 @@ class _CarState extends State<Car> {
                             ],
                           ),
                         ),
-
                         Positioned(
                           child: Container(
                             child: Row(children: <Widget>[
@@ -102,17 +178,32 @@ class _CarState extends State<Car> {
                                 child: DropdownButtonHideUnderline(
                                   child: DropdownButton<String>(
                                     isExpanded: true,
-                                    hint: Text("Plan Type"),
+                                    hint: Text("Plan Name"),
                                     icon: Icon(Icons.arrow_downward),
+                                    value: planListItem,
                                     iconSize: 18,
                                     elevation: 16,
                                     style: TextStyle(color: Colors.black),
                                     onChanged: (_newSelected) {
                                       setState(() {
-
+                                        planListItem = _newSelected;
+                                        getPlanList();
+                                        print(planListItem);
                                       });
                                     },
-                                    items: [],
+                                    items: planList
+                                        ?.map<DropdownMenuItem<String>>(
+                                            (_item) {
+                                      return DropdownMenuItem<String>(
+                                        child: Text(
+                                          _item['name'].toString(),
+                                          style: TextStyle(
+                                            fontSize: 12.0,
+                                          ),
+                                        ),
+                                        value: _item['name'].toString(),
+                                      );
+                                    })?.toList(),
                                   ),
                                 ),
                               ),
@@ -122,11 +213,21 @@ class _CarState extends State<Car> {
                       ]),
                     ),
 
-                    SizedBox(height: 10.0,),
+                    SizedBox(
+                      height: 10.0,
+                    ),
 
-                    Text("Sub Type", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),),),
+                    Text(
+                      "Sub Type",
+                      style: TextStyle(
+                        fontSize: 12.0,
+                        color: HexColor("#008577"),
+                      ),
+                    ),
 
-                    SizedBox(height: 2.0,),
+                    SizedBox(
+                      height: 2.0,
+                    ),
 
                     /// select Sub type spinner(dropdown list)
                     Container(
@@ -134,9 +235,9 @@ class _CarState extends State<Car> {
                       width: 320.0,
                       alignment: Alignment.centerLeft,
                       padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                      decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black26)),
                       child: Stack(children: <Widget>[
-
                         Container(
                           height: 40.0,
                           width: 297.0,
@@ -152,7 +253,6 @@ class _CarState extends State<Car> {
                             ],
                           ),
                         ),
-
                         Positioned(
                           child: Container(
                             child: Row(children: <Widget>[
@@ -165,13 +265,37 @@ class _CarState extends State<Car> {
                                     icon: Icon(Icons.arrow_downward),
                                     iconSize: 18,
                                     elevation: 16,
+                                    value: subTypeListItem,
                                     style: TextStyle(color: Colors.black),
                                     onChanged: (_newSelected) {
                                       setState(() {
-
+                                        subTypeListItem = _newSelected;
+                                        print("similar value is: $subTypeListItem");
                                       });
                                     },
-                                    items: [],
+                                    items: subTypeList?.map<DropdownMenuItem<String>>((_item) {
+                                      return DropdownMenuItem<String>(
+                                        child: Text(_item, style: TextStyle(fontSize: 12.0),),
+                                        value: _item,
+                                        onTap: (){
+                                          print("value is: $_item");
+                                          int _index= subTypeList.indexOf(_item);
+                                          print("index is: $_index");
+                                          if(_index == 1){
+                                            subTypeId= 9.toString();
+                                            getVehiclesTypeList();
+                                            carPriceVisibility= true;
+                                            facilityVisibility= true;
+                                          }else {
+                                            carPriceVisibility= false;
+                                            facilityVisibility= false;
+                                            facilityListVisibility= false;
+                                            subTypeId= 2.toString();
+                                            getVehiclesTypeList();
+                                          }
+                                        },
+                                      );
+                                    })?.toList(),
                                   ),
                                 ),
                               ),
@@ -181,11 +305,19 @@ class _CarState extends State<Car> {
                       ]),
                     ),
 
-                    SizedBox(height: 10.0,),
+                    SizedBox(
+                      height: 10.0,
+                    ),
 
-                    Text("Vehicle Type", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),)),
+                    Text("Vehicle Type",
+                        style: TextStyle(
+                          fontSize: 12.0,
+                          color: HexColor("#008577"),
+                        )),
 
-                    SizedBox(height: 2.0,),
+                    SizedBox(
+                      height: 2.0,
+                    ),
 
                     /// select Vehicle type spinner(dropdown list)
                     Container(
@@ -193,9 +325,9 @@ class _CarState extends State<Car> {
                       width: 320.0,
                       alignment: Alignment.centerLeft,
                       padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                      decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black26)),
                       child: Stack(children: <Widget>[
-
                         Container(
                           height: 40.0,
                           width: 297.0,
@@ -211,7 +343,6 @@ class _CarState extends State<Car> {
                             ],
                           ),
                         ),
-
                         Positioned(
                           child: Container(
                             child: Row(children: <Widget>[
@@ -224,13 +355,29 @@ class _CarState extends State<Car> {
                                     icon: Icon(Icons.arrow_downward),
                                     iconSize: 18,
                                     elevation: 16,
+                                    value: vehiclesTypeListItem,
                                     style: TextStyle(color: Colors.black),
                                     onChanged: (_newSelected) {
                                       setState(() {
-
+                                        vehiclesTypeListItem= _newSelected;
                                       });
                                     },
-                                    items: [],
+                                    items: vehiclesTypeList?.map<DropdownMenuItem<String>>((_item){
+                                      return DropdownMenuItem<String>(
+                                        child: Text(
+                                          _item['name'].toString(),
+                                          style: TextStyle(
+                                            fontSize: 12.0,),
+                                        ),
+                                        value: _item['name'],
+                                        onTap: (){
+                                          vehiclesSeatList= _item['seat'];
+                                          print("vehicles seat list: $vehiclesSeatList");
+                                          String id= _item['id'].toString();
+                                          print("Vehicles type id: $id");
+                                        },
+                                      );
+                                    })?.toList(),
                                   ),
                                 ),
                               ),
@@ -240,19 +387,24 @@ class _CarState extends State<Car> {
                       ]),
                     ),
 
-                    SizedBox(height: 10.0,),
+                    SizedBox(
+                      height: 10.0,
+                    ),
 
                     Visibility(
-                      visible: !carPriceVisibility,
+                      visible: carPriceVisibility,
                       child: Container(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget> [
-
-                            Text("Car Price", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),)),
-
-                            SizedBox(height: 2.0,),
-
+                          children: <Widget>[
+                            Text("Car Price",
+                                style: TextStyle(
+                                  fontSize: 12.0,
+                                  color: HexColor("#008577"),
+                                )),
+                            SizedBox(
+                              height: 2.0,
+                            ),
                             Container(
                               height: 40.0,
                               child: TextField(
@@ -267,13 +419,14 @@ class _CarState extends State<Car> {
                                 ),
                               ),
                             ),
-
                           ],
                         ),
                       ),
                     ),
 
-                    SizedBox(height: 10.0,),
+                    SizedBox(
+                      height: 10.0,
+                    ),
 
                     /// Driver and Capacity(cc/ton) text in row
                     Row(
@@ -302,7 +455,9 @@ class _CarState extends State<Car> {
                       ],
                     ),
 
-                    SizedBox(height: 2.0,),
+                    SizedBox(
+                      height: 2.0,
+                    ),
 
                     /// Driver and Capacity(cc/ton) spinner in row
                     Container(
@@ -315,9 +470,10 @@ class _CarState extends State<Car> {
                           Container(
                             width: 145.0,
                             alignment: Alignment.centerLeft,
-                            decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black26)),
                             child: Stack(
-                              children: <Widget> [
+                              children: <Widget>[
                                 Container(
                                   width: 145.0,
                                   child: Row(
@@ -331,46 +487,59 @@ class _CarState extends State<Car> {
                                       ),
                                     ],
                                   ),
-
                                 ),
-
                                 Positioned(
                                   child: Container(
                                     child: Row(
-                                      children: <Widget> [
+                                      children: <Widget>[
                                         Container(
                                           width: 143.0,
-                                          padding: EdgeInsets.fromLTRB(5.0, 0.0, 10.0, 0.0),
+                                          padding: EdgeInsets.fromLTRB(
+                                              5.0, 0.0, 10.0, 0.0),
                                           child: DropdownButtonHideUnderline(
                                             child: DropdownButton<String>(
                                               isExpanded: true,
-                                              hint: Text("Select Driver"),
+                                              //hint: Text("Select Driver"),
                                               icon: Icon(Icons.arrow_downward),
                                               iconSize: 18,
                                               elevation: 16,
+                                              value: driverSelectItem,
                                               style: TextStyle(color: Colors.black),
                                               onChanged: (_newSelected) {
                                                 setState(() {
-
+                                                  driverSelectItem = _newSelected;
+                                                  print("driver select: $_newSelected");
                                                 });
                                               },
-                                              items: [],
+                                              items: vehiclesSeatList?.map<DropdownMenuItem<String>>((_item){
+                                                return DropdownMenuItem<String>(
+                                                  child: Text(
+                                                    driverList == null ? "" : driverList.toString(),
+                                                    style: TextStyle(fontSize: 12.0),
+                                                  ),
+                                                  value: _item['max_capacity'].toString(),
+                                                  onTap: (){
+                                                    String driverListItem= _item['name'].toString();  ///Driver
+                                                    if(driverListItem == matchDriver){
+                                                      driverList= _item['max_capacity'].toString();
+                                                    }
+                                                  },
+                                                );
+                                              })?.toList(),
                                             ),
                                           ),
                                         ),
-
                                         Container(),
                                       ],
                                     ),
                                   ),
                                 ),
-
                               ],
                             ),
                           ),
-
-                          SizedBox(width: 10.0,),
-
+                          SizedBox(
+                            width: 10.0,
+                          ),
                           Container(
                             height: 40.0,
                             width: 145.0,
@@ -390,72 +559,336 @@ class _CarState extends State<Car> {
                       ),
                     ),
 
+                    SizedBox(
+                      height: 10.0,
+                    ),
+
+                    Text("Helper", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),)),
+
+                    SizedBox(height: 2.0,),
+
+                    /// select Helper spinner(dropdown list)
+                    Container(
+                      height: 40.0,
+                      width: 320.0,
+                      alignment: Alignment.centerLeft,
+                      padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black26)),
+                      child: Stack(children: <Widget>[
+                        Container(
+                          height: 40.0,
+                          width: 297.0,
+                          child: Row(
+                            children: <Widget>[
+                              Container(
+                                width: 260.0,
+                              ),
+                              Container(
+                                width: 37.0,
+                                color: Colors.amberAccent,
+                              ),
+                            ],
+                          ),
+                        ),
+                        Positioned(
+                          child: Container(
+                            child: Row(children: <Widget>[
+                              Container(
+                                width: 290.0,
+                                child: DropdownButtonHideUnderline(
+                                  child: DropdownButton<String>(
+                                    isExpanded: true,
+                                    hint: Text("Helper"),
+                                    icon: Icon(Icons.arrow_downward),
+                                    iconSize: 18,
+                                    elevation: 16,
+                                    value: helperSelectItem,
+                                    style: TextStyle(color: Colors.black),
+                                    onChanged: (_newSelected) {
+                                      setState(() {
+                                        if(_newSelected == matchHelper){
+                                          helperSelectItem = _newSelected;
+                                          print("helper select: $_newSelected");
+                                        } else {
+                                          customToast("sorry");
+                                          print("driver select: $_newSelected");
+                                        }
+                                      });
+                                    },
+                                    items: vehiclesSeatList?.map<DropdownMenuItem<String>>((_item){
+                                      return DropdownMenuItem<String>(
+                                        child: Text(
+                                          _item['max_capacity'].toString(),
+                                          style: TextStyle(fontSize: 12.0),
+                                        ),
+                                        value: _item['name'].toString(),
+                                      );
+                                    })?.toList(),
+                                  ),
+                                ),
+                              ),
+                            ]),
+                          ),
+                        ),
+                      ]),
+                    ),
+
                     SizedBox(height: 10.0,),
 
                     Visibility(
-                      visible: helperVisibility,
+                      visible: facilityVisibility,
+                      child: TextButton(
+                        child: Text("Facility",
+                            style: TextStyle(
+                              fontSize: 12.0,
+                              color: HexColor("#008577"),
+                            )
+                        ),
+                        onPressed: (){
+                          setState(() {
+                            facilityListVisibility= true;
+                          });
+                        },
+                      ),
+                    ),
+
+                    Visibility(
+                      visible: facilityListVisibility,
                       child: Container(
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget> [
+                          children: <Widget>[
 
-                            Text("Helper", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),)),
+                            Container(
+                              height: 40.0,
+                              width: 300.0,
+                              child: Row(
+                                children: <Widget>[
+                                  Container(
+                                    height: 40.0,
+                                    width: 50.0,
+                                    decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                                    child: Checkbox(
+                                      checkColor: Colors.greenAccent,
+                                      activeColor: HexColor("#F9A825"),
+                                      value: check,
+                                      onChanged: (bool value){
+                                        setState(() {
+                                          check = value;
+                                          print("Check Box value: $check");
+                                        });
+                                      },
+                                    ),
+                                  ),
+
+                                  SizedBox(width: 2.0,),
+
+                                  Container(
+                                    height: 40.0,
+                                    width: 120.0,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                                    child: Text(
+                                      "Food & Cyclone",
+                                      style: TextStyle(
+                                        fontSize: 12.0,
+                                      ),
+                                    ),
+
+                                  ),
+
+                                  SizedBox(width: 2.0,),
+
+                                  Container(
+                                    height: 40.0,
+                                    width: 120.0,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                                    child: Text(
+                                      "50%",
+                                      style: TextStyle(
+                                        fontSize: 12.0,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
 
                             SizedBox(height: 2.0,),
 
-                            /// select Helper spinner(dropdown list)
                             Container(
                               height: 40.0,
-                              width: 320.0,
-                              alignment: Alignment.centerLeft,
-                              padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                              decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
-                              child: Stack(children: <Widget>[
+                              width: 300.0,
+                              child: Row(
+                                children: <Widget>[
+                                  Container(
+                                    height: 40.0,
+                                    width: 50.0,
+                                    decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
 
-                                Container(
-                                  height: 40.0,
-                                  width: 297.0,
-                                  child: Row(
-                                    children: <Widget>[
-                                      Container(
-                                        width: 260.0,
-                                      ),
-                                      Container(
-                                        width: 37.0,
-                                        color: Colors.amberAccent,
-                                      ),
-                                    ],
+                                    child: Checkbox(
+                                      checkColor: Colors.greenAccent,
+                                      activeColor: HexColor("#F9A825"),
+                                      value: check1,
+                                      onChanged: (bool value){
+                                        setState(() {
+                                          check1 = value;
+                                          print("Check Box value: $check1");
+                                        });
+                                      },
+                                    ),
                                   ),
-                                ),
 
-                                Positioned(
-                                  child: Container(
-                                    child: Row(children: <Widget>[
-                                      Container(
-                                        width: 290.0,
-                                        child: DropdownButtonHideUnderline(
-                                          child: DropdownButton<String>(
-                                            isExpanded: true,
-                                            hint: Text("Helper"),
-                                            icon: Icon(Icons.arrow_downward),
-                                            iconSize: 18,
-                                            elevation: 16,
-                                            style: TextStyle(color: Colors.black),
-                                            onChanged: (_newSelected) {
-                                              setState(() {
+                                  SizedBox(width: 2.0,),
 
-                                              });
-                                            },
-                                            items: [],
-                                          ),
-                                        ),
+                                  Container(
+                                    height: 40.0,
+                                    width: 120.0,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                                    child: Text(
+                                      "Earthquake",
+                                      style: TextStyle(
+                                        fontSize: 12.0,
                                       ),
-                                    ]),
+                                    ),
                                   ),
-                                ),
-                              ]),
+
+                                  SizedBox(width: 2.0,),
+
+                                  Container(
+                                    height: 40.0,
+                                    width: 120.0,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                                    child: Text(
+                                      "50%",
+                                      style: TextStyle(
+                                        fontSize: 12.0,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
 
+                            SizedBox(height: 2.0,),
+
+                            Container(
+                              height: 40.0,
+                              width: 300.0,
+                              child: Row(
+                                children: <Widget>[
+                                  Container(
+                                    height: 40.0,
+                                    width: 50.0,
+                                    decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+
+                                    child: Checkbox(
+                                      checkColor: Colors.greenAccent,
+                                      activeColor: HexColor("#F9A825"),
+                                      value: check2,
+                                      onChanged: (bool value){
+                                        setState(() {
+                                          check2 = value;
+                                          print("Check Box value: $check2");
+                                        });
+                                      },
+                                    ),
+                                  ),
+
+                                  SizedBox(width: 2.0,),
+
+                                  Container(
+                                    height: 40.0,
+                                    width: 120.0,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                                    child: Text(
+                                      "Riot & Strike",
+                                      style: TextStyle(
+                                        fontSize: 12.0,
+                                      ),
+                                    ),
+                                  ),
+
+                                  SizedBox(width: 2.0,),
+
+                                  Container(
+                                    height: 40.0,
+                                    width: 120.0,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                                    child: Text(
+                                      "50%",
+                                      style: TextStyle(
+                                        fontSize: 12.0,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            SizedBox(height: 2.0,),
+
+                            Container(
+                              height: 40.0,
+                              width: 300.0,
+                              child: Row(
+                                children: <Widget>[
+                                  Container(
+                                    height: 40.0,
+                                    width: 50.0,
+                                    decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+
+                                    child: Checkbox(
+                                      checkColor: Colors.greenAccent,
+                                      activeColor: HexColor("#F9A825"),
+                                      value: check3,
+                                      onChanged: (bool value){
+                                        setState(() {
+                                          check3 = value;
+                                          print("Check Box value: $check3");
+                                        });
+                                      },
+                                    ),
+
+                                  ),
+
+                                  SizedBox(width: 2.0,),
+
+                                  Container(
+                                    height: 40.0,
+                                    width: 120.0,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                                    child: Text(
+                                      "Theft",
+                                      style: TextStyle(
+                                        fontSize: 12.0,
+                                      ),
+                                    ),
+                                  ),
+
+                                  SizedBox(width: 2.0,),
+
+                                  Container(
+                                    height: 40.0,
+                                    width: 120.0,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                                    child: Text(
+                                      "50%",
+                                      style: TextStyle(
+                                        fontSize: 12.0,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -473,9 +906,9 @@ class _CarState extends State<Car> {
                       width: 320.0,
                       alignment: Alignment.centerLeft,
                       padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                      decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black26)),
                       child: Stack(children: <Widget>[
-
                         Container(
                           height: 40.0,
                           width: 297.0,
@@ -491,7 +924,6 @@ class _CarState extends State<Car> {
                             ],
                           ),
                         ),
-
                         Positioned(
                           child: Container(
                             child: Row(children: <Widget>[
@@ -504,13 +936,28 @@ class _CarState extends State<Car> {
                                     icon: Icon(Icons.arrow_downward),
                                     iconSize: 18,
                                     elevation: 16,
+                                    value: passengerSelectItem,
                                     style: TextStyle(color: Colors.black),
                                     onChanged: (_newSelected) {
                                       setState(() {
-
+                                        if(_newSelected == matchPassenger){
+                                          passengerSelectItem = _newSelected;
+                                          print("driver select: $_newSelected");
+                                        } else {
+                                          customToast("sorry");
+                                          print("driver select: $_newSelected");
+                                        }
                                       });
                                     },
-                                    items: [],
+                                    items: vehiclesSeatList?.map<DropdownMenuItem<String>>((_item){
+                                      return DropdownMenuItem<String>(
+                                        child: Text(
+                                          _item['max_capacity'].toString(),
+                                          style: TextStyle(fontSize: 12.0),
+                                        ),
+                                        value: _item['name'].toString(),
+                                      );
+                                    })?.toList(),
                                   ),
                                 ),
                               ),
@@ -556,10 +1003,11 @@ class _CarState extends State<Car> {
                       height: 40.0,
                       width: 320.0,
                       child: Row(
-                        children: <Widget> [
+                        children: <Widget>[
                           Container(
                             width: 145.0,
-                            decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black26)),
                             child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -574,14 +1022,22 @@ class _CarState extends State<Car> {
                                       ),
                                       onPressed: () {
                                         showDatePicker(
-                                            context: context, initialDate: DateTime.now(),
-                                            firstDate: DateTime(2000), lastDate: DateTime(2222)
-                                        ).then((date) {
+                                                context: context,
+                                                initialDate: DateTime.now(),
+                                                firstDate: DateTime.now(),
+                                                lastDate: DateTime(2222))
+                                            .then((date) {
                                           setState(() {
-                                            formattedDate = dateFormat.format(date);
-                                            print("Formatted date is: $formattedDate");
-                                            newDate = new DateTime(date.year+1, date.month, date.day);
-                                            newDateFormat= dateFormat.format(newDate);
+                                            formattedDate =
+                                                dateFormat.format(date);
+                                            print(
+                                                "Formatted date is: $formattedDate");
+                                            newDate = new DateTime(
+                                                date.year + 1,
+                                                date.month,
+                                                date.day);
+                                            newDateFormat =
+                                                dateFormat.format(newDate);
                                             print("new Date is: $newDate");
                                           });
                                         });
@@ -590,9 +1046,12 @@ class _CarState extends State<Car> {
                                   ),
                                   Container(
                                     alignment: Alignment.center,
-                                    padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                    padding:
+                                        EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                                     child: Text(
-                                      formattedDate == null ? "Picked Date" : formattedDate.toString(),
+                                      formattedDate == null
+                                          ? "Picked Date"
+                                          : formattedDate.toString(),
                                       style: TextStyle(
                                         fontSize: 12.0,
                                       ),
@@ -600,20 +1059,23 @@ class _CarState extends State<Car> {
                                   ),
                                 ]),
                           ),
-
-                          SizedBox(width: 14.0,),
-
+                          SizedBox(
+                            width: 14.0,
+                          ),
                           Container(
                             height: 40.0,
                             width: 145.0,
-                            decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black26)),
                             child: Container(
                               height: 40.0,
                               width: 145.0,
                               alignment: Alignment.center,
                               color: HexColor("#f5f5f5"),
                               child: Text(
-                                newDateFormat == null ? "Select Date" : newDateFormat,
+                                newDateFormat == null
+                                    ? "Select Date"
+                                    : newDateFormat,
                                 style: TextStyle(
                                   fontSize: 12.0,
                                 ),
@@ -638,11 +1100,8 @@ class _CarState extends State<Car> {
                                   fontSize: 16.0,
                                 ),
                               ),
-                              onPressed: () {}
-                          ),
-                        ]
-                    ),
-
+                              onPressed: () {}),
+                        ]),
                   ],
                 ),
               ),
@@ -653,4 +1112,3 @@ class _CarState extends State<Car> {
     );
   }
 }
-
