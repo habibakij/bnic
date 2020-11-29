@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:bnic/Network/facilitymodel.dart';
+import 'package:bnic/Network/omihmodel.dart';
 ///CREATED BY AK IJ
 ///25-11-2020
 
@@ -40,7 +42,7 @@ class _CarState extends State<Car> {
   }
 
   /// Plan Type area
-  var planList;
+  List planList;
   String planListItem;
   String getPlanId;
   String getPlanListUrl = 'http://online.bnicl.net/api/plan-type/list';
@@ -49,7 +51,7 @@ class _CarState extends State<Car> {
     if (response.statusCode == 200) {
       var decode = json.decode(response.body);
       setState(() {
-        planList = decode['list'];
+        planList= decode['list'];
       });
       print("Plan list are: $planList");
     } else {
@@ -62,18 +64,19 @@ class _CarState extends State<Car> {
   String subTypeListItem;
 
   /// Vehicles Type area
-  String matchDriver= 'Driver';
-  String matchPassenger= 'Passenger';
-  String matchHelper= 'Helper';
   String driverSelectItem;
   String passengerSelectItem;
   String helperSelectItem;
-  var driverList;
+  List customDriverList;
+  List customHelperList;
+  List customPassengerList;
+  List passengerSeatList;
 
 
+  int listCount;
   var subTypeId;
-  var vehiclesTypeList;
-  var vehiclesSeatList;
+  List<ListElement> vehiclesTypeList;
+  List<Seat> vehiclesSeatList;
   String vehiclesTypeListItem;
   String vehiclesTypeListId;
   String getVehiclesTypeListUrl = 'http://online.bnicl.net/api/vehicle-type/list';
@@ -84,12 +87,48 @@ class _CarState extends State<Car> {
     }).then((response) {
       var decode = json.decode(response.body);
       setState(() {
-        vehiclesTypeList= decode['list'];
+        OverseasJsonModel.fromJson(decode);
+        OverseasJsonModel overseasJsonModel= OverseasJsonModel.fromJson(decode);
+        vehiclesTypeList= overseasJsonModel.list.toList();
+        listCount=  vehiclesTypeList.length;
       });
-      print("Category area: $decode");
+      print("Vehicles area: $vehiclesTypeList");
+      print("Count: $listCount");
     });
   }
 
+  /// Facility area
+  List nameList, valueList;
+  int length;
+  String status;
+  int conStatus;
+  String foodCast, earthqCast, riotsCast, theftCast;
+  String facilityListUrl= 'http://online.bnicl.net/api/insurance-facility/list';
+  List facilityPercentageList;
+  String planId, vehiclesTypeId, capacity;
+  Future<String> getFacilityList(String planId, String vehiclesTypeId, String capacity) async {
+    await http.post(facilityListUrl, body: {
+    'plan_id':planId,
+    'type_id':'1',
+    'sub_type_id':'2',
+    'vehicle_type_id':vehiclesTypeId,
+    'cc':capacity,
+    }).then((response) {
+      var decode = json.decode(response.body);
+      print("responsed: "+response.body);
+      setState(() {
+
+        facilityPercentageList= decode['list'];
+        length= facilityPercentageList.length;
+        status= decode['status'].toString();
+        print("status: $status");
+        conStatus= int.parse(status);
+        print("status after convert: $status");
+
+      });
+      print("Facility area: $facilityPercentageList");
+    });
+  }
 
   @override
   void initState() {
@@ -124,6 +163,7 @@ class _CarState extends State<Car> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
+
                     Container(
                       height: 40.0,
                       width: 320.0,
@@ -142,9 +182,7 @@ class _CarState extends State<Car> {
 
                     Text("Plan Name", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),),),
 
-                    SizedBox(
-                      height: 2.0,
-                    ),
+                    SizedBox(height: 2.0,),
 
                     /// select Plan type spinner(dropdown list)
                     Container(
@@ -155,6 +193,7 @@ class _CarState extends State<Car> {
                       decoration: BoxDecoration(
                           border: Border.all(color: Colors.black26)),
                       child: Stack(children: <Widget>[
+
                         Container(
                           height: 40.0,
                           width: 297.0,
@@ -170,6 +209,7 @@ class _CarState extends State<Car> {
                             ],
                           ),
                         ),
+
                         Positioned(
                           child: Container(
                             child: Row(children: <Widget>[
@@ -191,9 +231,7 @@ class _CarState extends State<Car> {
                                         print(planListItem);
                                       });
                                     },
-                                    items: planList
-                                        ?.map<DropdownMenuItem<String>>(
-                                            (_item) {
+                                    items: planList?.map<DropdownMenuItem<String>>((_item) {
                                       return DropdownMenuItem<String>(
                                         child: Text(
                                           _item['name'].toString(),
@@ -202,6 +240,18 @@ class _CarState extends State<Car> {
                                           ),
                                         ),
                                         value: _item['name'].toString(),
+                                        onTap: (){
+                                          planId= _item['id'].toString();
+                                          print("PlanId $planId");
+                                          if(planId == 1.toString()){
+                                            carPriceVisibility= false;
+                                            facilityVisibility= false;
+                                            facilityListVisibility= false;
+                                          } else {
+                                            carPriceVisibility= true;
+                                            facilityVisibility= true;
+                                          }
+                                        },
                                       );
                                     })?.toList(),
                                   ),
@@ -213,21 +263,11 @@ class _CarState extends State<Car> {
                       ]),
                     ),
 
-                    SizedBox(
-                      height: 10.0,
-                    ),
+                    SizedBox(height: 10.0,),
 
-                    Text(
-                      "Sub Type",
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        color: HexColor("#008577"),
-                      ),
-                    ),
+                    Text("Sub Type", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),),),
 
-                    SizedBox(
-                      height: 2.0,
-                    ),
+                    SizedBox(height: 2.0,),
 
                     /// select Sub type spinner(dropdown list)
                     Container(
@@ -235,9 +275,9 @@ class _CarState extends State<Car> {
                       width: 320.0,
                       alignment: Alignment.centerLeft,
                       padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black26)),
+                      decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
                       child: Stack(children: <Widget>[
+
                         Container(
                           height: 40.0,
                           width: 297.0,
@@ -253,6 +293,7 @@ class _CarState extends State<Car> {
                             ],
                           ),
                         ),
+
                         Positioned(
                           child: Container(
                             child: Row(children: <Widget>[
@@ -284,12 +325,7 @@ class _CarState extends State<Car> {
                                           if(_index == 1){
                                             subTypeId= 9.toString();
                                             getVehiclesTypeList();
-                                            carPriceVisibility= true;
-                                            facilityVisibility= true;
                                           }else {
-                                            carPriceVisibility= false;
-                                            facilityVisibility= false;
-                                            facilityListVisibility= false;
                                             subTypeId= 2.toString();
                                             getVehiclesTypeList();
                                           }
@@ -305,19 +341,11 @@ class _CarState extends State<Car> {
                       ]),
                     ),
 
-                    SizedBox(
-                      height: 10.0,
-                    ),
+                    SizedBox(height: 10.0,),
 
-                    Text("Vehicle Type",
-                        style: TextStyle(
-                          fontSize: 12.0,
-                          color: HexColor("#008577"),
-                        )),
+                    Text("Vehicle Type", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),)),
 
-                    SizedBox(
-                      height: 2.0,
-                    ),
+                    SizedBox(height: 2.0,),
 
                     /// select Vehicle type spinner(dropdown list)
                     Container(
@@ -328,6 +356,7 @@ class _CarState extends State<Car> {
                       decoration: BoxDecoration(
                           border: Border.all(color: Colors.black26)),
                       child: Stack(children: <Widget>[
+
                         Container(
                           height: 40.0,
                           width: 297.0,
@@ -343,6 +372,7 @@ class _CarState extends State<Car> {
                             ],
                           ),
                         ),
+
                         Positioned(
                           child: Container(
                             child: Row(children: <Widget>[
@@ -360,21 +390,23 @@ class _CarState extends State<Car> {
                                     onChanged: (_newSelected) {
                                       setState(() {
                                         vehiclesTypeListItem= _newSelected;
+                                        print("Selected: $_newSelected");
                                       });
                                     },
                                     items: vehiclesTypeList?.map<DropdownMenuItem<String>>((_item){
                                       return DropdownMenuItem<String>(
                                         child: Text(
-                                          _item['name'].toString(),
+                                          _item.name.toString(),
                                           style: TextStyle(
                                             fontSize: 12.0,),
                                         ),
-                                        value: _item['name'],
+                                        value: _item.name.toString(),
                                         onTap: (){
-                                          vehiclesSeatList= _item['seat'];
-                                          print("vehicles seat list: $vehiclesSeatList");
-                                          String id= _item['id'].toString();
-                                          print("Vehicles type id: $id");
+                                          vehiclesTypeId= _item.id.toString();
+                                          print("vehicles Type Id: $vehiclesTypeId");
+                                          vehiclesSeatList= _item.seat;
+                                          print("vehicles seat list: ${vehiclesSeatList[0].maxCapacity}");
+                                          customList(vehiclesSeatList);
                                         },
                                       );
                                     })?.toList(),
@@ -387,9 +419,7 @@ class _CarState extends State<Car> {
                       ]),
                     ),
 
-                    SizedBox(
-                      height: 10.0,
-                    ),
+                    SizedBox(height: 10.0,),
 
                     Visibility(
                       visible: carPriceVisibility,
@@ -424,9 +454,7 @@ class _CarState extends State<Car> {
                       ),
                     ),
 
-                    SizedBox(
-                      height: 10.0,
-                    ),
+                    SizedBox(height: 10.0,),
 
                     /// Driver and Capacity(cc/ton) text in row
                     Row(
@@ -455,9 +483,7 @@ class _CarState extends State<Car> {
                       ],
                     ),
 
-                    SizedBox(
-                      height: 2.0,
-                    ),
+                    SizedBox(height: 2.0,),
 
                     /// Driver and Capacity(cc/ton) spinner in row
                     Container(
@@ -467,13 +493,14 @@ class _CarState extends State<Car> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
+
                           Container(
                             width: 145.0,
                             alignment: Alignment.centerLeft,
-                            decoration: BoxDecoration(
-                                border: Border.all(color: Colors.black26)),
+                            decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
                             child: Stack(
                               children: <Widget>[
+
                                 Container(
                                   width: 145.0,
                                   child: Row(
@@ -488,6 +515,7 @@ class _CarState extends State<Car> {
                                     ],
                                   ),
                                 ),
+
                                 Positioned(
                                   child: Container(
                                     child: Row(
@@ -499,7 +527,7 @@ class _CarState extends State<Car> {
                                           child: DropdownButtonHideUnderline(
                                             child: DropdownButton<String>(
                                               isExpanded: true,
-                                              //hint: Text("Select Driver"),
+                                              hint: Text("Select Driver"),
                                               icon: Icon(Icons.arrow_downward),
                                               iconSize: 18,
                                               elevation: 16,
@@ -508,28 +536,18 @@ class _CarState extends State<Car> {
                                               onChanged: (_newSelected) {
                                                 setState(() {
                                                   driverSelectItem = _newSelected;
-                                                  print("driver select: $_newSelected");
+                                                  print("Select: $_newSelected");
                                                 });
                                               },
-                                              items: vehiclesSeatList?.map<DropdownMenuItem<String>>((_item){
+                                              items: customDriverList?.map<DropdownMenuItem<String>>((_item){
                                                 return DropdownMenuItem<String>(
-                                                  child: Text(
-                                                    driverList == null ? "" : driverList.toString(),
-                                                    style: TextStyle(fontSize: 12.0),
-                                                  ),
-                                                  value: _item['max_capacity'].toString(),
-                                                  onTap: (){
-                                                    String driverListItem= _item['name'].toString();  ///Driver
-                                                    if(driverListItem == matchDriver){
-                                                      driverList= _item['max_capacity'].toString();
-                                                    }
-                                                  },
+                                                  child: Text(_item.maxCapacity, style: TextStyle(fontSize: 12.0),),
+                                                  value: _item.maxCapacity,
                                                 );
                                               })?.toList(),
                                             ),
                                           ),
                                         ),
-                                        Container(),
                                       ],
                                     ),
                                   ),
@@ -537,9 +555,9 @@ class _CarState extends State<Car> {
                               ],
                             ),
                           ),
-                          SizedBox(
-                            width: 10.0,
-                          ),
+
+                          SizedBox(width: 10.0,),
+
                           Container(
                             height: 40.0,
                             width: 145.0,
@@ -550,18 +568,16 @@ class _CarState extends State<Car> {
                                 border: OutlineInputBorder(),
                                 labelText: 'capacity',
                               ),
-                              style: TextStyle(
-                                fontSize: 12.0,
-                              ),
+
+                              style: TextStyle(fontSize: 12.0,),
+
                             ),
                           ),
                         ],
                       ),
                     ),
 
-                    SizedBox(
-                      height: 10.0,
-                    ),
+                    SizedBox(height: 10.0,),
 
                     Text("Helper", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),)),
 
@@ -607,22 +623,17 @@ class _CarState extends State<Car> {
                                     style: TextStyle(color: Colors.black),
                                     onChanged: (_newSelected) {
                                       setState(() {
-                                        if(_newSelected == matchHelper){
-                                          helperSelectItem = _newSelected;
-                                          print("helper select: $_newSelected");
-                                        } else {
-                                          customToast("sorry");
-                                          print("driver select: $_newSelected");
-                                        }
+                                        helperSelectItem= _newSelected;
+                                        print("Select: $_newSelected");
                                       });
                                     },
-                                    items: vehiclesSeatList?.map<DropdownMenuItem<String>>((_item){
+                                    items: customHelperList?.map<DropdownMenuItem<String>>((_item){
                                       return DropdownMenuItem<String>(
                                         child: Text(
-                                          _item['max_capacity'].toString(),
+                                          _item.maxCapacity,
                                           style: TextStyle(fontSize: 12.0),
                                         ),
-                                        value: _item['name'].toString(),
+                                        value: _item.maxCapacity
                                       );
                                     })?.toList(),
                                   ),
@@ -638,6 +649,7 @@ class _CarState extends State<Car> {
 
                     Visibility(
                       visible: facilityVisibility,
+
                       child: TextButton(
                         child: Text("Facility",
                             style: TextStyle(
@@ -647,250 +659,84 @@ class _CarState extends State<Car> {
                         ),
                         onPressed: (){
                           setState(() {
-                            facilityListVisibility= true;
+                            if(capacityController.text.isEmpty){
+                              customToast("Enter Capacity");
+                            } else {
+                              getFacilityList(planId, vehiclesTypeId, capacityController.text);
+                              facilityListVisibility= true;
+                              if(conStatus == 1){
+                                print("matcher: $planId , $vehiclesTypeId , ${capacityController.text}");
+                              } else{
+                                print(conStatus.runtimeType);
+                                print("matcher: $planId , $vehiclesTypeId , ${capacityController.text}");
+                                print("Data not found");
+                              }
+                            }
                           });
                         },
                       ),
+
                     ),
 
                     Visibility(
                       visible: facilityListVisibility,
                       child: Container(
-                        child: Column(
-                          children: <Widget>[
+                        height: 200.0,
+                        child: ListView.builder(
+                          itemCount: length,
+                            itemBuilder: (BuildContext context, int index){
+                          return Container(
+                            width: 320.0,
+                            child: Row(
+                              children: <Widget> [
 
-                            Container(
-                              height: 40.0,
-                              width: 300.0,
-                              child: Row(
-                                children: <Widget>[
-                                  Container(
-                                    height: 40.0,
-                                    width: 50.0,
-                                    decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
-                                    child: Checkbox(
-                                      checkColor: Colors.greenAccent,
-                                      activeColor: HexColor("#F9A825"),
-                                      value: check,
-                                      onChanged: (bool value){
-                                        setState(() {
-                                          check = value;
-                                          print("Check Box value: $check");
-                                        });
-                                      },
+                                Checkbox(
+                                  checkColor: Colors.greenAccent,
+                                  activeColor: HexColor("#F9A825"),
+                                  value: check,
+                                  onChanged: (bool value){
+                                    setState(() {
+                                      check = value;
+                                      print("Check Box value: $check");
+                                    });
+                                  },
+                                ),
+
+
+                                Container(
+                                  height: 40.0,
+                                  width: 120.0,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                                  child: Text(
+                                    facilityPercentageList[index]['name'].toString(),
+                                    style: TextStyle(
+                                      fontSize: 12.0,
                                     ),
                                   ),
 
-                                  SizedBox(width: 2.0,),
+                                ),
 
-                                  Container(
-                                    height: 40.0,
-                                    width: 120.0,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
-                                    child: Text(
-                                      "Food & Cyclone",
-                                      style: TextStyle(
-                                        fontSize: 12.0,
-                                      ),
-                                    ),
+                                SizedBox(width: 2.0,),
 
-                                  ),
-
-                                  SizedBox(width: 2.0,),
-
-                                  Container(
-                                    height: 40.0,
-                                    width: 120.0,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
-                                    child: Text(
-                                      "50%",
-                                      style: TextStyle(
-                                        fontSize: 12.0,
-                                      ),
+                                Container(
+                                  height: 40.0,
+                                  width: 120.0,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                                  child: Text(
+                                    facilityPercentageList[index]['cost'].toString(),
+                                    style: TextStyle(
+                                      fontSize: 12.0,
                                     ),
                                   ),
-                                ],
-                              ),
+                                ),
+
+                              ],
                             ),
+                          );
+                        }),
 
-                            SizedBox(height: 2.0,),
-
-                            Container(
-                              height: 40.0,
-                              width: 300.0,
-                              child: Row(
-                                children: <Widget>[
-                                  Container(
-                                    height: 40.0,
-                                    width: 50.0,
-                                    decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
-
-                                    child: Checkbox(
-                                      checkColor: Colors.greenAccent,
-                                      activeColor: HexColor("#F9A825"),
-                                      value: check1,
-                                      onChanged: (bool value){
-                                        setState(() {
-                                          check1 = value;
-                                          print("Check Box value: $check1");
-                                        });
-                                      },
-                                    ),
-                                  ),
-
-                                  SizedBox(width: 2.0,),
-
-                                  Container(
-                                    height: 40.0,
-                                    width: 120.0,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
-                                    child: Text(
-                                      "Earthquake",
-                                      style: TextStyle(
-                                        fontSize: 12.0,
-                                      ),
-                                    ),
-                                  ),
-
-                                  SizedBox(width: 2.0,),
-
-                                  Container(
-                                    height: 40.0,
-                                    width: 120.0,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
-                                    child: Text(
-                                      "50%",
-                                      style: TextStyle(
-                                        fontSize: 12.0,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-
-                            SizedBox(height: 2.0,),
-
-                            Container(
-                              height: 40.0,
-                              width: 300.0,
-                              child: Row(
-                                children: <Widget>[
-                                  Container(
-                                    height: 40.0,
-                                    width: 50.0,
-                                    decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
-
-                                    child: Checkbox(
-                                      checkColor: Colors.greenAccent,
-                                      activeColor: HexColor("#F9A825"),
-                                      value: check2,
-                                      onChanged: (bool value){
-                                        setState(() {
-                                          check2 = value;
-                                          print("Check Box value: $check2");
-                                        });
-                                      },
-                                    ),
-                                  ),
-
-                                  SizedBox(width: 2.0,),
-
-                                  Container(
-                                    height: 40.0,
-                                    width: 120.0,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
-                                    child: Text(
-                                      "Riot & Strike",
-                                      style: TextStyle(
-                                        fontSize: 12.0,
-                                      ),
-                                    ),
-                                  ),
-
-                                  SizedBox(width: 2.0,),
-
-                                  Container(
-                                    height: 40.0,
-                                    width: 120.0,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
-                                    child: Text(
-                                      "50%",
-                                      style: TextStyle(
-                                        fontSize: 12.0,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-
-                            SizedBox(height: 2.0,),
-
-                            Container(
-                              height: 40.0,
-                              width: 300.0,
-                              child: Row(
-                                children: <Widget>[
-                                  Container(
-                                    height: 40.0,
-                                    width: 50.0,
-                                    decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
-
-                                    child: Checkbox(
-                                      checkColor: Colors.greenAccent,
-                                      activeColor: HexColor("#F9A825"),
-                                      value: check3,
-                                      onChanged: (bool value){
-                                        setState(() {
-                                          check3 = value;
-                                          print("Check Box value: $check3");
-                                        });
-                                      },
-                                    ),
-
-                                  ),
-
-                                  SizedBox(width: 2.0,),
-
-                                  Container(
-                                    height: 40.0,
-                                    width: 120.0,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
-                                    child: Text(
-                                      "Theft",
-                                      style: TextStyle(
-                                        fontSize: 12.0,
-                                      ),
-                                    ),
-                                  ),
-
-                                  SizedBox(width: 2.0,),
-
-                                  Container(
-                                    height: 40.0,
-                                    width: 120.0,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
-                                    child: Text(
-                                      "50%",
-                                      style: TextStyle(
-                                        fontSize: 12.0,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
                       ),
                     ),
 
@@ -940,22 +786,17 @@ class _CarState extends State<Car> {
                                     style: TextStyle(color: Colors.black),
                                     onChanged: (_newSelected) {
                                       setState(() {
-                                        if(_newSelected == matchPassenger){
-                                          passengerSelectItem = _newSelected;
-                                          print("driver select: $_newSelected");
-                                        } else {
-                                          customToast("sorry");
-                                          print("driver select: $_newSelected");
-                                        }
+                                        passengerSelectItem= _newSelected;
+                                        print("Select: $_newSelected");
                                       });
                                     },
-                                    items: vehiclesSeatList?.map<DropdownMenuItem<String>>((_item){
+                                    items: passengerSeatList?.map((_item){
                                       return DropdownMenuItem<String>(
                                         child: Text(
-                                          _item['max_capacity'].toString(),
+                                          _item.toString(),
                                           style: TextStyle(fontSize: 12.0),
                                         ),
-                                        value: _item['name'].toString(),
+                                        value: _item.toString(),
                                       );
                                     })?.toList(),
                                   ),
@@ -1111,4 +952,110 @@ class _CarState extends State<Car> {
       ),
     );
   }
+
+  void customList(List<Seat> vehiclesSeatList){
+    customDriverList= new List();
+    customHelperList= new List();
+    customPassengerList= new List();
+    passengerSeatList= new List();
+
+    for(Seat s in vehiclesSeatList ){
+      if(s.name.toString() == "Name.DRIVER"){
+        print("name: ${s.name.toString()}");
+        setState(() {
+          customDriverList.add(s);
+        });
+      } else if(s.name.toString() == "Name.HELPER"){
+        print("name: ${s.name.toString()}");
+        setState(() {
+          customHelperList.add(s);
+        });
+      } else if(s.name.toString() == "Name.PASSENGER"){
+        print("name: ${s.name.toString()}");
+        String itemlength;
+        setState(() {
+          customPassengerList.add(s);
+          // ignore: missing_return
+          customPassengerList.map<String>((_item){
+            itemlength= _item.maxCapacity;
+            print("Passenger item: $itemlength");
+          }).toString();
+          for(int i=1; i<= int.parse(itemlength); i++){
+            passengerSeatList.add(i);
+          }
+        });
+      }
+    }
+  }
+
 }
+
+
+/*
+
+
+
+class customFacilityList extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 40.0,
+      width: 300.0,
+
+      child: Row(
+        children: <Widget>[
+          Container(
+            height: 40.0,
+            width: 50.0,
+            decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+            child: Checkbox(
+              checkColor: Colors.greenAccent,
+              activeColor: HexColor("#F9A825"),
+              value: true,
+              onChanged: (bool value){
+                */
+/*setState(() {
+                  check = value;
+                  print("Check Box value: $check");
+                });*//*
+
+              },
+            ),
+          ),
+
+          SizedBox(width: 2.0,),
+
+          Container(
+            height: 40.0,
+            width: 120.0,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+            child: Text(
+              "Food & Cyclone",
+              style: TextStyle(
+                fontSize: 12.0,
+              ),
+            ),
+
+          ),
+
+          SizedBox(width: 2.0,),
+
+          Container(
+            height: 40.0,
+            width: 120.0,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+            child: Text(
+              foodCast == null ? "null":foodCast.toString(),
+              style: TextStyle(
+                fontSize: 12.0,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+*/
