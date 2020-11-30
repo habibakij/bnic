@@ -597,25 +597,9 @@ class _infoDetailsState extends State<infoDetails> {
     );
   }
 
-  void configLoading() {
-    EasyLoading.instance
-      ..displayDuration = const Duration(milliseconds: 2000)
-      ..indicatorType = EasyLoadingIndicatorType.fadingCircle
-      ..loadingStyle = EasyLoadingStyle.dark
-      ..indicatorSize = 45.0
-      ..radius = 10.0
-      ..progressColor = Colors.yellow
-      ..backgroundColor = Colors.green
-      ..indicatorColor = Colors.yellow
-      ..textColor = Colors.yellow
-      ..maskColor = Colors.blue.withOpacity(0.5)
-      ..userInteractions = true
-      ..dismissOnTap = false;
-    //EasyLoading.show(status: "Loading...");
-    EasyLoading.isShow;
-  }
 
   Future<String> postPaymentInformation() async {
+    EasyLoading.show();
     convertTaka= double.parse(taka.replaceAll(',', ''));
     print("convert: $convertTaka");
     amount= convertTaka.toString();
@@ -661,12 +645,12 @@ class _infoDetailsState extends State<infoDetails> {
         status= decode['status'];
         paymentPageUrl= decode['GatewayPageURL'];
         print("Status is: $status and $paymentPageUrl");
-        configLoading();
         if(status.endsWith("SUCCESS")){
           customToast("You are able to pay");
           EasyLoading.dismiss();
           Navigator.push(context, MaterialPageRoute(builder: (context)=> PaymentPage(paymentPageUrl)));
         } else{
+          EasyLoading.dismiss();
           customToast("Server Error");
         }
       });

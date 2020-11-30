@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-import 'bike.dart';
-import 'car.dart';
+import 'motorcycle/bike.dart';
+import 'commercial/car.dart';
 
 class MotorInsurance extends StatefulWidget {
   @override
@@ -14,27 +14,23 @@ class _MotorInsuranceState extends State<MotorInsurance> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: AppBar(
         backgroundColor: HexColor("#F9A825"),
         title: Text("Motor Insurance"),
       ),
+
       body: Center(
 
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget> [
 
-            Text(
-              "By Motor Insurance",
-              style: TextStyle(
-                fontSize: 20.0,
-                color: Colors.black,
-              ),
-            ),
+            Text("By Motor Insurance", style: TextStyle(fontSize: 20.0, color: Colors.black,),),
 
-          SizedBox(height: 20.0,),
+            SizedBox(height: 20.0,),
 
-          Row(
+            Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
@@ -67,9 +63,8 @@ class _MotorInsuranceState extends State<MotorInsurance> {
                 ),
               ),
 
-              SizedBox(
-                width: 10.0,
-              ),
+              SizedBox(width: 10.0,),
+
               Container(
                 //margin: const EdgeInsets.all(5.0),
                 //padding: const EdgeInsets.all(10.0),
@@ -102,9 +97,10 @@ class _MotorInsuranceState extends State<MotorInsurance> {
                   },
                 ),
               ),
+
             ],
           ),
-        ]
+          ]
         ),
       ),
     );

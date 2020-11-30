@@ -2,15 +2,20 @@ import 'dart:convert';
 
 import 'package:bnic/Network/facilitymodel.dart';
 import 'package:bnic/Network/omihmodel.dart';
+
 ///CREATED BY AK IJ
 ///25-11-2020
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_custom_dialog/flutter_custom_dialog.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
+
+import 'carinfoentry.dart';
 
 class Car extends StatefulWidget {
   @override
@@ -22,13 +27,13 @@ class _CarState extends State<Car> {
   TextEditingController capacityController = TextEditingController();
   final DateFormat dateFormat = DateFormat('dd-MM-yyyy');
   var formattedDate, newDateFormat;
+  int dateSelectFlag=0;
   var newDate;
   bool carPriceVisibility = false;
   bool facilityVisibility = false;
   bool facilityListVisibility = false;
 
-
-  bool check= true, check1= true, check2= true, check3= true;
+  bool check = true;
 
   void customToast(String msg) {
     Fluttertoast.showToast(
@@ -42,16 +47,17 @@ class _CarState extends State<Car> {
   }
 
   /// Plan Type area
+  int planFlag=0;
   List planList;
   String planListItem;
-  String getPlanId;
+  String planId;
   String getPlanListUrl = 'http://online.bnicl.net/api/plan-type/list';
   Future<String> getPlanList() async {
     var response = await http.get(getPlanListUrl);
     if (response.statusCode == 200) {
       var decode = json.decode(response.body);
       setState(() {
-        planList= decode['list'];
+        planList = decode['list'];
       });
       print("Plan list are: $planList");
     } else {
@@ -60,37 +66,42 @@ class _CarState extends State<Car> {
   }
 
   /// Sub Type area
+  int subTypeFlag=0;
+  var subTypeId;
   var subTypeList = ['Private Vehicle', 'Commercial Vehicle (CV)'];
   String subTypeListItem;
 
   /// Vehicles Type area
+  int vehiclesTypeFlag=0;
   String driverSelectItem;
   String passengerSelectItem;
   String helperSelectItem;
+  String driverSelectId= "0";
+  String passengerSelectId= "0";
+  String helperSelectId= "0";
+  String contactorSelectId= "0";
   List customDriverList;
   List customHelperList;
   List customPassengerList;
   List passengerSeatList;
-
-
   int listCount;
-  var subTypeId;
   List<ListElement> vehiclesTypeList;
   List<Seat> vehiclesSeatList;
   String vehiclesTypeListItem;
-  String vehiclesTypeListId;
+  String vehiclesTypeId;
   String getVehiclesTypeListUrl = 'http://online.bnicl.net/api/vehicle-type/list';
   Future<String> getVehiclesTypeList() async {
     await http.post(getVehiclesTypeListUrl, body: {
-      'type_id':'1',
+      'type_id': '1',
       'sub_type_id': subTypeId,
     }).then((response) {
       var decode = json.decode(response.body);
       setState(() {
         OverseasJsonModel.fromJson(decode);
-        OverseasJsonModel overseasJsonModel= OverseasJsonModel.fromJson(decode);
-        vehiclesTypeList= overseasJsonModel.list.toList();
-        listCount=  vehiclesTypeList.length;
+        OverseasJsonModel overseasJsonModel =
+            OverseasJsonModel.fromJson(decode);
+        vehiclesTypeList = overseasJsonModel.list.toList();
+        listCount = vehiclesTypeList.length;
       });
       print("Vehicles area: $vehiclesTypeList");
       print("Count: $listCount");
@@ -98,37 +109,62 @@ class _CarState extends State<Car> {
   }
 
   /// Facility area
-  List nameList, valueList;
+  List facilityIdList= new List();
   int length;
   String status;
   int conStatus;
-  String foodCast, earthqCast, riotsCast, theftCast;
-  String facilityListUrl= 'http://online.bnicl.net/api/insurance-facility/list';
+  String facilityListUrl = 'http://online.bnicl.net/api/insurance-facility/list';
   List facilityPercentageList;
-  String planId, vehiclesTypeId, capacity;
+  String capacity;
   Future<String> getFacilityList(String planId, String vehiclesTypeId, String capacity) async {
     await http.post(facilityListUrl, body: {
-    'plan_id':planId,
-    'type_id':'1',
-    'sub_type_id':'2',
-    'vehicle_type_id':vehiclesTypeId,
-    'cc':capacity,
+      'plan_id': planId,
+      'type_id': '1',
+      'sub_type_id': '2',
+      'vehicle_type_id': vehiclesTypeId,
+      'cc': capacity,
     }).then((response) {
       var decode = json.decode(response.body);
-      print("responsed: "+response.body);
+      print("responsed: " + response.body);
       setState(() {
-
-        facilityPercentageList= decode['list'];
-        length= facilityPercentageList.length;
-        status= decode['status'].toString();
+        facilityPercentageList = decode['list'];
+        length = facilityPercentageList.length;
+        status = decode['status'].toString();
         print("status: $status");
-        conStatus= int.parse(status);
+        conStatus = int.parse(status);
         print("status after convert: $status");
-
       });
       print("Facility area: $facilityPercentageList");
     });
   }
+
+  /// Get Quote area
+  List<int> passengerNo, passengerId;
+  List terrifList;
+  String getQuotePostUrl= 'http://online.bnicl.net/api/motor/price-quote';
+  int trLength= 0;
+  Future<String> getQuotePost(String planId, String typeId, String subTypeId, String vehiclesTypeId, String passengerId, String passengerNo,
+      String capacity, String carPrice, String facilityList) async {
+    await http.post(getQuotePostUrl, body: {
+      'plan_id': planId,
+      'type_id': typeId,
+      'sub_type_id': subTypeId,
+      'vtype': vehiclesTypeId,
+      'passenger_id': passengerId.toString(),
+      'passenger_no': passengerNo.toString(),
+      'cc': capacity,
+      'asset_value': carPrice,
+      'facility': facilityList.toString(),
+    }).then((response) {
+      var decode = json.decode(response.body);
+      setState(() {
+        terrifList= decode['terrif'];
+        trLength= terrifList.length;
+      });
+      print("get Quote area: $terrifList");
+    });
+  }
+
 
   @override
   void initState() {
@@ -139,7 +175,6 @@ class _CarState extends State<Car> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
 
       appBar: AppBar(
@@ -193,7 +228,6 @@ class _CarState extends State<Car> {
                       decoration: BoxDecoration(
                           border: Border.all(color: Colors.black26)),
                       child: Stack(children: <Widget>[
-
                         Container(
                           height: 40.0,
                           width: 297.0,
@@ -209,7 +243,6 @@ class _CarState extends State<Car> {
                             ],
                           ),
                         ),
-
                         Positioned(
                           child: Container(
                             child: Row(children: <Widget>[
@@ -234,22 +267,20 @@ class _CarState extends State<Car> {
                                     items: planList?.map<DropdownMenuItem<String>>((_item) {
                                       return DropdownMenuItem<String>(
                                         child: Text(
-                                          _item['name'].toString(),
-                                          style: TextStyle(
-                                            fontSize: 12.0,
-                                          ),
+                                          _item['name'].toString(), style: TextStyle(fontSize: 12.0,),
                                         ),
                                         value: _item['name'].toString(),
-                                        onTap: (){
-                                          planId= _item['id'].toString();
+                                        onTap: () {
+                                          planFlag++;
+                                          planId = _item['id'].toString();
                                           print("PlanId $planId");
-                                          if(planId == 1.toString()){
-                                            carPriceVisibility= false;
-                                            facilityVisibility= false;
-                                            facilityListVisibility= false;
+                                          if (planId == 1.toString()) {
+                                            carPriceVisibility = false;
+                                            facilityVisibility = false;
+                                            facilityListVisibility = false;
                                           } else {
-                                            carPriceVisibility= true;
-                                            facilityVisibility= true;
+                                            carPriceVisibility = true;
+                                            facilityVisibility = true;
                                           }
                                         },
                                       );
@@ -275,9 +306,9 @@ class _CarState extends State<Car> {
                       width: 320.0,
                       alignment: Alignment.centerLeft,
                       padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                      decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black26)),
                       child: Stack(children: <Widget>[
-
                         Container(
                           height: 40.0,
                           width: 297.0,
@@ -293,7 +324,6 @@ class _CarState extends State<Car> {
                             ],
                           ),
                         ),
-
                         Positioned(
                           child: Container(
                             child: Row(children: <Widget>[
@@ -316,17 +346,21 @@ class _CarState extends State<Car> {
                                     },
                                     items: subTypeList?.map<DropdownMenuItem<String>>((_item) {
                                       return DropdownMenuItem<String>(
-                                        child: Text(_item, style: TextStyle(fontSize: 12.0),),
+                                        child: Text(
+                                          _item,
+                                          style: TextStyle(fontSize: 12.0),
+                                        ),
                                         value: _item,
-                                        onTap: (){
+                                        onTap: () {
+                                          subTypeFlag++;
                                           print("value is: $_item");
-                                          int _index= subTypeList.indexOf(_item);
+                                          int _index = subTypeList.indexOf(_item);
                                           print("index is: $_index");
-                                          if(_index == 1){
-                                            subTypeId= 9.toString();
+                                          if (_index == 1) {
+                                            subTypeId = 9.toString();
                                             getVehiclesTypeList();
-                                          }else {
-                                            subTypeId= 2.toString();
+                                          } else {
+                                            subTypeId = 2.toString();
                                             getVehiclesTypeList();
                                           }
                                         },
@@ -356,7 +390,6 @@ class _CarState extends State<Car> {
                       decoration: BoxDecoration(
                           border: Border.all(color: Colors.black26)),
                       child: Stack(children: <Widget>[
-
                         Container(
                           height: 40.0,
                           width: 297.0,
@@ -372,7 +405,6 @@ class _CarState extends State<Car> {
                             ],
                           ),
                         ),
-
                         Positioned(
                           child: Container(
                             child: Row(children: <Widget>[
@@ -389,22 +421,22 @@ class _CarState extends State<Car> {
                                     style: TextStyle(color: Colors.black),
                                     onChanged: (_newSelected) {
                                       setState(() {
-                                        vehiclesTypeListItem= _newSelected;
+                                        vehiclesTypeListItem = _newSelected;
                                         print("Selected: $_newSelected");
                                       });
                                     },
-                                    items: vehiclesTypeList?.map<DropdownMenuItem<String>>((_item){
+                                    items: vehiclesTypeList?.map<DropdownMenuItem<String>>((_item) {
                                       return DropdownMenuItem<String>(
                                         child: Text(
                                           _item.name.toString(),
-                                          style: TextStyle(
-                                            fontSize: 12.0,),
+                                          style: TextStyle(fontSize: 12.0,),
                                         ),
                                         value: _item.name.toString(),
-                                        onTap: (){
-                                          vehiclesTypeId= _item.id.toString();
+                                        onTap: () {
+                                          vehiclesTypeFlag++;
+                                          vehiclesTypeId = _item.id.toString();
                                           print("vehicles Type Id: $vehiclesTypeId");
-                                          vehiclesSeatList= _item.seat;
+                                          vehiclesSeatList = _item.seat;
                                           print("vehicles seat list: ${vehiclesSeatList[0].maxCapacity}");
                                           customList(vehiclesSeatList);
                                         },
@@ -427,14 +459,11 @@ class _CarState extends State<Car> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text("Car Price",
-                                style: TextStyle(
-                                  fontSize: 12.0,
-                                  color: HexColor("#008577"),
-                                )),
-                            SizedBox(
-                              height: 2.0,
-                            ),
+
+                            Text("Car Price", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),)),
+
+                            SizedBox(height: 2.0,),
+
                             Container(
                               height: 40.0,
                               child: TextField(
@@ -493,11 +522,11 @@ class _CarState extends State<Car> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-
                           Container(
                             width: 145.0,
                             alignment: Alignment.centerLeft,
-                            decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black26)),
                             child: Stack(
                               children: <Widget>[
 
@@ -522,8 +551,7 @@ class _CarState extends State<Car> {
                                       children: <Widget>[
                                         Container(
                                           width: 143.0,
-                                          padding: EdgeInsets.fromLTRB(
-                                              5.0, 0.0, 10.0, 0.0),
+                                          padding: EdgeInsets.fromLTRB(5.0, 0.0, 10.0, 0.0),
                                           child: DropdownButtonHideUnderline(
                                             child: DropdownButton<String>(
                                               isExpanded: true,
@@ -533,15 +561,19 @@ class _CarState extends State<Car> {
                                               elevation: 16,
                                               value: driverSelectItem,
                                               style: TextStyle(color: Colors.black),
+
                                               onChanged: (_newSelected) {
                                                 setState(() {
                                                   driverSelectItem = _newSelected;
                                                   print("Select: $_newSelected");
                                                 });
                                               },
-                                              items: customDriverList?.map<DropdownMenuItem<String>>((_item){
+                                              items: customDriverList?.map<DropdownMenuItem<String>>((_item) {
                                                 return DropdownMenuItem<String>(
-                                                  child: Text(_item.maxCapacity, style: TextStyle(fontSize: 12.0),),
+                                                  child: Text(
+                                                    _item.maxCapacity,
+                                                    style: TextStyle(fontSize: 12.0),
+                                                  ),
                                                   value: _item.maxCapacity,
                                                 );
                                               })?.toList(),
@@ -564,13 +596,17 @@ class _CarState extends State<Car> {
                             child: TextField(
                               maxLines: 1,
                               controller: capacityController,
+                              keyboardType: TextInputType.number,
+                              inputFormatters: <TextInputFormatter>[
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(),
                                 labelText: 'capacity',
                               ),
-
-                              style: TextStyle(fontSize: 12.0,),
-
+                              style: TextStyle(
+                                fontSize: 12.0,
+                              ),
                             ),
                           ),
                         ],
@@ -589,9 +625,9 @@ class _CarState extends State<Car> {
                       width: 320.0,
                       alignment: Alignment.centerLeft,
                       padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black26)),
+                      decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
                       child: Stack(children: <Widget>[
+
                         Container(
                           height: 40.0,
                           width: 297.0,
@@ -607,6 +643,7 @@ class _CarState extends State<Car> {
                             ],
                           ),
                         ),
+
                         Positioned(
                           child: Container(
                             child: Row(children: <Widget>[
@@ -623,17 +660,17 @@ class _CarState extends State<Car> {
                                     style: TextStyle(color: Colors.black),
                                     onChanged: (_newSelected) {
                                       setState(() {
-                                        helperSelectItem= _newSelected;
+                                        helperSelectItem = _newSelected;
                                         print("Select: $_newSelected");
                                       });
                                     },
-                                    items: customHelperList?.map<DropdownMenuItem<String>>((_item){
+                                    items: customHelperList?.map<DropdownMenuItem<String>>((_item) {
                                       return DropdownMenuItem<String>(
-                                        child: Text(
-                                          _item.maxCapacity,
-                                          style: TextStyle(fontSize: 12.0),
-                                        ),
-                                        value: _item.maxCapacity
+                                          child: Text(
+                                            _item.maxCapacity,
+                                            style: TextStyle(fontSize: 12.0),
+                                          ),
+                                          value: _item.maxCapacity,
                                       );
                                     })?.toList(),
                                   ),
@@ -645,28 +682,27 @@ class _CarState extends State<Car> {
                       ]),
                     ),
 
-                    SizedBox(height: 10.0,),
+                    //SizedBox(height: 2.0,),
 
                     Visibility(
                       visible: facilityVisibility,
-
                       child: TextButton(
                         child: Text("Facility",
                             style: TextStyle(
                               fontSize: 12.0,
                               color: HexColor("#008577"),
-                            )
-                        ),
-                        onPressed: (){
+                            )),
+                        onPressed: () {
                           setState(() {
-                            if(capacityController.text.isEmpty){
+                            if (capacityController.text.isEmpty) {
                               customToast("Enter Capacity");
                             } else {
-                              getFacilityList(planId, vehiclesTypeId, capacityController.text);
-                              facilityListVisibility= true;
-                              if(conStatus == 1){
+                              getFacilityList(planId, vehiclesTypeId,
+                                  capacityController.text);
+                              facilityListVisibility = true;
+                              if (conStatus == 1) {
                                 print("matcher: $planId , $vehiclesTypeId , ${capacityController.text}");
-                              } else{
+                              } else {
                                 print(conStatus.runtimeType);
                                 print("matcher: $planId , $vehiclesTypeId , ${capacityController.text}");
                                 print("Data not found");
@@ -675,7 +711,6 @@ class _CarState extends State<Car> {
                           });
                         },
                       ),
-
                     ),
 
                     Visibility(
@@ -683,60 +718,57 @@ class _CarState extends State<Car> {
                       child: Container(
                         height: 200.0,
                         child: ListView.builder(
-                          itemCount: length,
-                            itemBuilder: (BuildContext context, int index){
-                          return Container(
-                            width: 320.0,
-                            child: Row(
-                              children: <Widget> [
+                            itemCount: length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Container(
+                                width: 320.0,
+                                child: Row(
+                                  children: <Widget>[
 
-                                Checkbox(
-                                  checkColor: Colors.greenAccent,
-                                  activeColor: HexColor("#F9A825"),
-                                  value: check,
-                                  onChanged: (bool value){
-                                    setState(() {
-                                      check = value;
-                                      print("Check Box value: $check");
-                                    });
-                                  },
-                                ),
-
-
-                                Container(
-                                  height: 40.0,
-                                  width: 120.0,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
-                                  child: Text(
-                                    facilityPercentageList[index]['name'].toString(),
-                                    style: TextStyle(
-                                      fontSize: 12.0,
+                                    Checkbox(
+                                      checkColor: Colors.greenAccent,
+                                      activeColor: HexColor("#F9A825"),
+                                      value: check,
+                                      onChanged: (bool value) {
+                                        setState(() {
+                                          check = value;
+                                          facilityIdList.add(facilityPercentageList[index]['id'].toString());
+                                          print("Check Box value: $check");
+                                        });
+                                      },
                                     ),
-                                  ),
 
-                                ),
-
-                                SizedBox(width: 2.0,),
-
-                                Container(
-                                  height: 40.0,
-                                  width: 120.0,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
-                                  child: Text(
-                                    facilityPercentageList[index]['cost'].toString(),
-                                    style: TextStyle(
-                                      fontSize: 12.0,
+                                    Container(
+                                      height: 40.0,
+                                      width: 120.0,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                                      child: Text(
+                                        facilityPercentageList[index]['name'].toString() == null ? "null" : facilityPercentageList[index]['name'].toString(),
+                                        style: TextStyle(
+                                          fontSize: 12.0,
+                                        ),
+                                      ),
                                     ),
-                                  ),
+
+                                    SizedBox(width: 2.0,),
+
+                                    Container(
+                                      height: 40.0,
+                                      width: 120.0,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                                      child: Text(
+                                        facilityPercentageList[index]['cost'].toString() == null ? "null" : facilityPercentageList[index]['cost'].toString(),
+                                        style: TextStyle(
+                                          fontSize: 12.0,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-
-                              ],
-                            ),
-                          );
-                        }),
-
+                              );
+                            }),
                       ),
                     ),
 
@@ -752,9 +784,9 @@ class _CarState extends State<Car> {
                       width: 320.0,
                       alignment: Alignment.centerLeft,
                       padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black26)),
+                      decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
                       child: Stack(children: <Widget>[
+
                         Container(
                           height: 40.0,
                           width: 297.0,
@@ -770,6 +802,7 @@ class _CarState extends State<Car> {
                             ],
                           ),
                         ),
+
                         Positioned(
                           child: Container(
                             child: Row(children: <Widget>[
@@ -786,11 +819,11 @@ class _CarState extends State<Car> {
                                     style: TextStyle(color: Colors.black),
                                     onChanged: (_newSelected) {
                                       setState(() {
-                                        passengerSelectItem= _newSelected;
+                                        passengerSelectItem = _newSelected;
                                         print("Select: $_newSelected");
                                       });
                                     },
-                                    items: passengerSeatList?.map((_item){
+                                    items: passengerSeatList?.map((_item) {
                                       return DropdownMenuItem<String>(
                                         child: Text(
                                           _item.toString(),
@@ -862,23 +895,18 @@ class _CarState extends State<Car> {
                                         size: 15.0,
                                       ),
                                       onPressed: () {
+                                        dateSelectFlag++;
                                         showDatePicker(
-                                                context: context,
-                                                initialDate: DateTime.now(),
-                                                firstDate: DateTime.now(),
-                                                lastDate: DateTime(2222))
-                                            .then((date) {
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime.now(),
+                                            lastDate: DateTime(2222)
+                                        ).then((date) {
                                           setState(() {
-                                            formattedDate =
-                                                dateFormat.format(date);
-                                            print(
-                                                "Formatted date is: $formattedDate");
-                                            newDate = new DateTime(
-                                                date.year + 1,
-                                                date.month,
-                                                date.day);
-                                            newDateFormat =
-                                                dateFormat.format(newDate);
+                                            formattedDate = dateFormat.format(date);
+                                            print("Formatted date is: $formattedDate");
+                                            newDate = new DateTime(date.year + 1, date.month, date.day);
+                                            newDateFormat = dateFormat.format(newDate);
                                             print("new Date is: $newDate");
                                           });
                                         });
@@ -888,35 +916,28 @@ class _CarState extends State<Car> {
                                   Container(
                                     alignment: Alignment.center,
                                     padding:
-                                        EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                    EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                                     child: Text(
-                                      formattedDate == null
-                                          ? "Picked Date"
-                                          : formattedDate.toString(),
-                                      style: TextStyle(
-                                        fontSize: 12.0,
-                                      ),
+                                      formattedDate == null ? "Picked Date" : formattedDate.toString(),
+                                      style: TextStyle(fontSize: 12.0,),
                                     ),
                                   ),
                                 ]),
                           ),
-                          SizedBox(
-                            width: 14.0,
-                          ),
+
+                          SizedBox(width: 14.0,),
+
                           Container(
                             height: 40.0,
                             width: 145.0,
-                            decoration: BoxDecoration(
-                                border: Border.all(color: Colors.black26)),
+                            decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
                             child: Container(
                               height: 40.0,
                               width: 145.0,
                               alignment: Alignment.center,
                               color: HexColor("#f5f5f5"),
                               child: Text(
-                                newDateFormat == null
-                                    ? "Select Date"
-                                    : newDateFormat,
+                                newDateFormat == null ? "Select Date" : newDateFormat,
                                 style: TextStyle(
                                   fontSize: 12.0,
                                 ),
@@ -941,7 +962,107 @@ class _CarState extends State<Car> {
                                   fontSize: 16.0,
                                 ),
                               ),
-                              onPressed: () {}),
+                              onPressed: () {
+                                getQuote();
+                                if(trLength == 0){
+                                  customToast("Terrif Plan Not Available");
+                                } else{
+                                  showDialog(context: context, builder: (context){
+                                    return AlertDialog(
+                                      title: Text('Motor Insurance Quotation', style: TextStyle(fontSize: 14.0),),
+                                      contentPadding: EdgeInsets.fromLTRB(25.0, 10.0, 0.0, 0.0),
+                                      content: Container(
+                                        height: 200.0,
+                                        child: ListView.builder(
+                                          itemCount: trLength,
+                                          itemBuilder: (BuildContext context, int index){
+
+                                            return Container(
+                                              child: Row(
+                                                children: <Widget>[
+
+                                                  Container(
+                                                    height: 40.0,
+                                                    width: 110.0,
+                                                    alignment: Alignment.centerLeft,
+                                                    decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                                                    padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                                    child: Text(
+                                                      terrifList[index]['title'].toString() == null ? "null" : terrifList[index]['title'].toString(),
+                                                      style: TextStyle(
+                                                        fontSize: 12.0,
+                                                      ),
+                                                    ),
+                                                  ),
+
+                                                  SizedBox(width: 2.0,),
+
+                                                  Container(
+                                                    height: 40.0,
+                                                    width: 110.0,
+                                                    alignment: Alignment.center,
+                                                    decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                                                    child: Text(
+                                                      terrifList[index]['total_cost'].toString() == null ? "null" : terrifList[index]['total_cost'].toString(),
+                                                      style: TextStyle(fontSize: 12.0,),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+
+                                          },
+                                        ),
+                                      ),
+
+                                      actions: <Widget> [
+                                        Container(
+                                          width: 300.0,
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: <Widget> [
+
+                                              Container(
+                                                width: 120.0,
+                                                child: RaisedButton(
+                                                  color: Colors.amber,
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(10.0),
+                                                      side: BorderSide(color: Colors.red)
+                                                  ),
+                                                  child: Text("Go Back", style: TextStyle(fontSize: 16.0, color: Colors.black),),
+                                                  onPressed: (){
+                                                    Navigator.pop(context);
+                                                  },
+                                                ),
+                                              ),
+
+                                              SizedBox(width: 5.0,),
+
+                                              Container(
+                                                width: 120.0,
+                                                child: RaisedButton(
+                                                  color: Colors.amber,
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(10.0),
+                                                      side: BorderSide(color: Colors.red)
+                                                  ),
+                                                  child: Text("Buy Insurance", style: TextStyle(fontSize: 16.0, color: Colors.black),),
+                                                  onPressed: (){
+                                                    Navigator.push(context, MaterialPageRoute(builder: (context) => CarInfoEntry()));
+                                                  },
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  });
+                                }
+                              },
+                          ),
                         ]),
                   ],
                 ),
@@ -953,109 +1074,75 @@ class _CarState extends State<Car> {
     );
   }
 
-  void customList(List<Seat> vehiclesSeatList){
-    customDriverList= new List();
-    customHelperList= new List();
-    customPassengerList= new List();
-    passengerSeatList= new List();
+  void getQuote(){
+    String _typeId= '1', _subTypeId='2';
+    passengerId= new List();
+    passengerNo= new List();
+    for(int i=1; i<5; i++) {
+      passengerId.add(i);
+    }
 
-    for(Seat s in vehiclesSeatList ){
-      if(s.name.toString() == "Name.DRIVER"){
+    int conDriver, conPassenger, conHelper, conContactor;
+    conDriver= int.parse(driverSelectId);
+    conPassenger= int.parse(passengerSelectId);
+    conHelper= int.parse(helperSelectId);
+    conContactor= int.parse(contactorSelectId);
+    passengerNo.add(conDriver);
+    passengerNo.add(conHelper);
+    passengerNo.add(conContactor);
+    passengerNo.add(conPassenger);
+
+    if(capacityController.text.toString() == ''){
+      customToast("enter capacity");
+    } else if(dateSelectFlag == 0){
+      customToast("select date");
+    } else {
+      print("planId: $planId, typeId: $_typeId, subTypeId: $_subTypeId, vehiclesId: $vehiclesTypeId, passengerId: ${passengerId.toString()}, "
+          "passengerNo: ${passengerNo.toString()}, cc: ${capacityController.text.toString()}, carPrice: "
+          "${carPriceController.text.toString()}, facility: ${facilityIdList.toString()}");
+      getQuotePost(planId, _typeId, _subTypeId, vehiclesTypeId, passengerId.toString(), passengerNo.toString(),
+          capacityController.text.toString(), carPriceController.text.toString(), facilityIdList.toString());
+    }
+  }
+
+  void customList(List<Seat> vehiclesSeatList) {
+    customDriverList = new List();
+    customHelperList = new List();
+    customPassengerList = new List();
+    passengerSeatList = new List();
+
+    for (Seat s in vehiclesSeatList) {
+      if (s.name.toString() == "Name.DRIVER") {
         print("name: ${s.name.toString()}");
+        driverSelectId= s.id.toString();
+        print("helperSelectId is: $helperSelectId");
         setState(() {
           customDriverList.add(s);
         });
-      } else if(s.name.toString() == "Name.HELPER"){
+      } else if (s.name.toString() == "Name.HELPER") {
         print("name: ${s.name.toString()}");
+        helperSelectId= s.id.toString();
+        print("helperSelectId is: $helperSelectId");
         setState(() {
           customHelperList.add(s);
         });
-      } else if(s.name.toString() == "Name.PASSENGER"){
+      } else if (s.name.toString() == "Name.PASSENGER") {
         print("name: ${s.name.toString()}");
+        passengerSelectId= s.id.toString();
+        print("passengerSelectId is: $passengerSelectId");
         String itemlength;
         setState(() {
           customPassengerList.add(s);
           // ignore: missing_return
-          customPassengerList.map<String>((_item){
-            itemlength= _item.maxCapacity;
+          customPassengerList.map<String>((_item) {
+            itemlength = _item.maxCapacity;
             print("Passenger item: $itemlength");
           }).toString();
-          for(int i=1; i<= int.parse(itemlength); i++){
+          for (int i = 1; i <= int.parse(itemlength); i++) {
             passengerSeatList.add(i);
           }
         });
       }
     }
   }
-
 }
-
-
-/*
-
-
-
-class customFacilityList extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 40.0,
-      width: 300.0,
-
-      child: Row(
-        children: <Widget>[
-          Container(
-            height: 40.0,
-            width: 50.0,
-            decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
-            child: Checkbox(
-              checkColor: Colors.greenAccent,
-              activeColor: HexColor("#F9A825"),
-              value: true,
-              onChanged: (bool value){
-                */
-/*setState(() {
-                  check = value;
-                  print("Check Box value: $check");
-                });*//*
-
-              },
-            ),
-          ),
-
-          SizedBox(width: 2.0,),
-
-          Container(
-            height: 40.0,
-            width: 120.0,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
-            child: Text(
-              "Food & Cyclone",
-              style: TextStyle(
-                fontSize: 12.0,
-              ),
-            ),
-
-          ),
-
-          SizedBox(width: 2.0,),
-
-          Container(
-            height: 40.0,
-            width: 120.0,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
-            child: Text(
-              foodCast == null ? "null":foodCast.toString(),
-              style: TextStyle(
-                fontSize: 12.0,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-*/

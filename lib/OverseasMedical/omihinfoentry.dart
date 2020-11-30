@@ -123,7 +123,7 @@ class _containerBodyState extends State<containerBody> {
 
                 SizedBox(height: 10.0,),
 
-                Text("Full Name", style: TextStyle(fontSize: 12.0,)),
+                Text("Full Name", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),)),
 
                 SizedBox(height: 2.0,),
 
@@ -144,7 +144,7 @@ class _containerBodyState extends State<containerBody> {
 
                 SizedBox(height: 10.0,),
 
-                Text("Address", style: TextStyle(fontSize: 12.0,),),
+                Text("Address", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),),),
 
                 SizedBox(height: 2.0,),
 
@@ -165,7 +165,7 @@ class _containerBodyState extends State<containerBody> {
 
                 SizedBox(height: 10.0,),
 
-                Text("City", style: TextStyle(fontSize: 12.0,),),
+                Text("City", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),),),
 
                 Stack(children: <Widget>[
 
@@ -231,7 +231,7 @@ class _containerBodyState extends State<containerBody> {
 
                 SizedBox(height: 10.0,),
 
-                Text("Mobile", style: TextStyle(fontSize: 12.0,),),
+                Text("Mobile", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),),),
 
                 SizedBox(height: 2.0,),
 
@@ -257,7 +257,7 @@ class _containerBodyState extends State<containerBody> {
 
                 SizedBox(height: 10.0,),
 
-                Text("Email", style: TextStyle(fontSize: 12.0,),),
+                Text("Email", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),),),
 
                 SizedBox(height: 2.0,),
 
@@ -288,6 +288,7 @@ class _containerBodyState extends State<containerBody> {
                           "Passport Number",
                           style: TextStyle(
                             fontSize: 12.0,
+                            color: HexColor("#008577"),
                           ),
                         )),
                     Container(
@@ -297,6 +298,7 @@ class _containerBodyState extends State<containerBody> {
                           "Category",
                           style: TextStyle(
                             fontSize: 12.0,
+                            color: HexColor("#008577"),
                           ),
                         )),
                   ],
@@ -387,7 +389,7 @@ class _containerBodyState extends State<containerBody> {
 
                 SizedBox(height: 10.0,),
 
-                Text("Visited Country", style: TextStyle(fontSize: 12.0,),),
+                Text("Visited Country", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),),),
 
                 SizedBox(height: 2.0,),
 
