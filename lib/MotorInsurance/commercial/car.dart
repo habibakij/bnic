@@ -192,8 +192,10 @@ class _CarState extends State<Car> {
           child: Center(
             child: Card(
               margin: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 10.0),
+              elevation: 5.0,
               child: Container(
                 width: 320.0,
+                color: HexColor("#f5f5f5"),
                 padding: EdgeInsets.all(8.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -453,6 +455,7 @@ class _CarState extends State<Car> {
 
                     SizedBox(height: 10.0,),
 
+                    /// Visibility Car Price Text Field
                     Visibility(
                       visible: carPriceVisibility,
                       child: Container(
@@ -469,6 +472,10 @@ class _CarState extends State<Car> {
                               child: TextField(
                                 maxLines: 1,
                                 controller: carPriceController,
+                                keyboardType: TextInputType.number,
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(),
                                   labelText: 'Car Price',
@@ -684,6 +691,7 @@ class _CarState extends State<Car> {
 
                     //SizedBox(height: 2.0,),
 
+                    /// Visibility Facility button
                     Visibility(
                       visible: facilityVisibility,
                       child: TextButton(
@@ -713,6 +721,7 @@ class _CarState extends State<Car> {
                       ),
                     ),
 
+                    /// Visibility Facility list
                     Visibility(
                       visible: facilityListVisibility,
                       child: Container(
@@ -878,10 +887,10 @@ class _CarState extends State<Car> {
                       width: 320.0,
                       child: Row(
                         children: <Widget>[
+
                           Container(
                             width: 145.0,
-                            decoration: BoxDecoration(
-                                border: Border.all(color: Colors.black26)),
+                            decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
                             child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -890,8 +899,9 @@ class _CarState extends State<Car> {
                                     height: 39.0,
                                     width: 40.0,
                                     child: RaisedButton(
+                                      color: Colors.amberAccent,
                                       child: Icon(
-                                        Icons.calendar_today,
+                                        Icons.calendar_today_outlined,
                                         size: 15.0,
                                       ),
                                       onPressed: () {
@@ -954,13 +964,19 @@ class _CarState extends State<Car> {
                     Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          RaisedButton(
-                              color: Colors.amberAccent,
+                          Container(
+                            width: 120.0,
+                            child: RaisedButton(
+                              color: HexColor("#F9A825"),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  side: BorderSide(color: Colors.red)
+                              ),
                               child: Text(
-                                "Get Quote",
-                                style: TextStyle(
-                                  fontSize: 16.0,
-                                ),
+                                  "Get Quote",
+                                  style: TextStyle(
+                                    fontSize: 16.0,
+                                  ),
                               ),
                               onPressed: () {
                                 getQuote();
@@ -972,48 +988,48 @@ class _CarState extends State<Car> {
                                       title: Text('Motor Insurance Quotation', style: TextStyle(fontSize: 14.0),),
                                       contentPadding: EdgeInsets.fromLTRB(25.0, 10.0, 0.0, 0.0),
                                       content: Container(
-                                        height: 200.0,
-                                        child: ListView.builder(
-                                          itemCount: trLength,
-                                          itemBuilder: (BuildContext context, int index){
+                                          height: 200.0,
+                                          child: ListView.builder(
+                                            itemCount: trLength,
+                                            itemBuilder: (BuildContext context, int index){
 
-                                            return Container(
-                                              child: Row(
-                                                children: <Widget>[
+                                              return Container(
+                                                child: Row(
+                                                  children: <Widget>[
 
-                                                  Container(
-                                                    height: 40.0,
-                                                    width: 110.0,
-                                                    alignment: Alignment.centerLeft,
-                                                    decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
-                                                    padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                                                    child: Text(
-                                                      terrifList[index]['title'].toString() == null ? "null" : terrifList[index]['title'].toString(),
-                                                      style: TextStyle(
-                                                        fontSize: 12.0,
+                                                    Container(
+                                                      height: 40.0,
+                                                      width: 110.0,
+                                                      alignment: Alignment.centerLeft,
+                                                      decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                                                      padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                                      child: Text(
+                                                        terrifList[index]['title'].toString() == null ? "null" : terrifList[index]['title'].toString(),
+                                                        style: TextStyle(
+                                                          fontSize: 12.0,
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
 
-                                                  SizedBox(width: 2.0,),
+                                                    SizedBox(width: 2.0,),
 
-                                                  Container(
-                                                    height: 40.0,
-                                                    width: 110.0,
-                                                    alignment: Alignment.center,
-                                                    decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
-                                                    child: Text(
-                                                      terrifList[index]['total_cost'].toString() == null ? "null" : terrifList[index]['total_cost'].toString(),
-                                                      style: TextStyle(fontSize: 12.0,),
+                                                    Container(
+                                                      height: 40.0,
+                                                      width: 110.0,
+                                                      alignment: Alignment.center,
+                                                      decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                                                      child: Text(
+                                                        terrifList[index]['total_cost'].toString() == null ? "null" : terrifList[index]['total_cost'].toString(),
+                                                        style: TextStyle(fontSize: 12.0,),
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                            );
+                                                  ],
+                                                ),
+                                              );
 
-                                          },
+                                            },
+                                          ),
                                         ),
-                                      ),
 
                                       actions: <Widget> [
                                         Container(
@@ -1060,8 +1076,8 @@ class _CarState extends State<Car> {
                                       ],
                                     );
                                   });
-                                }
-                              },
+                                }},
+                            ),
                           ),
                         ]),
                   ],

@@ -10,7 +10,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'confirmation.dart';
+import 'overseasconformation.dart';
 
 class OmihInfoEntry extends StatefulWidget {
   @override
@@ -410,6 +410,7 @@ class _containerBodyState extends State<containerBody> {
 
                 SizedBox(height: 20.0,),
 
+                /// RaisedButton
                 Container(
                   height: 40.0,
                   width: 300.0,
@@ -462,7 +463,7 @@ class _containerBodyState extends State<containerBody> {
     } else{
       saveDate();
       customToast("data saved successfully");
-      Navigator.push(context, MaterialPageRoute(builder: (context)=> confirmInformation()));
+      Navigator.push(context, MaterialPageRoute(builder: (context)=> overseasConformation()));
     }
   }
 

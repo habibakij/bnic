@@ -17,12 +17,14 @@ import 'package:sslcommerz/sslcommerz.dart';
 import 'package:http/http.dart' as http;
 import 'omihinfoentry.dart';
 
-class confirmInformation extends StatefulWidget {
+// ignore: camel_case_types
+class overseasConformation extends StatefulWidget {
   @override
-  _confirmInformationState createState() => _confirmInformationState();
+  _overseasConformationState createState() => _overseasConformationState();
 }
 
-class _confirmInformationState extends State<confirmInformation> {
+// ignore: camel_case_types
+class _overseasConformationState extends State<overseasConformation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,11 +44,13 @@ class _confirmInformationState extends State<confirmInformation> {
   }
 }
 
+// ignore: camel_case_types
 class infoDetails extends StatefulWidget {
   @override
   _infoDetailsState createState() => _infoDetailsState();
 }
 
+// ignore: camel_case_types
 class _infoDetailsState extends State<infoDetails> {
 
   String privacyPolicyText= "I hereby declare that the details furnished above are true and correct to the best of my "
@@ -114,18 +118,22 @@ class _infoDetailsState extends State<infoDetails> {
                   Container(
                     height: 40.0,
                     width: 320.0,
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                    decoration:
-                        BoxDecoration(border: Border.all(color: Colors.black26)),
-                    child: Text("Personal Information",
-                        style: TextStyle(
-                          color: HexColor("#008577"),
-                          fontSize: 16.0,
-                        )),
+                    decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                    child: Container(
+                      height: 40.0,
+                      width: 320.0,
+                      color: HexColor("#75f9a825"),
+                      alignment: Alignment.centerLeft,
+                      padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                      child: Text("Personal Information",
+                          style: TextStyle(
+                            color: HexColor("#008577"),
+                            fontSize: 16.0,
+                          )),
+                    ),
                   ),
 
-                  SizedBox(height: 10.0,),
+                  SizedBox(height: 15.0,),
 
                   Container(
                     padding: EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 20.0),
@@ -362,10 +370,21 @@ class _infoDetailsState extends State<infoDetails> {
                   Container(
                     height: 40.0,
                     width: 320.0,
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                     decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
-                    child: Text("OMP Information", style: TextStyle(fontSize: 16.0, color: HexColor("#008577"),)),
+                    child: Container(
+                      height: 40.0,
+                      width: 320.0,
+                      color: HexColor("#75f9a825"),
+                      alignment: Alignment.centerLeft,
+                      padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                      child: Text(
+                          "OMP Information",
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: HexColor("#008577"),
+                          )
+                      ),
+                    ),
                   ),
 
                   Container(
@@ -458,15 +477,20 @@ class _infoDetailsState extends State<infoDetails> {
                   Container(
                     height: 40.0,
                     width: 320.0,
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                     decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
-                    child: Text(
-                        "Declaration",
-                        style: TextStyle(
-                          color: HexColor("#008577"),
-                          fontSize: 16.0,
-                        )
+                    child: Container(
+                      height: 40.0,
+                      width: 320.0,
+                      color: HexColor("#75f9a825"),
+                      alignment: Alignment.centerLeft,
+                      padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                      child: Text(
+                          "Declaration",
+                          style: TextStyle(
+                            color: HexColor("#008577"),
+                            fontSize: 16.0,
+                          )
+                      ),
                     ),
                   ),
 
@@ -483,8 +507,10 @@ class _infoDetailsState extends State<infoDetails> {
                           width: 320.0,
                           child: Row(
                             children: <Widget> [
-                              Container(
-                                alignment: Alignment.topRight,
+
+                              SizedBox(
+                                height: 24.0,
+                                width: 24.0,
                                 child: Checkbox(
                                   checkColor: Colors.greenAccent,
                                   activeColor: HexColor("#F9A825"),
@@ -497,6 +523,8 @@ class _infoDetailsState extends State<infoDetails> {
                                   },
                                 ),
                               ),
+
+                              SizedBox(width: 5.0,),
 
                               Container(
                                 width: 250.0,

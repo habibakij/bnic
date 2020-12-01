@@ -233,8 +233,10 @@ class _OMIHState extends State<OMIH> {
         child: Center(
           child: Card(
             margin: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 10.0),
+            elevation: 5.0,
             child: Container(
               width: 320.0,
+              color: HexColor("#f5f5f5"),
               padding: EdgeInsets.all(8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -247,13 +249,13 @@ class _OMIHState extends State<OMIH> {
                     padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                     decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
 
-                    child: Text("Please Enter OMP Information", style: TextStyle(fontSize: 16.0,)),
+                    child: Text("Please Enter OMP Information", style: TextStyle(fontSize: 16.0, color: HexColor("#008577"),)),
 
                   ),
 
                   SizedBox(height: 10.0,),
 
-                  Text("Type", style: TextStyle(fontSize: 12.0,),),
+                  Text("Type", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),),),
 
                   SizedBox(height: 2.0,),
 
@@ -332,7 +334,7 @@ class _OMIHState extends State<OMIH> {
 
                   SizedBox(height: 10.0,),
 
-                  Text("Category", style: TextStyle(fontSize: 12.0,)),
+                  Text("Category", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),)),
 
                   SizedBox(height: 2.0,),
 
@@ -415,6 +417,7 @@ class _OMIHState extends State<OMIH> {
                             "Birth Date",
                             style: TextStyle(
                               fontSize: 12.0,
+                              color: HexColor("#008577"),
                             ),
                           )),
                       Container(
@@ -424,6 +427,7 @@ class _OMIHState extends State<OMIH> {
                             "Age",
                             style: TextStyle(
                               fontSize: 12.0,
+                              color: HexColor("#008577"),
                             ),
                           )),
                     ],
@@ -450,8 +454,9 @@ class _OMIHState extends State<OMIH> {
                                 height: 39.0,
                                 width: 40.0,
                                 child: RaisedButton(
+                                  color: Colors.amberAccent,
                                   child: Icon(
-                                    Icons.calendar_today,
+                                    Icons.calendar_today_outlined,
                                     size: 15.0,
                                   ),
                                   onPressed: () {
@@ -510,7 +515,7 @@ class _OMIHState extends State<OMIH> {
 
                   SizedBox(height: 10.0,),
 
-                  Text("Stay Period (in day's)", style: TextStyle(fontSize: 12.0,),),
+                  Text("Stay Period (in day's)", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),),),
 
                   SizedBox(height: 2.0,),
 
@@ -588,31 +593,38 @@ class _OMIHState extends State<OMIH> {
                   Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        RaisedButton(
-                          color: Colors.amberAccent,
-                          child: Text(
-                            "Get Quote",
-                            style: TextStyle(
-                              fontSize: 16.0,
+                        Container(
+                          width: 120.0,
+                          child: RaisedButton(
+                            color: Colors.amberAccent,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  side: BorderSide(color: Colors.red)
+                              ),
+                            child: Text(
+                              "Get Quote",
+                              style: TextStyle(
+                                fontSize: 16.0,
+                              ),
                             ),
-                          ),
-                          onPressed: () {
-                            if(flagType == 0){
-                              getQuoteInValidToast();
-                            } else if(flagCategory == 0) {
-                              categoryInValidToast();
-                            } else if(flagBirthDay == 0){
-                              dateInValidToast();
-                            } else if(flagStayPeriod == 0){
-                              stayPeriodInValidToast();
-                            } else{
-                              if(status != 1){
-                                statusInValidToast();
-                              } else {
-                                YYDialogDemo(context);
+                            onPressed: () {
+                              if(flagType == 0){
+                                getQuoteInValidToast();
+                              } else if(flagCategory == 0) {
+                                categoryInValidToast();
+                              } else if(flagBirthDay == 0){
+                                dateInValidToast();
+                              } else if(flagStayPeriod == 0){
+                                stayPeriodInValidToast();
+                              } else{
+                                if(status != 1){
+                                  statusInValidToast();
+                                } else {
+                                  YYDialogDemo(context);
+                                }
                               }
                             }
-                          }
+                          ),
                         ),
                       ]
                   ),
