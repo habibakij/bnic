@@ -19,8 +19,8 @@ class PaymentPage extends StatefulWidget {
 class _PaymentPageState extends State<PaymentPage> {
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
+
       appBar: AppBar(
         backgroundColor: HexColor("#F9A825"),
         title: Text(
@@ -30,6 +30,7 @@ class _PaymentPageState extends State<PaymentPage> {
           ),
         ),
       ),
+
       body: SafeArea(
         child: WebView(
           initialUrl: (widget.paymentPageUrl),

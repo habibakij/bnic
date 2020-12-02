@@ -2,6 +2,7 @@
 /// 12-11-2020
 
 import 'package:bnic/OverseasMedical/omih.dart';
+import 'package:bnic/util/timer.dart';
 import 'package:bnic/webview/about.dart';
 import 'package:bnic/webview/branchoffice.dart';
 import 'package:bnic/webview/claiminformation.dart';
@@ -48,7 +49,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-
   void configLoading() {
     EasyLoading.instance
       ..displayDuration = const Duration(milliseconds: 2000)
@@ -66,7 +66,6 @@ class _MyHomePageState extends State<MyHomePage> {
     //EasyLoading.show(status: "Loading...");
     EasyLoading.isShow;
   }
-
 
   void inValidToast(){
     Fluttertoast.showToast(
@@ -110,7 +109,6 @@ class _MyHomePageState extends State<MyHomePage> {
       );
     });
   }
-
 
   @override
   void initState() {
@@ -219,9 +217,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
             Text("Buy Insurance Online", style: TextStyle(fontSize: 18.0,),),
 
-            SizedBox(
-              height: 20.0,
-            ),
+            SizedBox(height: 20.0,),
 
             /// first row with two property MOTOR & OVERPASS MEDICAL insurance
             Row(
@@ -365,6 +361,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
               ],
+            ),
+
+
+            SizedBox(height: 50.0,),
+
+            RaisedButton(
+                child: Text("Presed"),
+                onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => CustomTimer()));
+                }
             ),
 
           ],

@@ -37,7 +37,7 @@ dependencies:
   sslcommerz: ^0.0.1
   shared_preferences: ^0.5.12+4
   flutter_easyloading: ^2.2.0
-
+  timer_count_down: ^1.0.4+1
 
 
 dev_dependencies:

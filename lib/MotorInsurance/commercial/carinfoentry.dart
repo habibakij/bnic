@@ -54,7 +54,7 @@ class _EnterDetailsState extends State<EnterDetails> {
   final DateFormat dateFormat = DateFormat('dd-MM-yyyy');
   var formattedDate, newDateFormat, newDate;
   bool check= false;
-  bool checkMailingAddress= false;
+  bool checkMailingAddress= true;
 
   void customToast(String msg) {
     Fluttertoast.showToast(
@@ -190,6 +190,7 @@ class _EnterDetailsState extends State<EnterDetails> {
                 Text("City", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),),),
 
                 SizedBox(height: 5.0,),
+
                 /// City Dropdown List
                 Stack(children: <Widget>[
 
@@ -403,85 +404,51 @@ class _EnterDetailsState extends State<EnterDetails> {
 
                 SizedBox(height: 15.0,),
 
-                /// Mobile and Email Text
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                        alignment: Alignment.centerLeft,
-                        width: 160.0,
-                        child: Text(
-                          "Mobile",
-                          style: TextStyle(
-                            fontSize: 12.0,
-                            color: HexColor("#008577"),
-                          ),
-                        )
-                    ),
-                    Container(
-                        alignment: Alignment.centerLeft,
-                        width: 140.0,
-                        child: Text(
-                          "Email",
-                          style: TextStyle(
-                            fontSize: 12.0,
-                            color: HexColor("#008577"),
-                          ),
-                        )
-                    ),
-                  ],
-                ),
+                /// Mobile Text
+                Text("Mobile", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),),),
 
                 SizedBox(height: 5.0,),
 
-                /// Mobile and Email TextField
+                /// Mobile TextField
+                Container(
+                  height: 60.0,
+                  child: TextField(
+                    maxLines: 1,
+                    maxLength: 11,
+                    controller: mobileController,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Mobile',
+                    ),
+                    style: TextStyle(
+                      fontSize: 12.0,
+                    ),
+                  ),
+                ),
+
+                /// Email Text
+                Text("Email", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),),),
+
+                SizedBox(height: 5.0,),
+
+                ///Email TextField
                 Container(
                   height: 40.0,
-                  width: 320.0,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget> [
-
-                      Container(
-                        height: 40.0,
-                        width: 145.0,
-                        child: TextField(
-                          maxLines: 1,
-                          controller: mobileController,
-                          keyboardType: TextInputType.number,
-                          inputFormatters: <TextInputFormatter>[
-                            FilteringTextInputFormatter.digitsOnly
-                          ],
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Mobile',
-                          ),
-                          style: TextStyle(
-                            fontSize: 12.0,
-                          ),
-                        ),
-                      ),
-
-                      SizedBox(width: 10.0,),
-
-                      Container(
-                        height: 40.0,
-                        width: 145.0,
-                        child: TextField(
-                          controller: emailController,
-                          keyboardType: TextInputType.emailAddress,
-                          maxLines: 1,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Email',
-                          ),
-                          style: TextStyle(
-                            fontSize: 12.0,
-                          ),
-                        ),
-                      ),
-
-                    ],
+                  child: TextField(
+                    controller: emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    maxLines: 1,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Email',
+                    ),
+                    style: TextStyle(
+                      fontSize: 12.0,
+                    ),
                   ),
                 ),
 
@@ -586,7 +553,7 @@ class _EnterDetailsState extends State<EnterDetails> {
                                           onChanged: (_newSelected){
                                             setState(() {
                                               getYearListItem= _newSelected;
-                                              getYearList();
+                                              yearListRequest();
                                               print("year select is: $getYearListItem");
                                             });
                                           },
@@ -695,7 +662,7 @@ class _EnterDetailsState extends State<EnterDetails> {
                                     showDatePicker(
                                         context: context,
                                         initialDate: DateTime.now(),
-                                        firstDate: DateTime.now(),
+                                        firstDate: DateTime(2000),
                                         lastDate: DateTime(2222)
                                     ).then((date) {
                                       setState(() {
@@ -863,10 +830,6 @@ class _EnterDetailsState extends State<EnterDetails> {
   }
 
   void checkValidity(){
-
-    Navigator.push(context, MaterialPageRoute (builder: (context) => commercialConformation()));
-
-    /*
     if(nameController.text.toString() == ''){
       customToast("Enter Name");
     } else if(addressController.text.toString() == ''){
@@ -898,8 +861,6 @@ class _EnterDetailsState extends State<EnterDetails> {
       customToast("Data Saved successfully");
       Navigator.push(context, MaterialPageRoute (builder: (context) => commercialConformation()));
     }
-
-    */
   }
 
 }

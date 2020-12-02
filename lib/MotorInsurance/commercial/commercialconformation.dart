@@ -1,10 +1,18 @@
+import 'dart:convert';
+
 import 'package:bnic/OverseasMedical/omihinfoentry.dart';
 import 'package:bnic/OverseasMedical/overseasconformation.dart';
+import 'package:bnic/webview/paymentpage.dart';
 import 'package:bnic/webview/privacy.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+
+import 'carinfoentry.dart';
 
 // ignore: camel_case_types
 class commercialConformation extends StatefulWidget {
@@ -45,6 +53,31 @@ class _commercialConformationState extends State<commercialConformation> {
       "knowledge and belief and I undertake to inform you of any changes therein immediately."
       "I also declare that all the documents to operate the vehicle on public road are current and valid.";
 
+  String getNameFromSP, getAddressFromSP, getCityFromSP, getCityId, getMailAddressFromSP, getMailCityFromSP, getMailCityId, getMobileFromSP, getEmailFromSP, getBrandFromSP, getMenuYearFromSP,
+      getRegNumberFromSP, getRegDateFromSP, getEngNumberFromSP, getChassisNoFromSP, getPlanNameFromSP, getVehiclesTypeFromSP,getDriverFromSP, getCapacityFromSP,
+      getContactorFromSP, contactor= '0', getHelperFromSP, getPassengerFromSP, getPoStartDateFromSP, getPoEndDateFromSP, getTotalCastFromSP;
+
+  double convertTaka;
+
+
+  /// SSL Commerce area
+  String status;
+  String id= 'bnicllive';
+  String password= '5D89D9DCB840278023';
+  String amount= '';
+  String transactionId= '123456789098765';
+  String paymentMethod= 'NO';
+  String productName= 'food';
+  String productCategory= 'food';
+  String productProfile= 'general';
+  String currency= 'BDT';
+  String successUrl= 'https://securepay.sslcommerz.com/gw/apps/result.php';
+  String failUrl= 'https://securepay.sslcommerz.com/gw/apps/result.php';
+  String cancelUrl= 'https://securepay.sslcommerz.com/gw/apps/result.php';
+
+  String paymentPostUrl= 'https://securepay.sslcommerz.com/gwprocess/v4/api.php';
+  String paymentPageUrl;
+
   void customToast(String msg) {
     Fluttertoast.showToast(
         msg: msg,
@@ -54,6 +87,13 @@ class _commercialConformationState extends State<commercialConformation> {
         backgroundColor: Colors.red,
         textColor: Colors.white,
         fontSize: 12.0);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    getDataFromSP();
+    super.initState();
   }
 
    @override
@@ -84,7 +124,7 @@ class _commercialConformationState extends State<commercialConformation> {
                          color: HexColor("#75f9a825"),
                          alignment: Alignment.centerLeft,
                          padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                         child: Text("Personal Information",
+                         child: Text("Personal & Vehicles Information",
                              style: TextStyle(
                                color: HexColor("#008577"),
                                fontSize: 16.0,
@@ -112,7 +152,7 @@ class _commercialConformationState extends State<commercialConformation> {
                              decoration:
                              BoxDecoration(border: Border.all(color: Colors.black26)),
                              child: Text(
-                               'name',
+                               getNameFromSP == null ? 'null' : getNameFromSP.toString(),
                                style: TextStyle(
                                  fontSize: 12.0,
                                ),
@@ -133,7 +173,7 @@ class _commercialConformationState extends State<commercialConformation> {
                              decoration:
                              BoxDecoration(border: Border.all(color: Colors.black26)),
                              child: Text(
-                               'address',
+                               getAddressFromSP == null ? 'null' : getAddressFromSP.toString(),
                                style: TextStyle(
                                  fontSize: 12.0,
                                ),
@@ -154,7 +194,7 @@ class _commercialConformationState extends State<commercialConformation> {
                              decoration:
                              BoxDecoration(border: Border.all(color: Colors.black26)),
                              child: Text(
-                               'city',
+                               getCityFromSP == null ? 'null' : getCityFromSP.toString(),
                                style: TextStyle(
                                  fontSize: 12.0,
                                ),
@@ -175,7 +215,7 @@ class _commercialConformationState extends State<commercialConformation> {
                              decoration:
                              BoxDecoration(border: Border.all(color: Colors.black26)),
                              child: Text(
-                               'mailing address',
+                               getMailAddressFromSP == null ? 'null' : getMailAddressFromSP.toString(),
                                style: TextStyle(
                                  fontSize: 12.0,
                                ),
@@ -196,7 +236,7 @@ class _commercialConformationState extends State<commercialConformation> {
                              decoration:
                              BoxDecoration(border: Border.all(color: Colors.black26)),
                              child: Text(
-                               'mailing city',
+                               getMailCityFromSP == null ? 'null' : getMailCityFromSP.toString(),
                                style: TextStyle(
                                  fontSize: 12.0,
                                ),
@@ -241,7 +281,7 @@ class _commercialConformationState extends State<commercialConformation> {
                                    decoration: BoxDecoration(
                                        border: Border.all(color: Colors.black26)),
                                    child: Text(
-                                     'mobile',
+                                     getMobileFromSP == null ? 'null' : getMobileFromSP.toString(),
                                      style: TextStyle(
                                        fontSize: 12.0,
                                      ),
@@ -258,7 +298,7 @@ class _commercialConformationState extends State<commercialConformation> {
                                    decoration: BoxDecoration(
                                        border: Border.all(color: Colors.black26)),
                                    child: Text(
-                                     'email',
+                                     getEmailFromSP == null ? 'null' : getEmailFromSP.toString(),
                                      style: TextStyle(
                                        fontSize: 12.0,
                                      ),
@@ -306,7 +346,7 @@ class _commercialConformationState extends State<commercialConformation> {
                                    decoration: BoxDecoration(
                                        border: Border.all(color: Colors.black26)),
                                    child: Text(
-                                     'vehicles brand',
+                                     getBrandFromSP == null ? 'null' : getBrandFromSP.toString(),
                                      style: TextStyle(
                                        fontSize: 12.0,
                                      ),
@@ -323,7 +363,7 @@ class _commercialConformationState extends State<commercialConformation> {
                                    decoration: BoxDecoration(
                                        border: Border.all(color: Colors.black26)),
                                    child: Text(
-                                     'manufacture year',
+                                     getMenuYearFromSP == null ? 'null' : getMenuYearFromSP.toString(),
                                      style: TextStyle(
                                        fontSize: 12.0,
                                      ),
@@ -371,7 +411,7 @@ class _commercialConformationState extends State<commercialConformation> {
                                    decoration: BoxDecoration(
                                        border: Border.all(color: Colors.black26)),
                                    child: Text(
-                                     'reg number',
+                                     getRegNumberFromSP == null ? 'null' : getRegNumberFromSP.toString(),
                                      style: TextStyle(
                                        fontSize: 12.0,
                                      ),
@@ -388,7 +428,7 @@ class _commercialConformationState extends State<commercialConformation> {
                                    decoration: BoxDecoration(
                                        border: Border.all(color: Colors.black26)),
                                    child: Text(
-                                     'reg date',
+                                     getRegDateFromSP == null ? 'null' : getRegDateFromSP.toString(),
                                      style: TextStyle(
                                        fontSize: 12.0,
                                      ),
@@ -436,7 +476,7 @@ class _commercialConformationState extends State<commercialConformation> {
                                    decoration: BoxDecoration(
                                        border: Border.all(color: Colors.black26)),
                                    child: Text(
-                                     'engine number',
+                                     getEngNumberFromSP == null ? 'null' : getEngNumberFromSP.toString(),
                                      style: TextStyle(
                                        fontSize: 12.0,
                                      ),
@@ -453,7 +493,7 @@ class _commercialConformationState extends State<commercialConformation> {
                                    decoration: BoxDecoration(
                                        border: Border.all(color: Colors.black26)),
                                    child: Text(
-                                     'chassis no',
+                                     getChassisNoFromSP == null ? 'null' : getChassisNoFromSP.toString(),
                                      style: TextStyle(
                                        fontSize: 12.0,
                                      ),
@@ -492,7 +532,7 @@ class _commercialConformationState extends State<commercialConformation> {
                          color: HexColor("#75f9a825"),
                          alignment: Alignment.centerLeft,
                          padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                         child: Text("Personal Information",
+                         child: Text("Please Enter Vehicles Information",
                              style: TextStyle(
                                color: HexColor("#008577"),
                                fontSize: 16.0,
@@ -520,7 +560,7 @@ class _commercialConformationState extends State<commercialConformation> {
                              decoration:
                              BoxDecoration(border: Border.all(color: Colors.black26)),
                              child: Text(
-                               'plan name',
+                               getPlanNameFromSP == null ? 'null' : getPlanNameFromSP.toString(),
                                style: TextStyle(
                                  fontSize: 12.0,
                                ),
@@ -541,7 +581,7 @@ class _commercialConformationState extends State<commercialConformation> {
                              decoration:
                              BoxDecoration(border: Border.all(color: Colors.black26)),
                              child: Text(
-                               'vehicles type',
+                               getVehiclesTypeFromSP == null ? 'null' : getVehiclesTypeFromSP.toString(),
                                style: TextStyle(
                                  fontSize: 12.0,
                                ),
@@ -584,7 +624,7 @@ class _commercialConformationState extends State<commercialConformation> {
                                    decoration: BoxDecoration(
                                        border: Border.all(color: Colors.black26)),
                                    child: Text(
-                                     'driver',
+                                     getDriverFromSP == null ? 'null' : getDriverFromSP.toString(),
                                      style: TextStyle(
                                        fontSize: 12.0,
                                      ),
@@ -601,7 +641,7 @@ class _commercialConformationState extends State<commercialConformation> {
                                    decoration: BoxDecoration(
                                        border: Border.all(color: Colors.black26)),
                                    child: Text(
-                                     'capacity',
+                                     getCapacityFromSP.toString() == null ? 'null' : getCapacityFromSP.toString(),
                                      style: TextStyle(
                                        fontSize: 12.0,
                                      ),
@@ -647,7 +687,7 @@ class _commercialConformationState extends State<commercialConformation> {
                                    decoration: BoxDecoration(
                                        border: Border.all(color: Colors.black26)),
                                    child: Text(
-                                     'contactor',
+                                     contactor,
                                      style: TextStyle(
                                        fontSize: 12.0,
                                      ),
@@ -664,7 +704,7 @@ class _commercialConformationState extends State<commercialConformation> {
                                    decoration: BoxDecoration(
                                        border: Border.all(color: Colors.black26)),
                                    child: Text(
-                                     'helper',
+                                     getHelperFromSP == '' ? "0" : getHelperFromSP.toString(),
                                      style: TextStyle(
                                        fontSize: 12.0,
                                      ),
@@ -688,7 +728,7 @@ class _commercialConformationState extends State<commercialConformation> {
                              decoration:
                              BoxDecoration(border: Border.all(color: Colors.black26)),
                              child: Text(
-                               'Passenger',
+                               getPassengerFromSP == null ? "0" : getPassengerFromSP.toString(),
                                style: TextStyle(
                                  fontSize: 12.0,
                                ),
@@ -731,7 +771,7 @@ class _commercialConformationState extends State<commercialConformation> {
                                    decoration: BoxDecoration(
                                        border: Border.all(color: Colors.black26)),
                                    child: Text(
-                                     'start date',
+                                     getPoStartDateFromSP == null ? 'null' : getPoStartDateFromSP.toString(),
                                      style: TextStyle(
                                        fontSize: 12.0,
                                      ),
@@ -748,7 +788,7 @@ class _commercialConformationState extends State<commercialConformation> {
                                    decoration: BoxDecoration(
                                        border: Border.all(color: Colors.black26)),
                                    child: Text(
-                                     'end date',
+                                     getPoEndDateFromSP == null ? 'null' : getPoEndDateFromSP.toString(),
                                      style: TextStyle(
                                        fontSize: 12.0,
                                      ),
@@ -838,7 +878,7 @@ class _commercialConformationState extends State<commercialConformation> {
                                          child: Text(
                                            privacyPolicyText,
                                            style: TextStyle(
-                                             fontSize: 12.0,
+                                             fontSize: 10.0,
                                            ),
                                          ),
                                        ),
@@ -858,7 +898,7 @@ class _commercialConformationState extends State<commercialConformation> {
                                            ),
 
                                            onTap: (){
-                                             //Navigator.push(context, MaterialPageRoute(builder: (context)=> PrivacyPolicy()));
+                                             Navigator.push(context, MaterialPageRoute(builder: (context)=> PrivacyPolicy()));
                                            },
                                          ),
                                        ),
@@ -898,7 +938,7 @@ class _commercialConformationState extends State<commercialConformation> {
                        ),
                        child: Text("Go Back", style: TextStyle(fontSize: 16.0, color: Colors.black),),
                        onPressed: (){
-                         //Navigator.push(context, MaterialPageRoute (builder: (context) => overseasConformation()));
+                         Navigator.push(context, MaterialPageRoute (builder: (context) => CarInfoEntry()));
                        },
                      ),
                    ),
@@ -916,7 +956,7 @@ class _commercialConformationState extends State<commercialConformation> {
                        child: Text("Pay Now", style: TextStyle(fontSize: 16.0, color: Colors.black),),
                        onPressed: (){
                          if(check == true){
-                           customToast("you are oky.");
+                           postPaymentInformation();
                          } else {
                            customToast("Please accept terms & conditions.");
                          }
@@ -932,4 +972,98 @@ class _commercialConformationState extends State<commercialConformation> {
        ),
      );
    }
+
+  Future<String> postPaymentInformation() async {
+    EasyLoading.show();
+    /*convertTaka= double.parse(getTotalCastFromSP);
+    print("convert: $convertTaka");
+    amount= convertTaka.toString();*/
+    print(id);
+    print(password);
+    print(getTotalCastFromSP);
+    print(transactionId);
+    print(getNameFromSP);
+    print(getEmailFromSP);
+    print(getAddressFromSP);
+    print(getCityFromSP);
+    print("country null");
+    print(getMobileFromSP);
+    print(paymentMethod);
+    print(productName);
+    print(productCategory);
+    print(productProfile);
+    print(currency);
+    print(successUrl);
+    await http.post(paymentPostUrl, body: {
+      'store_id': id.toString(),
+      'store_passwd': password.toString(),
+      'total_amount': amount.toString(),
+      'tran_id': transactionId.toString(),
+      'cus_name': getNameFromSP.toString(),
+      'cus_email': getEmailFromSP.toString(),
+      'cus_add1': getAddressFromSP.toString(),
+      'cus_city': getCityFromSP.toString(),
+      'cus_country': "",
+      'cus_phone': getMobileFromSP.toString(),
+      'shipping_method': paymentMethod.toString(),
+      'product_name': productName.toString(),
+      'product_category': productCategory.toString(),
+      'product_profile': productProfile.toString(),
+      'currency': currency.toString(),
+      'success_url': 'https://securepay.sslcommerz.com/gw/apps/result.php',
+      'fail_url': 'https://securepay.sslcommerz.com/gw/apps/result.php',
+      'cancel_url': 'https://securepay.sslcommerz.com/gw/apps/result.php',
+    }).then((response) {
+      var decode = json.decode(response.body);
+      setState(() {
+        status= decode['status'];
+        paymentPageUrl= decode['GatewayPageURL'];
+        print("Status is: $status and $paymentPageUrl");
+        if(status.endsWith("SUCCESS")){
+          customToast("You are able to pay");
+          EasyLoading.dismiss();
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> PaymentPage(paymentPageUrl)));
+        } else{
+          EasyLoading.dismiss();
+          customToast("Server Error");
+        }
+      });
+      print("SSL area: $decode");
+    });
+  }
+
+   void getDataFromSP() async {
+     SharedPreferences preferences= await SharedPreferences.getInstance();
+     setState(() {
+       getNameFromSP= preferences.get("MIIE_name");
+       getAddressFromSP= preferences.get("MIIE_address");
+       getCityFromSP= preferences.get("MIIE_city");
+       getCityId= preferences.get("MIIE_city_id");
+       getMailAddressFromSP= preferences.get("MIIE_mailing_address");
+       getMailCityFromSP= preferences.get("MIIE_mailing_city");
+       getMailCityId= preferences.get("MIIE_mailing_city_id");
+       getMobileFromSP= preferences.get("MIIE_mobile");
+       getEmailFromSP= preferences.get("MIIE_email");
+       getBrandFromSP= preferences.get("MIIE_vehicles_brand");
+       getMenuYearFromSP= preferences.get("MIIE_year");
+       getRegNumberFromSP= preferences.get("MIIE_registration_number");
+       getRegDateFromSP= preferences.get("MIIE_registration_date");
+       getEngNumberFromSP= preferences.get("MIIE_engine_number");
+       getChassisNoFromSP= preferences.get("MIIE_chassis_no");
+       getPlanNameFromSP= preferences.get("EVI_plan_type");
+       getVehiclesTypeFromSP= preferences.get("EVI_vehicles_type");
+       getDriverFromSP= preferences.get("EVI_driver");
+       getCapacityFromSP= preferences.get("EVI_capacity");
+       //contactor
+       getHelperFromSP= preferences.get("EVI_helper");
+       print("helper is: ${getHelperFromSP.toString()}");
+       getPassengerFromSP= preferences.get("EVI_passenger");
+       getPoStartDateFromSP= preferences.get("EVI_start_date");
+       getPoEndDateFromSP= preferences.get("EVI_end_date");
+       getTotalCastFromSP= preferences.get("EVI_total_cast");
+       print("receive amount: $getTotalCastFromSP");
+
+     });
+   }
+
  }

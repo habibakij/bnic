@@ -1,5 +1,11 @@
+/// CREATED BY AK IJ
+/// 14-11-2020
+
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 import 'motorcycle/bike.dart';
@@ -11,6 +17,19 @@ class MotorInsurance extends StatefulWidget {
 }
 
 class _MotorInsuranceState extends State<MotorInsurance> {
+
+  void customToast(String msg){
+    Fluttertoast.showToast(
+        msg: msg,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 12.0
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +40,6 @@ class _MotorInsuranceState extends State<MotorInsurance> {
       ),
 
       body: Center(
-
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget> [
@@ -101,6 +119,9 @@ class _MotorInsuranceState extends State<MotorInsurance> {
 
             ],
           ),
+
+            SizedBox(height: 20.0,),
+
           ]
         ),
       ),

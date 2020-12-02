@@ -10,10 +10,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_custom_dialog/flutter_custom_dialog.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'carinfoentry.dart';
 
@@ -141,10 +143,12 @@ class _CarState extends State<Car> {
   /// Get Quote area
   List<int> passengerNo, passengerId;
   List terrifList;
+  String totalCast;
   String getQuotePostUrl= 'http://online.bnicl.net/api/motor/price-quote';
   int trLength= 0;
   Future<String> getQuotePost(String planId, String typeId, String subTypeId, String vehiclesTypeId, String passengerId, String passengerNo,
       String capacity, String carPrice, String facilityList) async {
+    terrifList= new List();
     await http.post(getQuotePostUrl, body: {
       'plan_id': planId,
       'type_id': typeId,
@@ -158,10 +162,116 @@ class _CarState extends State<Car> {
     }).then((response) {
       var decode = json.decode(response.body);
       setState(() {
+        EasyLoading.dismiss();
         terrifList= decode['terrif'];
-        trLength= terrifList.length;
+        totalCast= decode['total_cost'];
+        trLength= terrifList.length == null ? 0 : terrifList.length;
+
+        if(trLength > 0){
+          showDialog(context: context, builder: (context){
+            return AlertDialog(
+              title: Text('Motor Insurance Quotation', style: TextStyle(fontSize: 14.0),),
+              contentPadding: EdgeInsets.fromLTRB(25.0, 10.0, 0.0, 0.0),
+
+              content: Container(
+                height: 200.0,
+                child: ListView.builder(
+                  itemCount: trLength,
+                  itemBuilder: (ctx, index){
+
+                    return Container(
+                      child: Row(
+                        children: <Widget>[
+
+                          Container(
+                            height: 40.0,
+                            width: 110.0,
+                            alignment: Alignment.centerLeft,
+                            decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                            padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                            child: Text(
+                              terrifList[index]['title'].toString() == null ? "null" : terrifList[index]['title'].toString(),
+                              style: TextStyle(
+                                fontSize: 12.0,
+                              ),
+                            ),
+                          ),
+
+                          SizedBox(width: 2.0,),
+
+                          Container(
+                            height: 40.0,
+                            width: 110.0,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                            child: Text(
+                              terrifList[index]['total_cost'].toString() == null ? "null" : terrifList[index]['total_cost'].toString(),
+                              style: TextStyle(fontSize: 12.0,),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+
+                  },
+                ),
+              ),
+
+              actions: <Widget> [
+
+                Container(
+                  width: 300.0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget> [
+
+                      Container(
+                        width: 120.0,
+                        child: RaisedButton(
+                          color: Colors.amber,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              side: BorderSide(color: Colors.red)
+                          ),
+                          child: Text("Go Back", style: TextStyle(fontSize: 16.0, color: Colors.black),),
+                          onPressed: (){
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ),
+
+                      SizedBox(width: 5.0,),
+
+                      Container(
+                        width: 120.0,
+                        child: RaisedButton(
+                          color: Colors.amber,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              side: BorderSide(color: Colors.red)
+                          ),
+                          child: Text("Buy Insurance", style: TextStyle(fontSize: 16.0, color: Colors.black),),
+                          onPressed: (){
+                            Navigator.pop(context);
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => CarInfoEntry()));
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+              ],
+            );
+          });
+        } else{
+          EasyLoading.dismiss();
+          customToast("length null");
+        }
+        print("trLength is: $trLength");
       });
-      print("get Quote area: $terrifList");
+      print("get Quote area: $terrifList and total cast: $totalCast");
     });
   }
 
@@ -979,105 +1089,11 @@ class _CarState extends State<Car> {
                                   ),
                               ),
                               onPressed: () {
-                                getQuote();
-                                if(trLength == 0){
-                                  customToast("Terrif Plan Not Available");
-                                } else{
-                                  showDialog(context: context, builder: (context){
-                                    return AlertDialog(
-                                      title: Text('Motor Insurance Quotation', style: TextStyle(fontSize: 14.0),),
-                                      contentPadding: EdgeInsets.fromLTRB(25.0, 10.0, 0.0, 0.0),
-                                      content: Container(
-                                          height: 200.0,
-                                          child: ListView.builder(
-                                            itemCount: trLength,
-                                            itemBuilder: (BuildContext context, int index){
-
-                                              return Container(
-                                                child: Row(
-                                                  children: <Widget>[
-
-                                                    Container(
-                                                      height: 40.0,
-                                                      width: 110.0,
-                                                      alignment: Alignment.centerLeft,
-                                                      decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
-                                                      padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                                                      child: Text(
-                                                        terrifList[index]['title'].toString() == null ? "null" : terrifList[index]['title'].toString(),
-                                                        style: TextStyle(
-                                                          fontSize: 12.0,
-                                                        ),
-                                                      ),
-                                                    ),
-
-                                                    SizedBox(width: 2.0,),
-
-                                                    Container(
-                                                      height: 40.0,
-                                                      width: 110.0,
-                                                      alignment: Alignment.center,
-                                                      decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
-                                                      child: Text(
-                                                        terrifList[index]['total_cost'].toString() == null ? "null" : terrifList[index]['total_cost'].toString(),
-                                                        style: TextStyle(fontSize: 12.0,),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              );
-
-                                            },
-                                          ),
-                                        ),
-
-                                      actions: <Widget> [
-                                        Container(
-                                          width: 300.0,
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            children: <Widget> [
-
-                                              Container(
-                                                width: 120.0,
-                                                child: RaisedButton(
-                                                  color: Colors.amber,
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius.circular(10.0),
-                                                      side: BorderSide(color: Colors.red)
-                                                  ),
-                                                  child: Text("Go Back", style: TextStyle(fontSize: 16.0, color: Colors.black),),
-                                                  onPressed: (){
-                                                    Navigator.pop(context);
-                                                  },
-                                                ),
-                                              ),
-
-                                              SizedBox(width: 5.0,),
-
-                                              Container(
-                                                width: 120.0,
-                                                child: RaisedButton(
-                                                  color: Colors.amber,
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius.circular(10.0),
-                                                      side: BorderSide(color: Colors.red)
-                                                  ),
-                                                  child: Text("Buy Insurance", style: TextStyle(fontSize: 16.0, color: Colors.black),),
-                                                  onPressed: (){
-                                                    Navigator.push(context, MaterialPageRoute(builder: (context) => CarInfoEntry()));
-                                                  },
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    );
-                                  });
-                                }},
-                            ),
+                                setState(() {
+                                  getQuote();
+                                });
+                              }
+                            )
                           ),
                         ]),
                   ],
@@ -1091,13 +1107,13 @@ class _CarState extends State<Car> {
   }
 
   void getQuote(){
+    EasyLoading.show();
     String _typeId= '1', _subTypeId='2';
     passengerId= new List();
     passengerNo= new List();
     for(int i=1; i<5; i++) {
       passengerId.add(i);
     }
-
     int conDriver, conPassenger, conHelper, conContactor;
     conDriver= int.parse(driverSelectId);
     conPassenger= int.parse(passengerSelectId);
@@ -1113,11 +1129,15 @@ class _CarState extends State<Car> {
     } else if(dateSelectFlag == 0){
       customToast("select date");
     } else {
-      print("planId: $planId, typeId: $_typeId, subTypeId: $_subTypeId, vehiclesId: $vehiclesTypeId, passengerId: ${passengerId.toString()}, "
-          "passengerNo: ${passengerNo.toString()}, cc: ${capacityController.text.toString()}, carPrice: "
-          "${carPriceController.text.toString()}, facility: ${facilityIdList.toString()}");
-      getQuotePost(planId, _typeId, _subTypeId, vehiclesTypeId, passengerId.toString(), passengerNo.toString(),
-          capacityController.text.toString(), carPriceController.text.toString(), facilityIdList.toString());
+      setState(() {
+        print("planId: $planId, typeId: $_typeId, subTypeId: $_subTypeId, vehiclesId: $vehiclesTypeId, passengerId: ${passengerId.toString()}, "
+            "passengerNo: ${passengerNo.toString()}, cc: ${capacityController.text.toString()}, carPrice: "
+            "${carPriceController.text.toString()}, facility: ${facilityIdList.toString()}");
+
+        getQuotePost(planId, _typeId, _subTypeId, vehiclesTypeId, passengerId.toString(), passengerNo.toString(),
+            capacityController.text.toString(), carPriceController.text.toString(), facilityIdList.toString());
+      });
+      saveDataSP();
     }
   }
 
@@ -1160,5 +1180,36 @@ class _CarState extends State<Car> {
         });
       }
     }
+  }
+
+  void saveDataSP() async{
+    /// EVI (Enter Vehicles Information)
+    SharedPreferences preferences= await SharedPreferences.getInstance();
+    preferences.setString("EVI_plan_type", planListItem.toString());
+    preferences.setString("EVI_plan_sub_type", subTypeListItem.toString());
+    preferences.setString("EVI_vehicles_type", vehiclesTypeListItem.toString());
+    preferences.setString("EVI_driver", driverSelectItem.toString());
+    preferences.setString("EVI_capacity", capacityController.text.toString());
+
+    if(helperSelectItem == null){
+      helperSelectItem= "0";
+      print("pass helper zero: $helperSelectItem");
+    } else {
+      preferences.setString("EVI_helper", helperSelectItem.toString());
+      print("pass helper: $helperSelectItem");
+    }
+    if(passengerSelectItem == null){
+      passengerSelectItem= "0";
+      print("pass helper: $passengerSelectItem");
+    } else {
+      preferences.setString("EVI_passenger", passengerSelectItem.toString());
+      print("pass helper: $passengerSelectItem");
+    }
+    preferences.setString("EVI_start_date", formattedDate.toString());
+    preferences.setString("EVI_end_date", newDateFormat.toString());
+    preferences.setString("EVI_car_price", carPriceController.text.toString());
+    preferences.setString("EVI_total_cast", totalCast.toString());
+    print("pass Amount $totalCast");
+    preferences.commit();
   }
 }
