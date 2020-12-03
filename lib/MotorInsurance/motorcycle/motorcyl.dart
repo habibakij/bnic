@@ -3,19 +3,24 @@
 ///25-11-2020
 
 import 'dart:convert';
+import 'package:bnic/Network/omihmodel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 
-class Bike extends StatefulWidget {
+import 'motorinformationentry.dart';
+
+class MotorCycle extends StatefulWidget {
   @override
-  _BikeState createState() => _BikeState();
+  _MotorCycleState createState() => _MotorCycleState();
 }
 
-class _BikeState extends State<Bike> {
+class _MotorCycleState extends State<MotorCycle> {
   TextEditingController capacityController = TextEditingController();
   final DateFormat dateFormat = DateFormat('dd-MM-yyyy');
   var formattedDate, newDateFormat;
@@ -50,6 +55,172 @@ class _BikeState extends State<Bike> {
       customToast("Server Response Error");
     }
   }
+
+  /// Vehicles type area
+  List driverList;
+  String driverSelectId;
+  String driverSelectItem;
+  List passengerList;
+  String passengerSelectId;
+  String passengerSelectItem;
+  List passengerSeatList;
+  int listCount= 0;
+  List<ListElement> vehiclesTypeList;
+  List<Seat> vehiclesSeatList;
+  String vehiclesTypeListItem;
+  String vehiclesTypeListId;
+  String getVehiclesTypeListUrl = 'http://online.bnicl.net/api/vehicle-type/list';
+  Future<String> getVehiclesTypeList() async {
+    await http.post(getVehiclesTypeListUrl, body: {
+      'type_id': '1',
+      'sub_type_id': '1',
+    }).then((response) {
+      var decode = json.decode(response.body);
+      setState(() {
+        OverseasJsonModel.fromJson(decode);
+        OverseasJsonModel overseasJsonModel = OverseasJsonModel.fromJson(decode);
+        vehiclesTypeList = overseasJsonModel.list.toList();
+        listCount = vehiclesTypeList.length;
+      });
+      print("Vehicles area: $vehiclesTypeList");
+      print("Vehicles count: $listCount");
+    });
+  }
+
+
+  /// Get Quote area
+  List<int> passengerNo, passengerId;
+  List terrifList;
+  String totalCast;
+  String getQuotePostUrl= 'http://online.bnicl.net/api/motor/price-quote';
+  int trLength= 0;
+  Future<String> getQuotePost(String planId, String typeId, String subTypeId, String vehiclesTypeId, String passengerId,
+      String passengerNo, String capacity) async {
+    terrifList= new List();
+    await http.post(getQuotePostUrl, body: {
+      'plan_id': planId,
+      'type_id': typeId,
+      'sub_type_id': subTypeId,
+      'vtype': vehiclesTypeId,
+      'passenger_id': passengerId.toString(),
+      'passenger_no': passengerNo.toString(),
+      'cc': capacity,
+    }).then((response) {
+      var decode = json.decode(response.body);
+      setState(() {
+        EasyLoading.dismiss();
+        terrifList= decode['terrif'];
+        totalCast= decode['total_cost'];
+        trLength= terrifList.length == null ? 0 : terrifList.length;
+
+        if(trLength > 0){
+          showDialog(context: context, builder: (context){
+            return AlertDialog(
+              title: Text('Motor Insurance Quotation', style: TextStyle(fontSize: 14.0),),
+              contentPadding: EdgeInsets.fromLTRB(25.0, 10.0, 0.0, 0.0),
+
+              content: Container(
+                height: 200.0,
+                child: ListView.builder(
+                  itemCount: trLength,
+                  itemBuilder: (ctx, index){
+
+                    return Container(
+                      child: Row(
+                        children: <Widget>[
+
+                          Container(
+                            height: 40.0,
+                            width: 110.0,
+                            alignment: Alignment.centerLeft,
+                            decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                            padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                            child: Text(
+                              terrifList[index]['title'].toString() == null ? "null" : terrifList[index]['title'].toString(),
+                              style: TextStyle(
+                                fontSize: 12.0,
+                              ),
+                            ),
+                          ),
+
+                          SizedBox(width: 2.0,),
+
+                          Container(
+                            height: 40.0,
+                            width: 110.0,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                            child: Text(
+                              terrifList[index]['total_cost'].toString() == null ? "null" : terrifList[index]['total_cost'].toString(),
+                              style: TextStyle(fontSize: 12.0,),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+
+                  },
+                ),
+              ),
+
+              actions: <Widget> [
+
+                Container(
+                  width: 300.0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget> [
+
+                      Container(
+                        width: 120.0,
+                        child: RaisedButton(
+                          color: Colors.amber,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              side: BorderSide(color: Colors.red)
+                          ),
+                          child: Text("Go Back", style: TextStyle(fontSize: 16.0, color: Colors.black),),
+                          onPressed: (){
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ),
+
+                      SizedBox(width: 5.0,),
+
+                      Container(
+                        width: 120.0,
+                        child: RaisedButton(
+                          color: Colors.amber,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              side: BorderSide(color: Colors.red)
+                          ),
+                          child: Text("Buy Insurance", style: TextStyle(fontSize: 16.0, color: Colors.black),),
+                          onPressed: (){
+                            Navigator.pop(context);
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => MotorInformationEntry()));
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+              ],
+            );
+          });
+        } else{
+          EasyLoading.dismiss();
+          customToast("length null");
+        }
+        print("trLength is: $trLength");
+      });
+      print("get Quote area: $terrifList and total cast: $totalCast");
+    });
+  }
+
 
   @override
   void initState() {
@@ -164,6 +335,10 @@ class _BikeState extends State<Bike> {
                                         return DropdownMenuItem<String>(
                                           child: Text(_item['name'].toString(), style: TextStyle(fontSize: 12.0,),),
                                           value: _item['name'].toString(),
+                                          onTap: (){
+                                            getPlanId= _item['id'].toString();
+                                            getVehiclesTypeList();
+                                          },
                                         );
                                       })?.toList(),
                                     ),
@@ -219,13 +394,27 @@ class _BikeState extends State<Bike> {
                                     icon: Icon(Icons.arrow_downward),
                                     iconSize: 18,
                                     elevation: 16,
+                                    value: vehiclesTypeListItem,
                                     style: TextStyle(color: Colors.black),
                                     onChanged: (_newSelected) {
                                       setState(() {
-
+                                        vehiclesTypeListItem= _newSelected;
                                       });
                                     },
-                                    items: [],
+                                    items: vehiclesTypeList?.map<DropdownMenuItem<String>>((_item){
+                                      return DropdownMenuItem<String>(
+                                        child: Text(
+                                            _item.name.toString(),
+                                            style: TextStyle(fontSize: 12.0),
+                                          ),
+                                        value: _item.name.toString(),
+                                        onTap: (){
+                                            vehiclesTypeListId= _item.id.toString();
+                                            vehiclesSeatList= _item.seat;
+                                            customList(vehiclesSeatList);
+                                        },
+                                      );
+                                    })?.toList(),
                                   ),
                                 ),
                               ),
@@ -293,7 +482,6 @@ class _BikeState extends State<Bike> {
                                       ),
                                     ],
                                   ),
-
                                 ),
 
                                 Positioned(
@@ -311,17 +499,24 @@ class _BikeState extends State<Bike> {
                                               iconSize: 18,
                                               elevation: 16,
                                               style: TextStyle(color: Colors.black),
+                                              value: driverSelectItem,
                                               onChanged: (_newSelected) {
                                                 setState(() {
-
+                                                  driverSelectItem= _newSelected;
                                                 });
                                               },
-                                              items: [],
+                                              items: driverList?.map<DropdownMenuItem<String>>((_item){
+                                                return DropdownMenuItem<String>(
+                                                  child: Text(
+                                                      _item.maxCapacity,
+                                                      style: TextStyle(fontSize: 12.0),
+                                                    ),
+                                                  value: _item.maxCapacity,
+                                                );
+                                              })?.toList(),
                                             ),
                                           ),
                                         ),
-
-                                        Container(),
                                       ],
                                     ),
                                   ),
@@ -339,6 +534,10 @@ class _BikeState extends State<Bike> {
                             child: TextField(
                               maxLines: 1,
                               controller: capacityController,
+                              keyboardType: TextInputType.number,
+                              inputFormatters: <TextInputFormatter>[
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(),
                                 labelText: 'capacity',
@@ -398,11 +597,21 @@ class _BikeState extends State<Bike> {
                                     iconSize: 18,
                                     elevation: 16,
                                     style: TextStyle(color: Colors.black),
+                                    value: passengerSelectItem,
                                     onChanged: (_newSelected) {
                                       setState(() {
+                                        passengerSelectItem= _newSelected;
                                       });
                                     },
-                                    items: [],
+                                    items: passengerSeatList?.map((_item){
+                                      return DropdownMenuItem<String>(
+                                          child: Text(
+                                            _item.toString(),
+                                            style: TextStyle(fontSize: 12.0),
+                                          ),
+                                        value: _item.toString(),
+                                      );
+                                    })?.toList(),
                                   ),
                                 ),
                               ),
@@ -460,14 +669,17 @@ class _BikeState extends State<Bike> {
                                     height: 39.0,
                                     width: 40.0,
                                     child: RaisedButton(
+                                      color: Colors.amberAccent,
                                       child: Icon(
                                         Icons.calendar_today,
                                         size: 15.0,
                                       ),
                                       onPressed: () {
                                         showDatePicker(
-                                            context: context, initialDate: DateTime.now(),
-                                            firstDate: DateTime(2000), lastDate: DateTime(2222)
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime.now(),
+                                            lastDate: DateTime(2225)
                                         ).then((date) {
                                           setState(() {
                                             formattedDate = dateFormat.format(date);
@@ -522,15 +734,26 @@ class _BikeState extends State<Bike> {
                     Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          RaisedButton(
-                              color: Colors.amberAccent,
-                              child: Text(
-                                "Get Quote",
-                                style: TextStyle(
-                                  fontSize: 16.0,
+                          Container(
+                            width: 120.0,
+                            child: RaisedButton(
+                                color: HexColor("#F9A825"),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    side: BorderSide(color: Colors.red)
                                 ),
-                              ),
-                              onPressed: () {}
+                                child: Text(
+                                  "Get Quote",
+                                  style: TextStyle(
+                                    fontSize: 16.0,
+                                  ),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    validity();
+                                  });
+                                }
+                            ),
                           ),
                         ]
                     ),
@@ -543,4 +766,77 @@ class _BikeState extends State<Bike> {
       ),
     );
   }
+
+  void customList(List<Seat> vehiclesSeatList) {
+    driverList= new List();
+    passengerList= new List();
+    passengerSeatList= new List();
+
+    for(Seat s in vehiclesSeatList){
+      if (s.name.toString() == "Name.DRIVER") {
+        print("name: ${s.name.toString()}");
+        driverSelectId= s.id.toString();
+        print("driverSelectId is: $driverSelectId");
+        setState(() {
+          driverList.add(s);
+        });
+      } else if (s.name.toString() == "Name.PASSENGER") {
+        print("name: ${s.name.toString()}");
+        passengerSelectId= s.id.toString();
+        print("passengerSelectId is: $passengerSelectId");
+        String itemLength;
+        setState(() {
+          passengerList.add(s);
+          // ignore: missing_return
+          passengerList.map<String>((_item) {
+            itemLength = _item.maxCapacity;
+            print("Passenger item length: $itemLength");
+          }).toString();
+          for (int i = 1; i <= int.parse(itemLength); i++) {
+            passengerSeatList.add(i);
+          }
+        });
+      }
+    }
+
+  }
+
+  void validity() {
+    if(planListItem == null){
+      customToast("Select Plan Type");
+    } else if(vehiclesTypeListItem == null){
+      customToast("Select Vehicles Type");
+    } else if(driverSelectItem == null){
+      customToast("Select Driver");
+    } else if(capacityController.text.toString() == ''){
+      customToast("Enter Capacity");
+    } else if(passengerSelectItem == null){
+      customToast("Select Passenger");
+    } else if(formattedDate == null){
+      customToast("Select Date Time");
+    } else{
+      getQuote();
+    }
+  }
+
+  void getQuote(){
+    EasyLoading.show();
+    passengerId= new List();
+    passengerNo= new List();
+    for(int i=1; i<5; i++) {
+      passengerId.add(i);
+    }
+    int conDriver, conPassenger, conHelper= 0, conContactor= 0;
+    conDriver= int.parse(driverSelectId);
+    conPassenger= int.parse(passengerSelectId);
+    passengerNo.add(conDriver);
+    passengerNo.add(conHelper);
+    passengerNo.add(conContactor);
+    passengerNo.add(conPassenger);
+
+    getQuotePost(getPlanId, '1', '1', vehiclesTypeListId, passengerId.toString(),
+        passengerNo.toString(), capacityController.text.toString());
+  }
+
 }
+

@@ -2,7 +2,6 @@
 /// 12-11-2020
 
 import 'package:bnic/OverseasMedical/omih.dart';
-import 'package:bnic/util/timer.dart';
 import 'package:bnic/webview/about.dart';
 import 'package:bnic/webview/branchoffice.dart';
 import 'package:bnic/webview/claiminformation.dart';
@@ -16,7 +15,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'MotorInsurance/motorinsurance.dart';
-
 
 void main() {
   runApp(MyApp());
@@ -361,16 +359,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
               ],
-            ),
-
-
-            SizedBox(height: 50.0,),
-
-            RaisedButton(
-                child: Text("Presed"),
-                onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => CustomTimer()));
-                }
             ),
 
           ],

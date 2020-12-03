@@ -29,7 +29,6 @@ class _CarState extends State<Car> {
   TextEditingController capacityController = TextEditingController();
   final DateFormat dateFormat = DateFormat('dd-MM-yyyy');
   var formattedDate, newDateFormat;
-  int dateSelectFlag=0;
   var newDate;
   bool carPriceVisibility = false;
   bool facilityVisibility = false;
@@ -49,7 +48,6 @@ class _CarState extends State<Car> {
   }
 
   /// Plan Type area
-  int planFlag=0;
   List planList;
   String planListItem;
   String planId;
@@ -74,7 +72,7 @@ class _CarState extends State<Car> {
   String subTypeListItem;
 
   /// Vehicles Type area
-  int vehiclesTypeFlag=0;
+  int helperFlag= 0, passengerFlag= 0;
   String driverSelectItem;
   String passengerSelectItem;
   String helperSelectItem;
@@ -100,8 +98,7 @@ class _CarState extends State<Car> {
       var decode = json.decode(response.body);
       setState(() {
         OverseasJsonModel.fromJson(decode);
-        OverseasJsonModel overseasJsonModel =
-            OverseasJsonModel.fromJson(decode);
+        OverseasJsonModel overseasJsonModel = OverseasJsonModel.fromJson(decode);
         vehiclesTypeList = overseasJsonModel.list.toList();
         listCount = vehiclesTypeList.length;
       });
@@ -383,7 +380,6 @@ class _CarState extends State<Car> {
                                         ),
                                         value: _item['name'].toString(),
                                         onTap: () {
-                                          planFlag++;
                                           planId = _item['id'].toString();
                                           print("PlanId $planId");
                                           if (planId == 1.toString()) {
@@ -545,7 +541,6 @@ class _CarState extends State<Car> {
                                         ),
                                         value: _item.name.toString(),
                                         onTap: () {
-                                          vehiclesTypeFlag++;
                                           vehiclesTypeId = _item.id.toString();
                                           print("vehicles Type Id: $vehiclesTypeId");
                                           vehiclesSeatList = _item.seat;
@@ -1015,7 +1010,6 @@ class _CarState extends State<Car> {
                                         size: 15.0,
                                       ),
                                       onPressed: () {
-                                        dateSelectFlag++;
                                         showDatePicker(
                                             context: context,
                                             initialDate: DateTime.now(),
@@ -1090,7 +1084,7 @@ class _CarState extends State<Car> {
                               ),
                               onPressed: () {
                                 setState(() {
-                                  getQuote();
+                                  checkValidity();
                                 });
                               }
                             )
@@ -1104,6 +1098,30 @@ class _CarState extends State<Car> {
         ),
       ),
     );
+  }
+
+  void checkValidity(){
+    if(planListItem == null){
+      customToast("Select Plan");
+    } else if(subTypeListItem == null){
+      customToast("Select Sub Type");
+    } else if(vehiclesTypeListItem == null){
+      customToast("Select Vehicles Type");
+    } else if(driverSelectItem == null){
+      customToast("Select Driver");
+    } else if(capacityController.text.toString() == ''){
+      customToast("Enter Capacity");
+    } else if(formattedDate == null){
+      customToast("Select Date");
+    } else if(helperFlag > 0 && passengerFlag > 0 && helperSelectItem == null && passengerSelectItem == null) {
+      customToast("Select Helper and Passenger");
+    } else if(helperFlag == 0 && passengerFlag > 0 && passengerSelectItem == null) {
+      customToast("Select Passenger");
+    } else if(helperFlag > 0 && passengerFlag == 0 && helperSelectItem == null) {
+      customToast("Select Helper");
+    } else{
+      getQuote();
+    }
   }
 
   void getQuote(){
@@ -1124,21 +1142,15 @@ class _CarState extends State<Car> {
     passengerNo.add(conContactor);
     passengerNo.add(conPassenger);
 
-    if(capacityController.text.toString() == ''){
-      customToast("enter capacity");
-    } else if(dateSelectFlag == 0){
-      customToast("select date");
-    } else {
-      setState(() {
-        print("planId: $planId, typeId: $_typeId, subTypeId: $_subTypeId, vehiclesId: $vehiclesTypeId, passengerId: ${passengerId.toString()}, "
-            "passengerNo: ${passengerNo.toString()}, cc: ${capacityController.text.toString()}, carPrice: "
-            "${carPriceController.text.toString()}, facility: ${facilityIdList.toString()}");
+    setState(() {
+      print("planId: $planId, typeId: $_typeId, subTypeId: $_subTypeId, vehiclesId: $vehiclesTypeId, passengerId: ${passengerId.toString()}, "
+          "passengerNo: ${passengerNo.toString()}, cc: ${capacityController.text.toString()}, carPrice: "
+          "${carPriceController.text.toString()}, facility: ${facilityIdList.toString()}");
 
-        getQuotePost(planId, _typeId, _subTypeId, vehiclesTypeId, passengerId.toString(), passengerNo.toString(),
-            capacityController.text.toString(), carPriceController.text.toString(), facilityIdList.toString());
-      });
-      saveDataSP();
-    }
+      getQuotePost(planId, _typeId, _subTypeId, vehiclesTypeId, passengerId.toString(), passengerNo.toString(),
+          capacityController.text.toString(), carPriceController.text.toString(), facilityIdList.toString());
+    });
+    saveDataSP();
   }
 
   void customList(List<Seat> vehiclesSeatList) {
@@ -1156,6 +1168,7 @@ class _CarState extends State<Car> {
           customDriverList.add(s);
         });
       } else if (s.name.toString() == "Name.HELPER") {
+        helperFlag++;
         print("name: ${s.name.toString()}");
         helperSelectId= s.id.toString();
         print("helperSelectId is: $helperSelectId");
@@ -1163,6 +1176,7 @@ class _CarState extends State<Car> {
           customHelperList.add(s);
         });
       } else if (s.name.toString() == "Name.PASSENGER") {
+        passengerFlag++;
         print("name: ${s.name.toString()}");
         passengerSelectId= s.id.toString();
         print("passengerSelectId is: $passengerSelectId");

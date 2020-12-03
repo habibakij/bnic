@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 /// CREATED BY AK IJ
-/// 30-11-2020
+/// 03-12-2020
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,38 +9,37 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'commercialconformation.dart';
+import 'motocycleconformaion.dart';
 
-
-class CarInfoEntry extends StatefulWidget {
-  @override
-  _CarInfoEntryState createState() => _CarInfoEntryState();
-}
-
-class _CarInfoEntryState extends State<CarInfoEntry> {
+class MotorInformationEntry extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
 
       appBar: AppBar(
         backgroundColor: HexColor("#F9A825"),
-        title: Text("Motor Insurance Information Entry", style: TextStyle(fontSize: 14.0),),
+        title: Text(
+          "MotorCycle Information Entry",
+          style: TextStyle(
+            fontSize: 16.0,
+          ),
+        ),
       ),
 
-      body: EnterDetails(),
+      body: BikeDetails(),
     );
   }
 }
 
-class EnterDetails extends StatefulWidget {
+class BikeDetails extends StatefulWidget {
   @override
-  _EnterDetailsState createState() => _EnterDetailsState();
+  _BikeDetailsState createState() => _BikeDetailsState();
 }
 
-class _EnterDetailsState extends State<EnterDetails> {
+class _BikeDetailsState extends State<BikeDetails> {
   TextEditingController nameController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController mailingAddressController = TextEditingController();
@@ -66,6 +65,7 @@ class _EnterDetailsState extends State<EnterDetails> {
         textColor: Colors.white,
         fontSize: 12.0);
   }
+
 
   /// Get City list from JSON
   var getMailingCityListItem;
@@ -112,6 +112,7 @@ class _EnterDetailsState extends State<EnterDetails> {
     super.initState();
   }
 
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -127,7 +128,6 @@ class _EnterDetailsState extends State<EnterDetails> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget> [
 
-                /// Title information
                 Container(
                   height: 40.0,
                   width: 320.0,
@@ -379,7 +379,7 @@ class _EnterDetailsState extends State<EnterDetails> {
                                         });
                                       },
 
-                                      items: getCityList?.map<DropdownMenuItem<String>>((_item){
+                                      items:getCityList?.map<DropdownMenuItem<String>>((_item){
                                         return DropdownMenuItem(
                                           child: Text(_item['name'].toString(), style: TextStyle(fontSize: 12.0,),),
                                           value: _item['name'].toString(),
@@ -395,9 +395,7 @@ class _EnterDetailsState extends State<EnterDetails> {
                             ),
                           ),
                         ),
-
                       ]),
-
                     ],
                   ),
                 ),
@@ -512,26 +510,26 @@ class _EnterDetailsState extends State<EnterDetails> {
                       SizedBox(width: 10.0,),
 
                       Stack(
-                        children: <Widget> [
-                          Container(
-                            height: 40.0,
-                            width: 145.0,
-                            child: Row(
-                              children: <Widget>[
+                          children: <Widget> [
+                            Container(
+                              height: 40.0,
+                              width: 145.0,
+                              child: Row(
+                                children: <Widget>[
 
-                                Container(
-                                  width: 100.0,
-                                ),
+                                  Container(
+                                    width: 100.0,
+                                  ),
 
-                                Container(
-                                  width: 45.0,
-                                  color: Colors.amberAccent,
-                                ),
-                              ],
+                                  Container(
+                                    width: 45.0,
+                                    color: Colors.amberAccent,
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
 
-                          Positioned(
+                            Positioned(
                               child: Container(
                                 height: 40.0,
                                 child: Row(
@@ -560,25 +558,21 @@ class _EnterDetailsState extends State<EnterDetails> {
 
                                           items: getYearList?.map<DropdownMenuItem<String>>((_item){
                                             return DropdownMenuItem<String>(
-                                                child: Text(
-                                                  _item['year'].toString(),
-                                                  style: TextStyle(fontSize: 12.0),
-                                                ),
+                                              child: Text(
+                                                _item['year'].toString(),
+                                                style: TextStyle(fontSize: 12.0),
+                                              ),
                                               value: _item['year'].toString(),
                                             );
                                           })?.toList(),
                                         ),
                                       ),
                                     ),
-
                                   ],
                                 ),
                               ),
-                          ),
-
-                        ]
+                            ),]
                       ),
-
                     ],
                   ),
                 ),
@@ -775,30 +769,30 @@ class _EnterDetailsState extends State<EnterDetails> {
 
                 /// RaisingButton
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget> [
-                    Container(
-                      width: 150.0,
-                      child: RaisedButton(
-                        color: Colors.amber,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            side: BorderSide(color: Colors.red)
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget> [
+                      Container(
+                        width: 150.0,
+                        child: RaisedButton(
+                          color: Colors.amber,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              side: BorderSide(color: Colors.red)
+                          ),
+                          child: Text("Next", style: TextStyle(fontSize: 16.0, color: Colors.black),),
+                          onPressed: () {
+                            /*if(checkMailingAddress == false){
+                              mailingAddressController.text= addressController.text.toString();
+                              getMailingCityListItem= getCityListItem;
+                              print("mailingAddress is: ${mailingAddressController.text.toString()} "
+                                  "and mailingCity is: ${getMailingCityListItem.toString()}");
+                            }
+                            checkValidity();*/
+                          },
                         ),
-                        child: Text("Next", style: TextStyle(fontSize: 16.0, color: Colors.black),),
-                        onPressed: () {
-                          if(checkMailingAddress == false){
-                            mailingAddressController.text= addressController.text.toString();
-                            getMailingCityListItem= getCityListItem;
-                            print("mailingAddress is: ${mailingAddressController.text.toString()} "
-                                "and mailingCity is: ${getMailingCityListItem.toString()}");
-                          }
-                          checkValidity();
-                        },
                       ),
-                    ),
-                  ]
+                    ]
                 ),
               ],
             ),
@@ -809,23 +803,23 @@ class _EnterDetailsState extends State<EnterDetails> {
   }
 
   void saveDataSP() async {
-    /// MIIE = commercial Motor Insurance Information Entry
+    /// MCIE = MotorCycle Insurance Information Entry
     SharedPreferences preferences= await SharedPreferences.getInstance();
-    preferences.setString("MIIE_name", nameController.text.toString());
-    preferences.setString("MIIE_address", addressController.text.toString());
-    preferences.setString("MIIE_city", getCityListItem.toString());
-    preferences.setString("MIIE_city_id", getCityListId.toString());
-    preferences.setString("MIIE_mailing_address", mailingAddressController.text.toString());
-    preferences.setString("MIIE_mailing_city", getMailingCityListItem.toString());
-    preferences.setString("MIIE_mailing_city_id", getCityListId.toString());
-    preferences.setString("MIIE_mobile", mobileController.text.toString());
-    preferences.setString("MIIE_email", emailController.text.toString());
-    preferences.setString("MIIE_vehicles_brand", vehiclesBrandController.text.toString());
-    preferences.setString("MIIE_year", getYearListItem.toString());
-    preferences.setString("MIIE_registration_number", regNumberController.text.toString());
-    preferences.setString("MIIE_registration_date", formattedDate.toString());
-    preferences.setString("MIIE_engine_number", engineController.text.toString());
-    preferences.setString("MIIE_chassis_no", chassisController.text.toString());
+    preferences.setString("MCIE_name", nameController.text.toString());
+    preferences.setString("MCIE_address", addressController.text.toString());
+    preferences.setString("MCIE_city", getCityListItem.toString());
+    preferences.setString("MCIE_city_id", getCityListId.toString());
+    preferences.setString("MCIE_mailing_address", mailingAddressController.text.toString());
+    preferences.setString("MCIE_mailing_city", getMailingCityListItem.toString());
+    preferences.setString("MCIE_mailing_city_id", getCityListId.toString());
+    preferences.setString("MCIE_mobile", mobileController.text.toString());
+    preferences.setString("MCIE_email", emailController.text.toString());
+    preferences.setString("MCIE_vehicles_brand", vehiclesBrandController.text.toString());
+    preferences.setString("MCIE_year", getYearListItem.toString());
+    preferences.setString("MCIE_registration_number", regNumberController.text.toString());
+    preferences.setString("MCIE_registration_date", formattedDate.toString());
+    preferences.setString("MCIE_engine_number", engineController.text.toString());
+    preferences.setString("MCIE_chassis_no", chassisController.text.toString());
     preferences.commit();
   }
 
@@ -859,8 +853,8 @@ class _EnterDetailsState extends State<EnterDetails> {
     } else {
       saveDataSP();
       customToast("Data Saved successfully");
-      Navigator.push(context, MaterialPageRoute (builder: (context) => commercialConformation()));
+      Navigator.push(context, MaterialPageRoute (builder: (context) => MotorCycleConfirm()));
     }
   }
-
+  
 }

@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-import 'motorcycle/bike.dart';
+import 'motorcycle/motorcyl.dart';
 import 'commercial/car.dart';
 
 class MotorInsurance extends StatefulWidget {
@@ -112,7 +112,7 @@ class _MotorInsuranceState extends State<MotorInsurance> {
                     ],
                   ),
                   onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => Bike()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => MotorCycle()));
                   },
                 ),
               ),
