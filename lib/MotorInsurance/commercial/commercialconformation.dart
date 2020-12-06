@@ -1,3 +1,7 @@
+
+/// CREATED BY AK IJ
+/// 036-12-2020
+
 import 'dart:convert';
 
 import 'package:bnic/OverseasMedical/omihinfoentry.dart';
@@ -74,7 +78,6 @@ class _commercialConformationState extends State<commercialConformation> {
   String successUrl= 'https://securepay.sslcommerz.com/gw/apps/result.php';
   String failUrl= 'https://securepay.sslcommerz.com/gw/apps/result.php';
   String cancelUrl= 'https://securepay.sslcommerz.com/gw/apps/result.php';
-
   String paymentPostUrl= 'https://securepay.sslcommerz.com/gwprocess/v4/api.php';
   String paymentPageUrl;
 
@@ -975,9 +978,6 @@ class _commercialConformationState extends State<commercialConformation> {
 
   Future<String> postPaymentInformation() async {
     EasyLoading.show();
-    /*convertTaka= double.parse(getTotalCastFromSP);
-    print("convert: $convertTaka");
-    amount= convertTaka.toString();*/
     print(id);
     print(password);
     print(getTotalCastFromSP);
@@ -997,7 +997,7 @@ class _commercialConformationState extends State<commercialConformation> {
     await http.post(paymentPostUrl, body: {
       'store_id': id.toString(),
       'store_passwd': password.toString(),
-      'total_amount': amount.toString(),
+      'total_amount': getTotalCastFromSP.toString(),
       'tran_id': transactionId.toString(),
       'cus_name': getNameFromSP.toString(),
       'cus_email': getEmailFromSP.toString(),

@@ -2,6 +2,7 @@
 /// 16-11-2020
 
 import 'dart:convert';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
 
 import 'package:bnic/Network/omihmodel.dart';
@@ -26,8 +27,40 @@ class _OMIHState extends State<OMIH> {
   final DateTime currentDateTime = DateTime.now();
   String formattedDate;
   String currentDate;
-  int flagType=0, flagCategory=0, flagBirthDay=0, flagStayPeriod=0;
   String years;
+  var mediaQueryWidth;
+
+  /// Alert Dialog
+  void customDialog(BuildContext context, String msg){
+    showDialog(context: context,
+        builder: (context){
+          return Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10.0))
+            ),
+            child: Container(
+              height: 200.0,
+              width: 100.0,
+              child: Column(
+                children: <Widget> [
+                  SizedBox(height: 10.0,),
+                  Image.asset("assetimage/logo.png", color: HexColor("#F9A825"), height: 100.0,),
+                  SizedBox(height: 10.0,),
+                  Text(msg, style: TextStyle(fontSize: 14.0,),),
+                  SizedBox(height: 10.0,),
+                  RaisedButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0))
+                    ),
+                    color: HexColor("#F9A825"),
+                    onPressed: (){Navigator.pop(context);},
+                    child: Text("OK", style: TextStyle(color: Colors.white),),)
+                ],
+              ),
+            ),
+          );
+        });
+  }
 
   /// Type select area
   List typeList;
@@ -36,9 +69,11 @@ class _OMIHState extends State<OMIH> {
   var oldId= 1;
   String postTypeUrl = 'http://online.bnicl.net/api/insurance-sub-type/list';
   Future<String> postType() async {
+    EasyLoading.show();
     await http.post(postTypeUrl, body: {
       'type_id': '4',
     }).then((response) {
+      EasyLoading.dismiss();
       var decode = json.decode(response.body);
       setState(() {
         typeList = decode['list'];
@@ -53,6 +88,7 @@ class _OMIHState extends State<OMIH> {
   var getCategoryId;
   String postCategoryUrl = 'http://online.bnicl.net/api/insurance-category/list';
   Future<String> postCategory(var id) async {
+    EasyLoading.show();
     categoryList= new List();
     /*if(categoryList.isNotEmpty){
       categoryList.clear();
@@ -61,6 +97,7 @@ class _OMIHState extends State<OMIH> {
     await http.post(postCategoryUrl, body: {
       'sub_type_id': id,
     }).then((response) {
+      EasyLoading.dismiss();
       var decode = json.decode(response.body);
       setState(() {
         categoryList = decode['list'];
@@ -75,6 +112,7 @@ class _OMIHState extends State<OMIH> {
   var getStayPeriodId;
   String postStayPeriodUrl = 'http://online.bnicl.net/api/insurance-omp-charge/list';
   Future<String> postStayPeriod(var getTypeID, var getCategoryID) async {
+    EasyLoading.show();
     print("get_type_id: $getTypeID");
     print("get_category_id: $getCategoryID");
     await http.post(postStayPeriodUrl, body: {
@@ -82,6 +120,7 @@ class _OMIHState extends State<OMIH> {
       'sub_type_id': getTypeID,
       'category_id': getCategoryID,
     }).then((response) {
+      EasyLoading.dismiss();
       var decode = json.decode(response.body);
       setState(() {
         stayPeriodList = decode['list'];
@@ -98,6 +137,7 @@ class _OMIHState extends State<OMIH> {
   var birthDate;
   String postGetQuoteUrl = 'http://online.bnicl.net/api/omp/price-quote';
   Future<String> postGetQuote(var getTypeID, var getCategoryID, var max, var min, var date) async {
+    EasyLoading.show();
     print("get_type_id: $getTypeID");
     print("get_category_id: $getCategoryID");
     await http.post(postGetQuoteUrl, body: {
@@ -108,6 +148,7 @@ class _OMIHState extends State<OMIH> {
       'min_stay': min,
       'max_stay': max,
     }).then((response) {
+      EasyLoading.dismiss();
       var decode = json.decode(response.body);
       setState(() {
         netAmount = decode['net'];
@@ -124,71 +165,6 @@ class _OMIHState extends State<OMIH> {
       });
       print("Stay period area: $decode");
     });
-  }
-
-  /// invalid status
-  void statusInValidToast(){
-    Fluttertoast.showToast(
-        msg: message,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 12.0
-    );
-  }
-
-  /// invalid main Toast
-  void getQuoteInValidToast(){
-    Fluttertoast.showToast(
-        msg: "Select OMP Information",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 12.0
-    );
-  }
-
-  /// invalid category Toast
-  void categoryInValidToast(){
-    Fluttertoast.showToast(
-        msg: "Select Category",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 12.0
-    );
-  }
-
-  /// invalid date select Toast
-  void dateInValidToast(){
-    Fluttertoast.showToast(
-        msg: "Select Date",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 12.0
-    );
-  }
-
-  /// invalid stay period Toast
-  void stayPeriodInValidToast(){
-    Fluttertoast.showToast(
-        msg: "Select Stay Period",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 12.0
-    );
   }
 
   /// custom toast
@@ -213,6 +189,7 @@ class _OMIHState extends State<OMIH> {
 
   @override
   Widget build(BuildContext context) {
+    mediaQueryWidth= MediaQuery.of(context).size.width;
     currentDate= dateFormat.format(currentDateTime);
     print("Current Date: $currentDate");
     YYDialog.init(context);
@@ -235,6 +212,7 @@ class _OMIHState extends State<OMIH> {
             margin: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 10.0),
             elevation: 5.0,
             child: Container(
+              //width: ((mediaQueryWidth/10)*9),
               width: 320.0,
               color: HexColor("#f5f5f5"),
               padding: EdgeInsets.all(8.0),
@@ -298,7 +276,7 @@ class _OMIHState extends State<OMIH> {
                                     isExpanded: true,
                                     hint: Text("Select Type"),
                                     value: typeListItem,
-                                    icon: Icon(Icons.arrow_downward),
+                                    icon: Icon(Icons.keyboard_arrow_down),
                                     iconSize: 18,
                                     elevation: 16,
                                     style: TextStyle(color: Colors.black),
@@ -315,7 +293,6 @@ class _OMIHState extends State<OMIH> {
                                         child: new Text(_item['name'], style: TextStyle(fontSize: 12.0),),
                                         value: _item['name'].toString(),
                                         onTap: () {
-                                          flagType++;
                                           getTypeId = _item['id'].toString();
                                           print("type id: $getTypeId for select category.");
                                           postCategory(getTypeId);
@@ -373,7 +350,7 @@ class _OMIHState extends State<OMIH> {
                                   isExpanded: true,
                                   hint: Text("Select Category"),
                                   value: categoryListItem,
-                                  icon: Icon(Icons.arrow_downward),
+                                  icon: Icon(Icons.keyboard_arrow_down),
                                   iconSize: 18,
                                   elevation: 16,
                                   style: TextStyle(color: Colors.black),
@@ -388,7 +365,6 @@ class _OMIHState extends State<OMIH> {
                                       child: new Text(_item['name'], style: TextStyle(fontSize: 12.0),),
                                       value: _item['name'].toString(),
                                       onTap: () {
-                                        flagCategory++;
                                         getCategoryId = _item['id'].toString();
                                         print("category id: $getCategoryId for stay period.");
                                         postStayPeriod(getTypeId, getCategoryId);
@@ -440,60 +416,93 @@ class _OMIHState extends State<OMIH> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       /// Date Picker
-                      Container(
-                        height: 40.0,
-                        width: 145.0,
-                        alignment: Alignment.centerLeft,
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black26)),
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Container(
-                                height: 39.0,
-                                width: 40.0,
-                                child: RaisedButton(
-                                  color: Colors.amberAccent,
-                                  child: Icon(
-                                    Icons.calendar_today_outlined,
-                                    size: 15.0,
-                                  ),
-                                  onPressed: () {
-                                    showDatePicker(
-                                        context: context, initialDate: DateTime.now(),
-                                        firstDate: DateTime(2000), lastDate: DateTime(2222))
-                                        .then((date) {
-                                          formattedDate = dateFormat.format(date);
-                                          print("Formatted date is: $formattedDate");
-                                          setState(() {
-                                            flagBirthDay++;
-                                            String selectDateTimeYear= formattedDate.substring(6);
-                                            String todayDateTimeYear= currentDate.substring(6);
-                                            print("selected year $selectDateTimeYear and current year $todayDateTimeYear");
-                                            var selectYear= int.parse(selectDateTimeYear);
-                                            var currentYear= int.parse(todayDateTimeYear);
-                                            print("after converted selected year $selectYear and current year $currentYear");
-                                            var year= currentYear-selectYear;
-                                            print("calculated year: $year");
-                                            years= year.toString();
-                                            print("string converted year: $years");
+
+                      GestureDetector(
+
+                        child: Container(
+                          height: 40.0,
+                          width: 145.0,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+
+                                Container(
+                                  height: 39.0,
+                                  width: 40.0,
+                                  child: RaisedButton(
+                                    padding: EdgeInsets.all(0.0),
+                                    color: Colors.amberAccent,
+                                    child: Icon(
+                                      Icons.calendar_today_outlined,
+                                      size: 15.0,
+                                    ),
+                                    onPressed: () {
+                                      showDatePicker(
+                                          context: context,
+                                          initialDate: DateTime.now(),
+                                          firstDate: DateTime(2000),
+                                          lastDate: DateTime(2222)
+                                      ).then((date) {
+                                        formattedDate = dateFormat.format(date);
+                                        print("Formatted date is: $formattedDate");
+                                        setState(() {
+                                          String selectDateTimeYear= formattedDate.substring(6);
+                                          String todayDateTimeYear= currentDate.substring(6);
+                                          print("selected year $selectDateTimeYear and current year $todayDateTimeYear");
+                                          var selectYear= int.parse(selectDateTimeYear);
+                                          var currentYear= int.parse(todayDateTimeYear);
+                                          print("after converted selected year $selectYear and current year $currentYear");
+                                          var year= currentYear-selectYear;
+                                          print("calculated year: $year");
+                                          years= year.toString();
+                                          print("string converted year: $years");
+                                        });
                                       });
-                                    });
-                                  },
-                                ),
-                              ),
-                              Container(
-                                alignment: Alignment.center,
-                                padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                                child: Text(
-                                  formattedDate == null ? "Picked Date" : formattedDate.toString(),
-                                  style: TextStyle(
-                                    fontSize: 12.0,
+                                    },
                                   ),
                                 ),
-                              ),
-                            ]),
+                                Container(
+                                  alignment: Alignment.center,
+                                  padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                  child: Text(
+                                    formattedDate == null ? "Picked Date" : formattedDate.toString(),
+                                    style: TextStyle(
+                                      fontSize: 12.0,
+                                    ),
+                                  ),
+                                ),
+                              ]),
+
+                        ),
+
+                        onTap: (){
+                          showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(2000),
+                              lastDate: DateTime(2222)
+                          ).then((date) {
+                            formattedDate = dateFormat.format(date);
+                            print("Formatted date is: $formattedDate");
+                            setState(() {
+                              String selectDateTimeYear= formattedDate.substring(6);
+                              String todayDateTimeYear= currentDate.substring(6);
+                              print("selected year $selectDateTimeYear and current year $todayDateTimeYear");
+                              var selectYear= int.parse(selectDateTimeYear);
+                              var currentYear= int.parse(todayDateTimeYear);
+                              print("after converted selected year $selectYear and current year $currentYear");
+                              var year= currentYear-selectYear;
+                              print("calculated year: $year");
+                              years= year.toString();
+                              print("string converted year: $years");
+                            });
+                          });
+                        },
+
                       ),
 
                       SizedBox(width: 10.0,),
@@ -510,6 +519,7 @@ class _OMIHState extends State<OMIH> {
                             years == null ? "Select Date" : "$years years"
                         ),
                       ),
+
                     ],
                   ),
 
@@ -555,10 +565,10 @@ class _OMIHState extends State<OMIH> {
                                 child: DropdownButton<String>(
                                   isExpanded: true,
                                   hint: Text("Select Period"),
-                                  value: stayPeriodListItem,
-                                  icon: Icon(Icons.arrow_downward),
+                                  icon: Icon(Icons.keyboard_arrow_down),
                                   iconSize: 18,
                                   elevation: 16,
+                                  value: stayPeriodListItem,
                                   style: TextStyle(color: Colors.black),
                                   onChanged: (_newSelected) {
                                     setState(() {
@@ -571,7 +581,6 @@ class _OMIHState extends State<OMIH> {
                                       child: new Text(_item['stay'], style: TextStyle(fontSize: 12.0),),
                                       value: _item['stay'].toString(),
                                       onTap: (){
-                                        flagStayPeriod++;
                                         quoteMax= _item['max_stay'].toString();
                                         quoteMin= _item['min_stay'].toString();
                                         postGetQuote(getTypeId, getCategoryId, quoteMax, quoteMin, formattedDate);
@@ -596,7 +605,7 @@ class _OMIHState extends State<OMIH> {
                         Container(
                           width: 120.0,
                           child: RaisedButton(
-                            color: Colors.amberAccent,
+                            color: HexColor("#F9A825"),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                   side: BorderSide(color: Colors.red)
@@ -608,17 +617,17 @@ class _OMIHState extends State<OMIH> {
                               ),
                             ),
                             onPressed: () {
-                              if(flagType == 0){
-                                getQuoteInValidToast();
-                              } else if(flagCategory == 0) {
-                                categoryInValidToast();
-                              } else if(flagBirthDay == 0){
-                                dateInValidToast();
-                              } else if(flagStayPeriod == 0){
-                                stayPeriodInValidToast();
+                              if(typeListItem == null){
+                                customToast("Select OMP Information");
+                              } else if(categoryListItem == null) {
+                                customToast("Select Category");
+                              } else if(formattedDate == null){
+                                customToast("Select Date");
+                              } else if(stayPeriodListItem == null){
+                                customToast("Select Stay Period");
                               } else{
                                 if(status != 1){
-                                  statusInValidToast();
+                                  customDialog(context, message);
                                 } else {
                                   YYDialogDemo(context);
                                 }
@@ -650,6 +659,7 @@ class _OMIHState extends State<OMIH> {
   }
 
   YYDialog YYDialogDemo(BuildContext context) {
+    print("get quote data: $getTypeId, $getCategoryId, $quoteMax, $quoteMin, $formattedDate");
     return YYDialog().build(context)
       ..height = 300
       ..width = 250

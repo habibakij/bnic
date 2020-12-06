@@ -12,8 +12,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'motorinformationentry.dart';
+import 'motorinfoentry.dart';
 
 class MotorCycle extends StatefulWidget {
   @override
@@ -86,7 +87,6 @@ class _MotorCycleState extends State<MotorCycle> {
       print("Vehicles count: $listCount");
     });
   }
-
 
   /// Get Quote area
   List<int> passengerNo, passengerId;
@@ -199,6 +199,8 @@ class _MotorCycleState extends State<MotorCycle> {
                           ),
                           child: Text("Buy Insurance", style: TextStyle(fontSize: 16.0, color: Colors.black),),
                           onPressed: (){
+                            saveDataSP();
+                            customToast("data save successfully");
                             Navigator.pop(context);
                             Navigator.push(context, MaterialPageRoute(builder: (context) => MotorInformationEntry()));
                           },
@@ -316,7 +318,7 @@ class _MotorCycleState extends State<MotorCycle> {
                                     child: DropdownButton<String>(
                                       isExpanded: true,
                                       hint: Text("Plan Name"),
-                                      icon: Icon(Icons.arrow_downward),
+                                      icon: Icon(Icons.keyboard_arrow_down),
                                       value: planListItem,
                                       iconSize: 18,
                                       elevation: 16,
@@ -391,7 +393,7 @@ class _MotorCycleState extends State<MotorCycle> {
                                   child: DropdownButton<String>(
                                     isExpanded: true,
                                     hint: Text("Vehicle Type"),
-                                    icon: Icon(Icons.arrow_downward),
+                                    icon: Icon(Icons.keyboard_arrow_down),
                                     iconSize: 18,
                                     elevation: 16,
                                     value: vehiclesTypeListItem,
@@ -495,7 +497,7 @@ class _MotorCycleState extends State<MotorCycle> {
                                             child: DropdownButton<String>(
                                               isExpanded: true,
                                               hint: Text("Select Driver"),
-                                              icon: Icon(Icons.arrow_downward),
+                                              icon: Icon(Icons.keyboard_arrow_down),
                                               iconSize: 18,
                                               elevation: 16,
                                               style: TextStyle(color: Colors.black),
@@ -593,7 +595,7 @@ class _MotorCycleState extends State<MotorCycle> {
                                   child: DropdownButton<String>(
                                     isExpanded: true,
                                     hint: Text("Select Period"),
-                                    icon: Icon(Icons.arrow_downward),
+                                    icon: Icon(Icons.keyboard_arrow_down),
                                     iconSize: 18,
                                     elevation: 16,
                                     style: TextStyle(color: Colors.black),
@@ -658,51 +660,76 @@ class _MotorCycleState extends State<MotorCycle> {
                       width: 320.0,
                       child: Row(
                         children: <Widget> [
-                          Container(
-                            width: 145.0,
-                            decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Container(
-                                    height: 39.0,
-                                    width: 40.0,
-                                    child: RaisedButton(
-                                      color: Colors.amberAccent,
-                                      child: Icon(
-                                        Icons.calendar_today,
-                                        size: 15.0,
-                                      ),
-                                      onPressed: () {
-                                        showDatePicker(
-                                            context: context,
-                                            initialDate: DateTime.now(),
-                                            firstDate: DateTime.now(),
-                                            lastDate: DateTime(2225)
-                                        ).then((date) {
-                                          setState(() {
-                                            formattedDate = dateFormat.format(date);
-                                            print("Formatted date is: $formattedDate");
-                                            newDate = new DateTime(date.year+1, date.month, date.day);
-                                            newDateFormat= dateFormat.format(newDate);
-                                            print("new Date is: $newDate");
+
+                          GestureDetector(
+
+                            child: Container(
+                              width: 145.0,
+                              decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+
+                                    Container(
+                                      height: 39.0,
+                                      width: 40.0,
+                                      child: RaisedButton(
+                                        padding: EdgeInsets.all(0.0),
+                                        color: Colors.amberAccent,
+                                        child: Icon(
+                                          Icons.calendar_today,
+                                          size: 15.0,
+                                        ),
+                                        onPressed: () {
+                                          showDatePicker(
+                                              context: context,
+                                              initialDate: DateTime.now(),
+                                              firstDate: DateTime.now(),
+                                              lastDate: DateTime(2225)
+                                          ).then((date) {
+                                            setState(() {
+                                              formattedDate = dateFormat.format(date);
+                                              print("Formatted date is: $formattedDate");
+                                              newDate = new DateTime(date.year+1, date.month, date.day);
+                                              newDateFormat= dateFormat.format(newDate);
+                                              print("new Date is: $newDate");
+                                            });
                                           });
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                  Container(
-                                    alignment: Alignment.center,
-                                    padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                                    child: Text(
-                                      formattedDate == null ? "Picked Date" : formattedDate.toString(),
-                                      style: TextStyle(
-                                        fontSize: 12.0,
+                                        },
                                       ),
                                     ),
-                                  ),
-                                ]),
+
+                                    Container(
+                                      alignment: Alignment.center,
+                                      padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                      child: Text(
+                                        formattedDate == null ? "Picked Date" : formattedDate.toString(),
+                                        style: TextStyle(
+                                          fontSize: 12.0,
+                                        ),
+                                      ),
+                                    ),
+                                  ]
+                              ),
+                            ),
+
+                            onTap: (){
+                              showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime.now(),
+                                  lastDate: DateTime(2225)
+                              ).then((date) {
+                                setState(() {
+                                  formattedDate = dateFormat.format(date);
+                                  print("Formatted date is: $formattedDate");
+                                  newDate = new DateTime(date.year+1, date.month, date.day);
+                                  newDateFormat= dateFormat.format(newDate);
+                                  print("new Date is: $newDate");
+                                });
+                              });
+                            },
                           ),
 
                           SizedBox(width: 14.0,),
@@ -836,6 +863,19 @@ class _MotorCycleState extends State<MotorCycle> {
 
     getQuotePost(getPlanId, '1', '1', vehiclesTypeListId, passengerId.toString(),
         passengerNo.toString(), capacityController.text.toString());
+  }
+
+  void saveDataSP() async {
+    SharedPreferences preferences= await SharedPreferences.getInstance();
+    preferences.setString("M_plan_type", planListItem.toString());
+    preferences.setString("M_vehicles_type", vehiclesTypeListItem.toString());
+    preferences.setString("M_driver", driverSelectItem.toString());
+    preferences.setString("M_capacity", capacityController.text.toString());
+    preferences.setString("M_passenger", passengerSelectItem.toString());
+    preferences.setString("M_po_start_date", formattedDate.toString());
+    preferences.setString("M_po_end_date", newDateFormat.toString());
+    preferences.setString("M_total_cast", totalCast.toString());
+    preferences.commit();
   }
 
 }

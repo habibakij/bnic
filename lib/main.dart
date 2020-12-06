@@ -199,6 +199,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
 
       body: SingleChildScrollView(
+        padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
         scrollDirection: Axis.vertical,
         child: Column(
           children: <Widget>[

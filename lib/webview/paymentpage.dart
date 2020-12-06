@@ -46,15 +46,16 @@ class _PaymentPageState extends State<PaymentPage> {
             width: 70.0,
             child: Center(
               child: CountdownFormatted(
-                duration: Duration(minutes: 1),
+                duration: Duration(minutes: 5),
                 onFinish: (){
                   _done= true;
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
+                  Navigator.pop(context);
+                  //Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
                 },
                 builder: (BuildContext ctx, String remaining) {
                   return Text(
                     _done ? 'Finish' : "Remain time \n \t \t $remaining",
-                    style: TextStyle(fontSize: 12.0, color: Colors.red),
+                    style: TextStyle(fontSize: 12.0, color: Colors.white),
                   ); // 01:00:00
                 },
               ),

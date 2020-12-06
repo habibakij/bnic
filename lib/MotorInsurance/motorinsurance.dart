@@ -60,7 +60,7 @@ class _MotorInsuranceState extends State<MotorInsurance> {
                       Container(
                         height: 90.0,
                         width: 120.0,
-                        child: Image.asset("assetimage/car.png", color: Colors.amberAccent),
+                        child: Image.asset("assetimage/car.png", color: HexColor("#F9A825"),),
                       ),
                       SizedBox(height: 10.0,),
                       Container(
@@ -95,7 +95,7 @@ class _MotorInsuranceState extends State<MotorInsurance> {
                       Container(
                         height: 70.0,
                         width: 120.0,
-                        child: Image.asset("assetimage/bike.png", color: Colors.amberAccent),
+                        child: Image.asset("assetimage/bike.png", color: HexColor("#F9A825"),),
                       ),
                       SizedBox(height: 20.0,),
                       Container(

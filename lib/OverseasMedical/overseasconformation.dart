@@ -506,6 +506,7 @@ class _infoDetailsState extends State<infoDetails> {
                           height: 130.0,
                           width: 320.0,
                           child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget> [
 
                               SizedBox(
@@ -534,7 +535,7 @@ class _infoDetailsState extends State<infoDetails> {
                                       child: Text(
                                         privacyPolicyText,
                                         style: TextStyle(
-                                          fontSize: 12.0,
+                                          fontSize: 10.0,
                                         ),
                                       ),
                                     ),

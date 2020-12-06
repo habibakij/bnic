@@ -1,8 +1,8 @@
-import 'dart:convert';
 
 /// CREATED BY AK IJ
 /// 30-11-2020
 
+import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,7 +13,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 import 'commercialconformation.dart';
-
 
 class CarInfoEntry extends StatefulWidget {
   @override

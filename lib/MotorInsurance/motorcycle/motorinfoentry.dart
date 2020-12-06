@@ -1,8 +1,8 @@
-import 'dart:convert';
 
 /// CREATED BY AK IJ
 /// 03-12-2020
 
+import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -782,13 +782,13 @@ class _BikeDetailsState extends State<BikeDetails> {
                           ),
                           child: Text("Next", style: TextStyle(fontSize: 16.0, color: Colors.black),),
                           onPressed: () {
-                            /*if(checkMailingAddress == false){
+                            if(checkMailingAddress == false){
                               mailingAddressController.text= addressController.text.toString();
                               getMailingCityListItem= getCityListItem;
                               print("mailingAddress is: ${mailingAddressController.text.toString()} "
                                   "and mailingCity is: ${getMailingCityListItem.toString()}");
                             }
-                            checkValidity();*/
+                            checkValidity();
                           },
                         ),
                       ),

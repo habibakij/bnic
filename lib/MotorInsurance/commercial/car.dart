@@ -361,7 +361,7 @@ class _CarState extends State<Car> {
                                   child: DropdownButton<String>(
                                     isExpanded: true,
                                     hint: Text("Plan Name"),
-                                    icon: Icon(Icons.arrow_downward),
+                                    icon: Icon(Icons.keyboard_arrow_down),
                                     value: planListItem,
                                     iconSize: 18,
                                     elevation: 16,
@@ -441,7 +441,7 @@ class _CarState extends State<Car> {
                                   child: DropdownButton<String>(
                                     isExpanded: true,
                                     hint: Text("Sub Type"),
-                                    icon: Icon(Icons.arrow_downward),
+                                    icon: Icon(Icons.keyboard_arrow_down),
                                     iconSize: 18,
                                     elevation: 16,
                                     value: subTypeListItem,
@@ -522,7 +522,7 @@ class _CarState extends State<Car> {
                                   child: DropdownButton<String>(
                                     isExpanded: true,
                                     hint: Text("Vehicle Type"),
-                                    icon: Icon(Icons.arrow_downward),
+                                    icon: Icon(Icons.keyboard_arrow_down),
                                     iconSize: 18,
                                     elevation: 16,
                                     value: vehiclesTypeListItem,
@@ -668,7 +668,7 @@ class _CarState extends State<Car> {
                                             child: DropdownButton<String>(
                                               isExpanded: true,
                                               hint: Text("Select Driver"),
-                                              icon: Icon(Icons.arrow_downward),
+                                              icon: Icon(Icons.keyboard_arrow_down),
                                               iconSize: 18,
                                               elevation: 16,
                                               value: driverSelectItem,
@@ -765,7 +765,7 @@ class _CarState extends State<Car> {
                                   child: DropdownButton<String>(
                                     isExpanded: true,
                                     hint: Text("Helper"),
-                                    icon: Icon(Icons.arrow_downward),
+                                    icon: Icon(Icons.keyboard_arrow_down),
                                     iconSize: 18,
                                     elevation: 16,
                                     value: helperSelectItem,
@@ -926,7 +926,7 @@ class _CarState extends State<Car> {
                                   child: DropdownButton<String>(
                                     isExpanded: true,
                                     hint: Text("Passenger"),
-                                    icon: Icon(Icons.arrow_downward),
+                                    icon: Icon(Icons.keyboard_arrow_down),
                                     iconSize: 18,
                                     elevation: 16,
                                     value: passengerSelectItem,
@@ -993,50 +993,75 @@ class _CarState extends State<Car> {
                       child: Row(
                         children: <Widget>[
 
-                          Container(
-                            width: 145.0,
-                            decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Container(
-                                    height: 39.0,
-                                    width: 40.0,
-                                    child: RaisedButton(
-                                      color: Colors.amberAccent,
-                                      child: Icon(
-                                        Icons.calendar_today_outlined,
-                                        size: 15.0,
-                                      ),
-                                      onPressed: () {
-                                        showDatePicker(
-                                            context: context,
-                                            initialDate: DateTime.now(),
-                                            firstDate: DateTime.now(),
-                                            lastDate: DateTime(2222)
-                                        ).then((date) {
-                                          setState(() {
-                                            formattedDate = dateFormat.format(date);
-                                            print("Formatted date is: $formattedDate");
-                                            newDate = new DateTime(date.year + 1, date.month, date.day);
-                                            newDateFormat = dateFormat.format(newDate);
-                                            print("new Date is: $newDate");
+                          GestureDetector(
+
+                            child: Container(
+                              width: 145.0,
+                              decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+
+                                    Container(
+                                      height: 39.0,
+                                      width: 40.0,
+                                      child: RaisedButton(
+                                        padding: EdgeInsets.all(0.0),
+                                        color: Colors.amberAccent,
+                                        child: Icon(
+                                          Icons.calendar_today_outlined,
+                                          size: 15.0,
+                                        ),
+                                        onPressed: () {
+                                          showDatePicker(
+                                              context: context,
+                                              initialDate: DateTime.now(),
+                                              firstDate: DateTime.now(),
+                                              lastDate: DateTime(2222)
+                                          ).then((date) {
+                                            setState(() {
+                                              formattedDate = dateFormat.format(date);
+                                              print("Formatted date is: $formattedDate");
+                                              newDate = new DateTime(date.year + 1, date.month, date.day);
+                                              newDateFormat = dateFormat.format(newDate);
+                                              print("new Date is: $newDate");
+                                            });
                                           });
-                                        });
-                                      },
+                                        },
+                                      ),
                                     ),
-                                  ),
-                                  Container(
-                                    alignment: Alignment.center,
-                                    padding:
-                                    EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                                    child: Text(
-                                      formattedDate == null ? "Picked Date" : formattedDate.toString(),
-                                      style: TextStyle(fontSize: 12.0,),
+
+                                    Container(
+                                      alignment: Alignment.center,
+                                      padding:
+                                      EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
+                                      child: Text(
+                                        formattedDate == null ? "Picked Date" : formattedDate.toString(),
+                                        style: TextStyle(fontSize: 12.0,),
+                                      ),
                                     ),
-                                  ),
-                                ]),
+
+                                  ]
+                              ),
+                            ),
+
+                            onTap: (){
+                              showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime.now(),
+                                  lastDate: DateTime(2222)
+                              ).then((date) {
+                                setState(() {
+                                  formattedDate = dateFormat.format(date);
+                                  print("Formatted date is: $formattedDate");
+                                  newDate = new DateTime(date.year + 1, date.month, date.day);
+                                  newDateFormat = dateFormat.format(newDate);
+                                  print("new Date is: $newDate");
+                                });
+                              });
+                            },
                           ),
 
                           SizedBox(width: 14.0,),
@@ -1058,6 +1083,7 @@ class _CarState extends State<Car> {
                               ),
                             ),
                           ),
+
                         ],
                       ),
                     ),
