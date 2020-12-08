@@ -2,10 +2,10 @@
 /// 16-11-2020
 
 import 'dart:convert';
+import 'package:bnic/Network/categorymodel.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
 
-import 'package:bnic/Network/omihmodel.dart';
 import 'package:bnic/util/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,14 +15,14 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_custom_dialog/flutter_custom_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'omihinfoentry.dart';
+import 'overseasmedinfoentry.dart';
 
-class OMIH extends StatefulWidget {
+class OverseasMedical extends StatefulWidget {
   @override
-  _OMIHState createState() => _OMIHState();
+  _OverseasMedicalState createState() => _OverseasMedicalState();
 }
 
-class _OMIHState extends State<OMIH> {
+class _OverseasMedicalState extends State<OverseasMedical> {
   final DateFormat dateFormat = DateFormat('dd-MM-yyyy');
   final DateTime currentDateTime = DateTime.now();
   String formattedDate;
@@ -83,26 +83,26 @@ class _OMIHState extends State<OMIH> {
   }
 
   /// Category select area
-  List categoryList;
+  List<ListElement> categoryList= new List();
+  var categoryList2;
   var categoryListItem;
   var getCategoryId;
   String postCategoryUrl = 'http://online.bnicl.net/api/insurance-category/list';
   Future<String> postCategory(var id) async {
+    categoryList.clear();
     EasyLoading.show();
-    categoryList= new List();
-    /*if(categoryList.isNotEmpty){
-      categoryList.clear();
-    }*/
     print("get_type_id: $id");
     await http.post(postCategoryUrl, body: {
       'sub_type_id': id,
     }).then((response) {
       EasyLoading.dismiss();
       var decode = json.decode(response.body);
+      CategoryModel.fromJson(decode);
+      CategoryModel categoryModel= CategoryModel.fromJson(decode);
       setState(() {
-        categoryList = decode['list'];
+        categoryList= categoryModel.list;
       });
-      print("Category area: $decode");
+      print("Category area: $categoryList length is: ${categoryList.length}");
     });
   }
 
@@ -187,9 +187,14 @@ class _OMIHState extends State<OMIH> {
     super.initState();
   }
 
+  double widthCard, widthDrop, widthDrop2;
   @override
   Widget build(BuildContext context) {
     mediaQueryWidth= MediaQuery.of(context).size.width;
+    widthCard= ((mediaQueryWidth/10)*9);
+    widthDrop= ((widthCard/10)*9);
+    widthDrop2= ((widthCard/10)*1);
+
     currentDate= dateFormat.format(currentDateTime);
     print("Current Date: $currentDate");
     YYDialog.init(context);
@@ -212,17 +217,17 @@ class _OMIHState extends State<OMIH> {
             margin: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 10.0),
             elevation: 5.0,
             child: Container(
-              //width: ((mediaQueryWidth/10)*9),
-              width: 320.0,
+              width: widthCard,
               color: HexColor("#f5f5f5"),
               padding: EdgeInsets.all(8.0),
+
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
 
                   Container(
                     height: 40.0,
-                    width: 320.0,
+                    width: widthCard,
                     alignment: Alignment.centerLeft,
                     padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                     decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
@@ -240,24 +245,25 @@ class _OMIHState extends State<OMIH> {
                   /// select type spinner(dropdown list)
                   Container(
                     height: 40.0,
-                    width: 320.0,
+                    width: widthCard,
                     alignment: Alignment.centerLeft,
-                    padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                    decoration:
-                        BoxDecoration(border: Border.all(color: Colors.black26)),
+                    decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+
                     child: Stack(
                       children: <Widget>[
 
                         Container(
                           height: 40.0,
-                          width: 297.0,
+                          width: widthCard,
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
                               Container(
-                                width: 260.0,
+                                width: (widthDrop),
+                                color: Colors.white,
                               ),
                               Container(
-                                width: 37.0,
+                                width: widthDrop2,
                                 color: Colors.amberAccent,
                               ),
                             ],
@@ -266,47 +272,54 @@ class _OMIHState extends State<OMIH> {
 
                         Positioned(
                           child: Container(
-                            child: Row(children: <Widget>[
-                              Container(
-                                width: 290.0,
-                                alignment: Alignment.centerRight,
+                            height: 40.0,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                    width: widthCard-18,
+                                    padding: EdgeInsets.fromLTRB(5.0, 0.0, 10.0, 0.0),
+                                    alignment: Alignment.centerRight,
 
-                                child: DropdownButtonHideUnderline(
-                                  child: DropdownButton<String>(
-                                    isExpanded: true,
-                                    hint: Text("Select Type"),
-                                    value: typeListItem,
-                                    icon: Icon(Icons.keyboard_arrow_down),
-                                    iconSize: 18,
-                                    elevation: 16,
-                                    style: TextStyle(color: Colors.black),
+                                    child: DropdownButtonHideUnderline(
+                                      child: DropdownButton<String>(
+                                        isExpanded: true,
+                                        hint: Text("Select Type"),
+                                        value: typeListItem,
+                                        icon: Icon(Icons.keyboard_arrow_down),
+                                        iconSize: 18,
+                                        elevation: 16,
+                                        style: TextStyle(color: Colors.black),
 
-                                    onChanged: (_newSelected) {
-                                      setState(() {
-                                        typeListItem = _newSelected;
-                                        postType();
-                                        print("type: $typeListItem");
-                                      });
-                                    },
-                                    items: typeList?.map<DropdownMenuItem<String>>((_item) {
-                                      return DropdownMenuItem<String>(
-                                        child: new Text(_item['name'], style: TextStyle(fontSize: 12.0),),
-                                        value: _item['name'].toString(),
-                                        onTap: () {
-                                          getTypeId = _item['id'].toString();
-                                          print("type id: $getTypeId for select category.");
-                                          postCategory(getTypeId);
-                                        },
-                                      );
-                                    })?.toList(),
+                                        onChanged: (_newSelected) {
+                                          setState(() {
+                                            typeListItem = _newSelected;
+                                            postType();
+                                            print("type: $typeListItem");
+                                          });
+                                          },
+                                        items: typeList?.map<DropdownMenuItem<String>>((_item) {
+                                          return DropdownMenuItem<String>(
+                                            child: new Text(_item['name'], style: TextStyle(fontSize: 12.0),),
+                                            value: _item['name'].toString(),
+                                            onTap: () {
+                                              getTypeId = _item['id'].toString();
+                                              print("type id: $getTypeId for select category.");
+                                              postCategory(getTypeId);
+                                              },
+                                          );
+                                        })?.toList(),
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                            ]),
+                                ]),
                           ),
                         ),
                       ],
                     ),
+
+
+
                   ),
 
                   SizedBox(height: 10.0,),
@@ -322,6 +335,7 @@ class _OMIHState extends State<OMIH> {
                     alignment: Alignment.centerLeft,
                     padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                     decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+
                     child: Stack(children: <Widget>[
 
                       Container(
@@ -331,6 +345,12 @@ class _OMIHState extends State<OMIH> {
                           children: <Widget>[
                             Container(
                               width: 260.0,
+                              child: Text(
+                                categoryListItem == null ? "Select Category" : categoryListItem,
+                                style: TextStyle(
+                                  fontSize: 12.0,
+                                ),
+                              ),
                             ),
                             Container(
                               width: 37.0,
@@ -348,8 +368,6 @@ class _OMIHState extends State<OMIH> {
                               child: DropdownButtonHideUnderline(
                                 child: DropdownButton<String>(
                                   isExpanded: true,
-                                  hint: Text("Select Category"),
-                                  value: categoryListItem,
                                   icon: Icon(Icons.keyboard_arrow_down),
                                   iconSize: 18,
                                   elevation: 16,
@@ -360,12 +378,12 @@ class _OMIHState extends State<OMIH> {
                                       print("category $categoryListItem");
                                     });
                                   },
-                                  items: categoryList?.map<DropdownMenuItem<String>>((_item) {
+                                  items:categoryList?.map((_item) {
                                     return DropdownMenuItem<String>(
-                                      child: new Text(_item['name'], style: TextStyle(fontSize: 12.0),),
-                                      value: _item['name'].toString(),
+                                      child: new Text(_item.name, style: TextStyle(fontSize: 12.0),),
+                                      value: _item.name.toString(),
                                       onTap: () {
-                                        getCategoryId = _item['id'].toString();
+                                        getCategoryId = _item.id.toString();
                                         print("category id: $getCategoryId for stay period.");
                                         postStayPeriod(getTypeId, getCategoryId);
                                       },
@@ -546,6 +564,12 @@ class _OMIHState extends State<OMIH> {
                           children: <Widget>[
                             Container(
                               width: 260.0,
+                              child: Text(
+                                stayPeriodListItem == null ? "Select Period" : stayPeriodListItem,
+                                style: TextStyle(
+                                  fontSize: 12.0,
+                                ),
+                              ),
                             ),
                             Container(
                               width: 37.0,
@@ -564,11 +588,9 @@ class _OMIHState extends State<OMIH> {
                               child: DropdownButtonHideUnderline(
                                 child: DropdownButton<String>(
                                   isExpanded: true,
-                                  hint: Text("Select Period"),
                                   icon: Icon(Icons.keyboard_arrow_down),
                                   iconSize: 18,
                                   elevation: 16,
-                                  value: stayPeriodListItem,
                                   style: TextStyle(color: Colors.black),
                                   onChanged: (_newSelected) {
                                     setState(() {
@@ -639,6 +661,7 @@ class _OMIHState extends State<OMIH> {
                   ),
                 ],
               ),
+
             ),
           ),
         ),
@@ -663,6 +686,7 @@ class _OMIHState extends State<OMIH> {
     return YYDialog().build(context)
       ..height = 300
       ..width = 250
+      ..barrierDismissible= false
       ..widget(
 
         Container(

@@ -375,6 +375,12 @@ class _MotorCycleState extends State<MotorCycle> {
                             children: <Widget>[
                               Container(
                                 width: 260.0,
+                                child: Text(
+                                  vehiclesTypeListItem == null ? "Vehicle Type" : vehiclesTypeListItem,
+                                  style: TextStyle(
+                                    fontSize: 12.0,
+                                  ),
+                                ),
                               ),
                               Container(
                                 width: 37.0,
@@ -392,11 +398,9 @@ class _MotorCycleState extends State<MotorCycle> {
                                 child: DropdownButtonHideUnderline(
                                   child: DropdownButton<String>(
                                     isExpanded: true,
-                                    hint: Text("Vehicle Type"),
                                     icon: Icon(Icons.keyboard_arrow_down),
                                     iconSize: 18,
                                     elevation: 16,
-                                    value: vehiclesTypeListItem,
                                     style: TextStyle(color: Colors.black),
                                     onChanged: (_newSelected) {
                                       setState(() {

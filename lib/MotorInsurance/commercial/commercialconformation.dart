@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import 'package:bnic/OverseasMedical/omihinfoentry.dart';
+import 'package:bnic/OverseasMedical/overseasmedinfoentry.dart';
 import 'package:bnic/OverseasMedical/overseasconformation.dart';
 import 'package:bnic/webview/paymentpage.dart';
 import 'package:bnic/webview/privacy.dart';

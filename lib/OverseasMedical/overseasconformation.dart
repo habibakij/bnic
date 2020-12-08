@@ -15,7 +15,7 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sslcommerz/sslcommerz.dart';
 import 'package:http/http.dart' as http;
-import 'omihinfoentry.dart';
+import 'overseasmedinfoentry.dart';
 
 // ignore: camel_case_types
 class overseasConformation extends StatefulWidget {

@@ -1,7 +1,7 @@
 /// created by AK IJ
 /// 12-11-2020
 
-import 'package:bnic/OverseasMedical/omih.dart';
+import 'package:bnic/OverseasMedical/overseasmedical.dart';
 import 'package:bnic/webview/about.dart';
 import 'package:bnic/webview/branchoffice.dart';
 import 'package:bnic/webview/claiminformation.dart';
@@ -281,7 +281,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ],
                     ),
                     onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => OMIH()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => OverseasMedical()));
                     },
                   ),
                 ),

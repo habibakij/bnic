@@ -2,6 +2,7 @@
 ///CREATED BY AK IJ
 ///25-11-2020
 
+import 'dart:async';
 import 'dart:io';
 import 'package:countdown_flutter/countdown_flutter.dart';
 import 'package:flutter/cupertino.dart';
@@ -20,6 +21,8 @@ class PaymentPage extends StatefulWidget {
 }
 
 class _PaymentPageState extends State<PaymentPage> {
+
+  Completer<WebViewController> _controller= new Completer<WebViewController>();
 
   var _done;
   @override
@@ -65,12 +68,18 @@ class _PaymentPageState extends State<PaymentPage> {
       ),
 
       body: SafeArea(
-        child: WebView(
-          initialUrl: (widget.paymentPageUrl),
-          javascriptMode: JavascriptMode.unrestricted,
-        ),
+          child: WebView(
+            initialUrl: widget.paymentPageUrl,
+            javascriptMode: JavascriptMode.unrestricted,
+            onWebViewCreated: (WebViewController webViewController) {
+              _controller.complete(webViewController);
+            },
+          ),
       ),
     );
   }
 
+
+
 }
+

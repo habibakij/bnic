@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,9 @@ class CompanyProfile extends StatefulWidget {
 }
 
 class _CompanyProfileState extends State<CompanyProfile> {
+
+  Completer<WebViewController> _controller = Completer<WebViewController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +29,10 @@ class _CompanyProfileState extends State<CompanyProfile> {
       body: SafeArea(
         child: WebView(
           initialUrl: ("https://bnicl.net/company-profile/"),
-          javascriptMode: JavascriptMode.unrestricted,
+          //javascriptMode: JavascriptMode.unrestricted,
+          onWebViewCreated: (WebViewController webViewController) {
+            _controller.complete(webViewController);
+          },
         ),
       ),
     );

@@ -109,13 +109,14 @@ class _CarState extends State<Car> {
 
   /// Facility area
   List facilityIdList= new List();
-  int length;
+  int length= 0;
   String status;
   int conStatus;
   String facilityListUrl = 'http://online.bnicl.net/api/insurance-facility/list';
-  List facilityPercentageList;
+  List facilityPercentageList= new List();
   String capacity;
   Future<String> getFacilityList(String planId, String vehiclesTypeId, String capacity) async {
+    EasyLoading.show();
     await http.post(facilityListUrl, body: {
       'plan_id': planId,
       'type_id': '1',
@@ -123,15 +124,24 @@ class _CarState extends State<Car> {
       'vehicle_type_id': vehiclesTypeId,
       'cc': capacity,
     }).then((response) {
+      EasyLoading.dismiss();
       var decode = json.decode(response.body);
-      print("responsed: " + response.body);
+      print("response: " + decode.toString());
       setState(() {
         facilityPercentageList = decode['list'];
-        length = facilityPercentageList.length;
         status = decode['status'].toString();
-        print("status: $status");
         conStatus = int.parse(status);
-        print("status after convert: $status");
+        //length = facilityPercentageList.length;
+        print("status: $status and length: $length");
+        print("status after convert status: $conStatus");
+
+        if(conStatus == 1) {
+          facilityListVisibility = true;
+        } else {
+          facilityListVisibility = false;
+          customToast("No data found.");
+          print("Data not found");
+        }
       });
       print("Facility area: $facilityPercentageList");
     });
@@ -460,6 +470,7 @@ class _CarState extends State<Car> {
                                         ),
                                         value: _item,
                                         onTap: () {
+                                          vehiclesTypeListItem= "Vehicle Type";
                                           subTypeFlag++;
                                           print("value is: $_item");
                                           int _index = subTypeList.indexOf(_item);
@@ -495,8 +506,8 @@ class _CarState extends State<Car> {
                       width: 320.0,
                       alignment: Alignment.centerLeft,
                       padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black26)),
+                      decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+
                       child: Stack(children: <Widget>[
                         Container(
                           height: 40.0,
@@ -505,6 +516,9 @@ class _CarState extends State<Car> {
                             children: <Widget>[
                               Container(
                                 width: 260.0,
+                                child: Text(
+                                    vehiclesTypeListItem == null ? "Vehicle Type" : vehiclesTypeListItem,
+                                ),
                               ),
                               Container(
                                 width: 37.0,
@@ -521,11 +535,9 @@ class _CarState extends State<Car> {
                                 child: DropdownButtonHideUnderline(
                                   child: DropdownButton<String>(
                                     isExpanded: true,
-                                    hint: Text("Vehicle Type"),
                                     icon: Icon(Icons.keyboard_arrow_down),
                                     iconSize: 18,
                                     elevation: 16,
-                                    value: vehiclesTypeListItem,
                                     style: TextStyle(color: Colors.black),
                                     onChanged: (_newSelected) {
                                       setState(() {
@@ -544,7 +556,6 @@ class _CarState extends State<Car> {
                                           vehiclesTypeId = _item.id.toString();
                                           print("vehicles Type Id: $vehiclesTypeId");
                                           vehiclesSeatList = _item.seat;
-                                          print("vehicles seat list: ${vehiclesSeatList[0].maxCapacity}");
                                           customList(vehiclesSeatList);
                                         },
                                       );
@@ -804,22 +815,17 @@ class _CarState extends State<Car> {
                             style: TextStyle(
                               fontSize: 12.0,
                               color: HexColor("#008577"),
-                            )),
+                            )
+                        ),
                         onPressed: () {
                           setState(() {
                             if (capacityController.text.isEmpty) {
                               customToast("Enter Capacity");
+                            } else if (vehiclesTypeId == null) {
+                              customToast("Select Vehicles");
                             } else {
-                              getFacilityList(planId, vehiclesTypeId,
-                                  capacityController.text);
-                              facilityListVisibility = true;
-                              if (conStatus == 1) {
-                                print("matcher: $planId , $vehiclesTypeId , ${capacityController.text}");
-                              } else {
-                                print(conStatus.runtimeType);
-                                print("matcher: $planId , $vehiclesTypeId , ${capacityController.text}");
-                                print("Data not found");
-                              }
+                              getFacilityList(planId, vehiclesTypeId, capacityController.text);
+                              print("matcher: $planId , $vehiclesTypeId , ${capacityController.text}");
                             }
                           });
                         },
@@ -832,7 +838,7 @@ class _CarState extends State<Car> {
                       child: Container(
                         height: 200.0,
                         child: ListView.builder(
-                            itemCount: length,
+                            itemCount: facilityPercentageList != null ? facilityPercentageList.length : 0,
                             itemBuilder: (BuildContext context, int index) {
                               return Container(
                                 width: 320.0,
