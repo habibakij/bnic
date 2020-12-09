@@ -17,14 +17,13 @@ import 'package:sslcommerz/sslcommerz.dart';
 import 'package:http/http.dart' as http;
 import 'overseasmedinfoentry.dart';
 
-// ignore: camel_case_types
-class overseasConformation extends StatefulWidget {
+class OverseasConformation extends StatefulWidget {
   @override
-  _overseasConformationState createState() => _overseasConformationState();
+  _OverseasConformationState createState() => _OverseasConformationState();
 }
 
 // ignore: camel_case_types
-class _overseasConformationState extends State<overseasConformation> {
+class _OverseasConformationState extends State<OverseasConformation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,19 +38,17 @@ class _overseasConformationState extends State<overseasConformation> {
         ),
       ),
 
-      body: infoDetails(),
+      body: InfoDetails(),
     );
   }
 }
 
-// ignore: camel_case_types
-class infoDetails extends StatefulWidget {
+class InfoDetails extends StatefulWidget {
   @override
-  _infoDetailsState createState() => _infoDetailsState();
+  _InfoDetailsState createState() => _InfoDetailsState();
 }
 
-// ignore: camel_case_types
-class _infoDetailsState extends State<infoDetails> {
+class _InfoDetailsState extends State<InfoDetails> {
 
   String privacyPolicyText= "I hereby declare that the details furnished above are true and correct to the best of my "
       "knowledge and belief and I undertake to inform you of any changes therein immediately."
@@ -98,30 +95,59 @@ class _infoDetailsState extends State<infoDetails> {
     );
   }
 
+  var mediaQueryWidth;
+  double mainContainerWidth, mainContainerWidthWP, stackFirstContainer, stackSecondContainer, containerHalfWidth, containerHalfWidthWP,
+      stackHalfContainer, stackHalfContainer1;
+  Orientation orientation;
+  double landStackContainer, landStackContainer1, landStackHalfContainer, landStackHalfContainer1;
+  double facilityContainer, facilityContainerWidth, privacyContainerWidth;
+
   @override
   Widget build(BuildContext context) {
+
+    mediaQueryWidth = MediaQuery.of(context).size.width;
+    mainContainerWidth = ((mediaQueryWidth / 100.0) * 90.0);
+    mainContainerWidthWP = mainContainerWidth - 18.0;
+
+    facilityContainer = (mainContainerWidthWP / 10);
+    facilityContainerWidth = (facilityContainer * 4);
+
+    stackFirstContainer = ((mainContainerWidthWP / 100.0) * 87.0);
+    stackSecondContainer = ((mainContainerWidthWP / 100.0) * 13.0);
+    containerHalfWidth = ((mainContainerWidthWP / 2) - 4);
+    containerHalfWidthWP = (containerHalfWidth - 2);
+
+    stackHalfContainer = ((containerHalfWidthWP / 100.0) * 75.00);
+    stackHalfContainer1 = ((containerHalfWidthWP / 100.0) * 25.00);
+
+    landStackHalfContainer = ((containerHalfWidthWP / 100.0) * 87.00);
+    landStackHalfContainer1 = ((containerHalfWidthWP / 100.0) * 13.00);
+
+    landStackContainer = ((mainContainerWidthWP / 100.0) * 93.0);
+    landStackContainer1 = ((mainContainerWidthWP / 100.0) * 07.0);
+    privacyContainerWidth = (facilityContainer * 9);
+    orientation = MediaQuery.of(context).orientation;
 
     return SingleChildScrollView(
       child: Center(
         child: Column(children: <Widget>[
-
           Card(
             margin: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 10.0),
             elevation: 10.0,
             child: Container(
+              width: mainContainerWidth,
               color: HexColor("#f5f5f5"),
-              width: 320.0,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
 
                   Container(
                     height: 40.0,
-                    width: 320.0,
+                    width: mainContainerWidth,
                     decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
                     child: Container(
                       height: 40.0,
-                      width: 320.0,
+                      width: mainContainerWidth,
                       color: HexColor("#75f9a825"),
                       alignment: Alignment.centerLeft,
                       padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
@@ -129,13 +155,15 @@ class _infoDetailsState extends State<infoDetails> {
                           style: TextStyle(
                             color: HexColor("#008577"),
                             fontSize: 16.0,
-                          )),
+                          )
+                      ),
                     ),
                   ),
 
                   SizedBox(height: 15.0,),
 
                   Container(
+                    width: mainContainerWidth,
                     padding: EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 20.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -147,11 +175,9 @@ class _infoDetailsState extends State<infoDetails> {
 
                         Container(
                           height: 40.0,
-                          width: 320.0,
                           padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                           alignment: Alignment.centerLeft,
-                          decoration:
-                          BoxDecoration(border: Border.all(color: Colors.black26)),
+                          decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
                           child: Text(
                             getNameFromSP == null ? "null" : getNameFromSP.toString(),
                             style: TextStyle(
@@ -168,7 +194,6 @@ class _infoDetailsState extends State<infoDetails> {
 
                         Container(
                           height: 40.0,
-                          width: 320.0,
                           padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                           alignment: Alignment.centerLeft,
                           decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
@@ -188,7 +213,6 @@ class _infoDetailsState extends State<infoDetails> {
 
                         Container(
                           height: 40.0,
-                          width: 320.0,
                           padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                           alignment: Alignment.centerLeft,
                           decoration:
@@ -204,14 +228,17 @@ class _infoDetailsState extends State<infoDetails> {
                         SizedBox(height: 10.0,),
 
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Container(
+                              width: containerHalfWidth,
                               child: Text("Mobile", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),),),
                             ),
-                            SizedBox(
-                              width: 120.0,
-                            ),
+
+                            SizedBox(width: 10.0,),
+
                             Container(
+                              width: containerHalfWidth,
                               child: Text("Birth Day", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),)),
                             ),
                           ],
@@ -221,17 +248,16 @@ class _infoDetailsState extends State<infoDetails> {
 
                         Container(
                           height: 40.0,
-                          width: 320.0,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Container(
                                 height: 40.0,
-                                width: 145.0,
+                                width: containerHalfWidth,
                                 alignment: Alignment.centerLeft,
                                 padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.black26)),
+                                decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+
                                 child: Text(
                                   getMobileFromSP == null ? "null" : getMobileFromSP.toString(),
                                   style: TextStyle(
@@ -239,16 +265,15 @@ class _infoDetailsState extends State<infoDetails> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
-                                width: 10.0,
-                              ),
+                              SizedBox(width: 10.0,),
+
                               Container(
                                 height: 40.0,
-                                width: 145.0,
+                                width: containerHalfWidth,
                                 alignment: Alignment.centerLeft,
                                 padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.black26)),
+                                decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+
                                 child: Text(
                                   getBirthDayFromSP == null ? "null" : getBirthDayFromSP.toString(),
                                   style: TextStyle(
@@ -268,11 +293,10 @@ class _infoDetailsState extends State<infoDetails> {
 
                         Container(
                           height: 40.0,
-                          width: 320.0,
                           padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                           alignment: Alignment.centerLeft,
-                          decoration:
-                          BoxDecoration(border: Border.all(color: Colors.black26)),
+                          decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+
                           child: Text(
                             getEmailFromSP == null ? "null" : getEmailFromSP.toString(),
                             style: TextStyle(
@@ -289,11 +313,10 @@ class _infoDetailsState extends State<infoDetails> {
 
                         Container(
                           height: 40.0,
-                          width: 320.0,
                           padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                           alignment: Alignment.centerLeft,
-                          decoration:
-                          BoxDecoration(border: Border.all(color: Colors.black26)),
+                          decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+
                           child: Text(
                             getPassportFromSP == null ? "null" : getPassportFromSP.toString(),
                             style: TextStyle(
@@ -310,11 +333,10 @@ class _infoDetailsState extends State<infoDetails> {
 
                         Container(
                           height: 40.0,
-                          width: 320.0,
                           padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                           alignment: Alignment.centerLeft,
-                          decoration:
-                          BoxDecoration(border: Border.all(color: Colors.black26)),
+                          decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+
                           child: Text(
                             getVisitedCountryFromSP == null ? "null" : getVisitedCountryFromSP.toString(),
                             style: TextStyle(
@@ -327,20 +349,24 @@ class _infoDetailsState extends State<infoDetails> {
 
                         Container(
                             height: 20.0,
-                            width: 320.0,
                             alignment: Alignment.center,
-                            child: Text("Category", style: TextStyle(color: HexColor("#008577"), fontSize: 12.0,))
+                            child: Text(
+                                "Category",
+                                style: TextStyle(
+                                  color: HexColor("#008577"),
+                                  fontSize: 12.0,
+                                )
+                            )
                         ),
 
                         SizedBox(height: 2.0,),
 
                         Container(
                           height: 40.0,
-                          width: 320.0,
                           padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                           alignment: Alignment.center,
-                          decoration:
-                          BoxDecoration(border: Border.all(color: Colors.black26)),
+                          decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+
                           child: Text(
                             getCategoryFromSP == null ? "null" : getCategoryFromSP.toString(),
                             style: TextStyle(
@@ -362,18 +388,18 @@ class _infoDetailsState extends State<infoDetails> {
             elevation: 10.0,
             child: Container(
               color: HexColor("#f5f5f5"),
-              width: 320.0,
+              width: mainContainerWidth,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget> [
 
                   Container(
                     height: 40.0,
-                    width: 320.0,
+                    width: mainContainerWidth,
                     decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
                     child: Container(
                       height: 40.0,
-                      width: 320.0,
+                      width: mainContainerWidth,
                       color: HexColor("#75f9a825"),
                       alignment: Alignment.centerLeft,
                       padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
@@ -401,7 +427,6 @@ class _infoDetailsState extends State<infoDetails> {
 
                         Container(
                           height: 40.0,
-                          width: 320.0,
                           padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                           alignment: Alignment.centerLeft,
                           decoration:
@@ -422,7 +447,6 @@ class _infoDetailsState extends State<infoDetails> {
 
                         Container(
                           height: 40.0,
-                          width: 320.0,
                           padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                           alignment: Alignment.centerLeft,
                           decoration:
@@ -443,7 +467,6 @@ class _infoDetailsState extends State<infoDetails> {
 
                         Container(
                           height: 40.0,
-                          width: 320.0,
                           padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                           alignment: Alignment.centerLeft,
                           decoration:
@@ -469,18 +492,18 @@ class _infoDetailsState extends State<infoDetails> {
             elevation: 10.0,
             child: Container(
               color: HexColor("#f5f5f5"),
-              width: 320.0,
+              width: mainContainerWidth,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget> [
 
                   Container(
                     height: 40.0,
-                    width: 320.0,
+                    width: mainContainerWidth,
                     decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
                     child: Container(
                       height: 40.0,
-                      width: 320.0,
+                      width: mainContainerWidth,
                       color: HexColor("#75f9a825"),
                       alignment: Alignment.centerLeft,
                       padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
@@ -503,8 +526,8 @@ class _infoDetailsState extends State<infoDetails> {
                         SizedBox(height: 10.0,),
 
                         Container(
-                          height: 130.0,
-                          width: 320.0,
+                          height: 150.0,
+                          width: mainContainerWidth,
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget> [
@@ -528,14 +551,14 @@ class _infoDetailsState extends State<infoDetails> {
                               SizedBox(width: 5.0,),
 
                               Container(
-                                width: 250.0,
+                                width: privacyContainerWidth,
                                 child: Column(
                                   children: <Widget> [
                                     Container(
                                       child: Text(
                                         privacyPolicyText,
                                         style: TextStyle(
-                                          fontSize: 10.0,
+                                          fontSize: 12.0,
                                         ),
                                       ),
                                     ),

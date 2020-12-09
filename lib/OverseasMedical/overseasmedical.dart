@@ -28,33 +28,40 @@ class _OverseasMedicalState extends State<OverseasMedical> {
   String formattedDate;
   String currentDate;
   String years;
-  var mediaQueryWidth;
 
   /// Alert Dialog
-  void customDialog(BuildContext context, String msg){
-    showDialog(context: context,
-        builder: (context){
+  void customDialog(BuildContext context, String msg) {
+    showDialog(
+        context: context,
+        builder: (context) {
           return Dialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10.0))
-            ),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10.0))),
             child: Container(
               height: 200.0,
               width: 100.0,
               child: Column(
-                children: <Widget> [
+                children: <Widget>[
                   SizedBox(height: 10.0,),
+
                   Image.asset("assetimage/logo.png", color: HexColor("#F9A825"), height: 100.0,),
+
                   SizedBox(height: 10.0,),
+
                   Text(msg, style: TextStyle(fontSize: 14.0,),),
+
                   SizedBox(height: 10.0,),
+
                   RaisedButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(5.0))
-                    ),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0))),
                     color: HexColor("#F9A825"),
-                    onPressed: (){Navigator.pop(context);},
-                    child: Text("OK", style: TextStyle(color: Colors.white),),)
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      "OK",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  )
                 ],
               ),
             ),
@@ -66,7 +73,7 @@ class _OverseasMedicalState extends State<OverseasMedical> {
   List typeList;
   var typeListItem;
   var getTypeId;
-  var oldId= 1;
+  var oldId = 1;
   String postTypeUrl = 'http://online.bnicl.net/api/insurance-sub-type/list';
   Future<String> postType() async {
     EasyLoading.show();
@@ -83,11 +90,12 @@ class _OverseasMedicalState extends State<OverseasMedical> {
   }
 
   /// Category select area
-  List<ListElement> categoryList= new List();
+  List<ListElement> categoryList = new List();
   var categoryList2;
   var categoryListItem;
   var getCategoryId;
-  String postCategoryUrl = 'http://online.bnicl.net/api/insurance-category/list';
+  String postCategoryUrl =
+      'http://online.bnicl.net/api/insurance-category/list';
   Future<String> postCategory(var id) async {
     categoryList.clear();
     EasyLoading.show();
@@ -98,9 +106,9 @@ class _OverseasMedicalState extends State<OverseasMedical> {
       EasyLoading.dismiss();
       var decode = json.decode(response.body);
       CategoryModel.fromJson(decode);
-      CategoryModel categoryModel= CategoryModel.fromJson(decode);
+      CategoryModel categoryModel = CategoryModel.fromJson(decode);
       setState(() {
-        categoryList= categoryModel.list;
+        categoryList = categoryModel.list;
       });
       print("Category area: $categoryList length is: ${categoryList.length}");
     });
@@ -110,7 +118,8 @@ class _OverseasMedicalState extends State<OverseasMedical> {
   var stayPeriodList;
   var stayPeriodListItem;
   var getStayPeriodId;
-  String postStayPeriodUrl = 'http://online.bnicl.net/api/insurance-omp-charge/list';
+  String postStayPeriodUrl =
+      'http://online.bnicl.net/api/insurance-omp-charge/list';
   Future<String> postStayPeriod(var getTypeID, var getCategoryID) async {
     EasyLoading.show();
     print("get_type_id: $getTypeID");
@@ -136,7 +145,8 @@ class _OverseasMedicalState extends State<OverseasMedical> {
   var quoteMax, quoteMin;
   var birthDate;
   String postGetQuoteUrl = 'http://online.bnicl.net/api/omp/price-quote';
-  Future<String> postGetQuote(var getTypeID, var getCategoryID, var max, var min, var date) async {
+  Future<String> postGetQuote(
+      var getTypeID, var getCategoryID, var max, var min, var date) async {
     EasyLoading.show();
     print("get_type_id: $getTypeID");
     print("get_category_id: $getCategoryID");
@@ -154,8 +164,8 @@ class _OverseasMedicalState extends State<OverseasMedical> {
         netAmount = decode['net'];
         vatAmount = decode['vat'];
         totalAmount = decode['total_cost'];
-        status= decode['status'];
-        message= decode['message'];
+        status = decode['status'];
+        message = decode['message'];
 
         print("net Amount is: $netAmount"
             "vat Amount is: $vatAmount"
@@ -168,7 +178,7 @@ class _OverseasMedicalState extends State<OverseasMedical> {
   }
 
   /// custom toast
-  void customToast(String msg){
+  void customToast(String msg) {
     Fluttertoast.showToast(
         msg: msg,
         toastLength: Toast.LENGTH_SHORT,
@@ -176,8 +186,7 @@ class _OverseasMedicalState extends State<OverseasMedical> {
         timeInSecForIosWeb: 1,
         backgroundColor: Colors.red,
         textColor: Colors.white,
-        fontSize: 12.0
-    );
+        fontSize: 12.0);
   }
 
   @override
@@ -187,19 +196,26 @@ class _OverseasMedicalState extends State<OverseasMedical> {
     super.initState();
   }
 
-  double mainContainerWidth, mainContainerWidthWP, stackFirstContainer, stackSecondContainer, dateContainerWidth;
+  var mediaQueryWidth;
+  double mainContainerWidth, mainContainerWidthWP, stackFirstContainer, stackSecondContainer, containerHalfWidth;
+  Orientation orientation;
+  double landStackContainer, landStackContainer1;
 
   @override
   Widget build(BuildContext context) {
-    mediaQueryWidth= MediaQuery.of(context).size.width;
-    mainContainerWidth= ((mediaQueryWidth/100.0)*90.0);
-    mainContainerWidthWP= mainContainerWidth - 18.0;
+    mediaQueryWidth = MediaQuery.of(context).size.width;
+    mainContainerWidth = ((mediaQueryWidth / 100.0) * 90.0);
+    mainContainerWidthWP = mainContainerWidth - 18.0;
 
-    stackFirstContainer= ((mainContainerWidthWP/100.0)*87.0);
-    stackSecondContainer= ((mainContainerWidthWP/100.0)*13.0);
-    dateContainerWidth= ((mainContainerWidthWP/2) - 4);
+    stackFirstContainer = ((mainContainerWidthWP / 100.0) * 87.0);
+    stackSecondContainer = ((mainContainerWidthWP / 100.0) * 13.0);
+    containerHalfWidth = ((mainContainerWidthWP / 2) - 4);
 
-    currentDate= dateFormat.format(currentDateTime);
+    landStackContainer = ((mainContainerWidthWP / 100.0) * 93.0);
+    landStackContainer1 = ((mainContainerWidthWP / 100.0) * 07.0);
+    orientation = MediaQuery.of(context).orientation;
+
+    currentDate = dateFormat.format(currentDateTime);
     print("Current Date: $currentDate");
     YYDialog.init(context);
     return Scaffold(
@@ -222,10 +238,8 @@ class _OverseasMedicalState extends State<OverseasMedical> {
             elevation: 5.0,
             child: Container(
               width: mainContainerWidth,
-              //color: Colors.deepPurple,
               color: HexColor("#f5f5f5"),
               padding: EdgeInsets.all(8.0),
-
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -233,13 +247,16 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                   Container(
                     height: 40.0,
                     width: mainContainerWidth,
-                    //color: Colors.white,
                     alignment: Alignment.centerLeft,
                     padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                     decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
 
-                    child: Text("Please Enter OMP Information", style: TextStyle(fontSize: 16.0, color: HexColor("#008577"),)),
-
+                    child: Text("Please Enter OMP Information",
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          color: HexColor("#008577"),
+                        )
+                    ),
                   ),
 
                   SizedBox(height: 10.0,),
@@ -258,34 +275,52 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                     child: Stack(
                       children: <Widget>[
 
-                        Container(
-                          height: 40.0,
-                          width: mainContainerWidthWP,
-                          child: Row(
-                            children: <Widget>[
-                              Container(
-                                width: (stackFirstContainer),
+                        Builder(builder: (context) {
+                          if (orientation.index == Orientation.landscape.index) {
+                            return Container(
+                              height: 40.0,
+                              width: mainContainerWidthWP,
+                              child: Row(
+                                children: <Widget>[
+                                  Container(
+                                    width: (landStackContainer),
+                                  ),
+                                  Container(
+                                    width: landStackContainer1,
+                                    color: Colors.amberAccent,
+                                  ),
+                                ],
                               ),
-                              Container(
-                                width: stackSecondContainer,
-                                color: Colors.amberAccent,
+                            );
+                          } else {
+                            return Container(
+                              height: 40.0,
+                              width: mainContainerWidthWP,
+                              child: Row(
+                                children: <Widget>[
+                                  Container(
+                                    width: (stackFirstContainer),
+                                  ),
+                                  Container(
+                                    width: stackSecondContainer,
+                                    color: Colors.amberAccent,
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                        ),
+                            );
+                          }
+                        }),
 
                         Positioned(
                           child: Container(
                             height: 40.0,
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
-
                                   Container(
                                     width: mainContainerWidthWP,
                                     padding: EdgeInsets.fromLTRB(5.0, 0.0, 10.0, 0.0),
                                     alignment: Alignment.centerRight,
-
                                     child: DropdownButtonHideUnderline(
                                       child: DropdownButton<String>(
                                         isExpanded: true,
@@ -295,31 +330,32 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                                         iconSize: 18,
                                         elevation: 16,
                                         style: TextStyle(color: Colors.black),
-
                                         onChanged: (_newSelected) {
                                           setState(() {
                                             typeListItem = _newSelected;
                                             postType();
                                             print("type: $typeListItem");
                                           });
-                                          },
+                                        },
                                         items: typeList?.map<DropdownMenuItem<String>>((_item) {
                                           return DropdownMenuItem<String>(
-                                            child: new Text(_item['name'], style: TextStyle(fontSize: 12.0),),
+                                            child: new Text(
+                                              _item['name'],
+                                              style: TextStyle(fontSize: 12.0),
+                                            ),
                                             value: _item['name'].toString(),
                                             onTap: () {
+                                              categoryListItem= "Select Category";
                                               getTypeId = _item['id'].toString();
                                               print("type id: $getTypeId for select category.");
                                               postCategory(getTypeId);
-                                              },
+                                            },
                                           );
                                         })?.toList(),
                                       ),
                                     ),
                                   ),
-
-                                ]
-                            ),
+                                ]),
                           ),
                         ),
                       ],
@@ -341,29 +377,55 @@ class _OverseasMedicalState extends State<OverseasMedical> {
 
                     child: Stack(children: <Widget>[
 
-                      Container(
-                        height: 40.0,
-                        width: mainContainerWidthWP,
-                        child: Row(
-                          children: <Widget>[
-
-                            Container(
-                              width: stackFirstContainer,
-                              padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                              child: Text(
-                                categoryListItem == null ? "Select Category" : categoryListItem,
-                                style: TextStyle(
-                                  fontSize: 12.0,
+                      Builder(builder: (context) {
+                        if (orientation.index == Orientation.landscape.index) {
+                          return Container(
+                            height: 40.0,
+                            width: mainContainerWidthWP,
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  width: landStackContainer,
+                                  padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                  child: Text(
+                                    categoryListItem == null ? "Select Category" : categoryListItem,
+                                    style: TextStyle(
+                                      fontSize: 12.0,
+                                    ),
+                                  ),
                                 ),
-                              ),
+                                Container(
+                                  width: landStackContainer1,
+                                  color: Colors.amberAccent,
+                                ),
+                              ],
                             ),
-                            Container(
-                              width: stackSecondContainer,
-                              color: Colors.amberAccent,
+                          );
+                        } else {
+                          return Container(
+                            height: 40.0,
+                            width: mainContainerWidthWP,
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  width: stackFirstContainer,
+                                  padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                  child: Text(
+                                    categoryListItem == null ? "Select Category" : categoryListItem,
+                                    style: TextStyle(
+                                      fontSize: 12.0,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  width: stackSecondContainer,
+                                  color: Colors.amberAccent,
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
+                          );
+                        }
+                      }),
 
                       Positioned(
                         child: Container(
@@ -388,9 +450,12 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                                           print("category $categoryListItem");
                                         });
                                       },
-                                      items:categoryList?.map((_item) {
+                                      items: categoryList?.map((_item) {
                                         return DropdownMenuItem<String>(
-                                          child: new Text(_item.name, style: TextStyle(fontSize: 12.0),),
+                                          child: new Text(
+                                            _item.name,
+                                            style: TextStyle(fontSize: 12.0),
+                                          ),
                                           value: _item.name.toString(),
                                           onTap: () {
                                             getCategoryId = _item.id.toString();
@@ -402,8 +467,7 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                                     ),
                                   ),
                                 ),
-                              ]
-                          ),
+                              ]),
                         ),
                       ),
                     ]),
@@ -416,25 +480,24 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Container(
-                        width: dateContainerWidth,
-                        child: Text(
-                          "Birth Date",
-                          style: TextStyle(
-                            fontSize: 12.0,
-                            color: HexColor("#008577"),
-                          ),
-                        )
+                          width: containerHalfWidth,
+                          child: Text(
+                            "Birth Date",
+                            style: TextStyle(
+                              fontSize: 12.0, color: HexColor("#008577"),
+                            ),
+                          )
                       ),
                       Container(
-                        padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
-                        width: dateContainerWidth,
-                        child: Text(
-                          "Age",
-                          style: TextStyle(
-                            fontSize: 12.0,
-                            color: HexColor("#008577"),
-                          ),
-                        )
+                          padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
+                          width: containerHalfWidth,
+                          child: Text(
+                            "Age",
+                            style: TextStyle(
+                              fontSize: 12.0,
+                              color: HexColor("#008577"),
+                            ),
+                          )
                       ),
                     ],
                   ),
@@ -448,16 +511,16 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                       /// Date Picker
 
                       GestureDetector(
+
                         child: Container(
                           height: 40.0,
-                          width: dateContainerWidth,
+                          width: containerHalfWidth,
                           alignment: Alignment.centerLeft,
                           decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
 
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
-
                                 Container(
                                   height: 39.0,
                                   width: 40.0,
@@ -470,23 +533,23 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                                     ),
                                     onPressed: () {
                                       showDatePicker(
-                                          context: context,
-                                          initialDate: DateTime.now(),
-                                          firstDate: DateTime(2000),
-                                          lastDate: DateTime(2222)
+                                              context: context,
+                                              initialDate: DateTime.now(),
+                                              firstDate: DateTime(2000),
+                                              lastDate: DateTime(2222)
                                       ).then((date) {
                                         formattedDate = dateFormat.format(date);
                                         print("Formatted date is: $formattedDate");
                                         setState(() {
-                                          String selectDateTimeYear= formattedDate.substring(6);
-                                          String todayDateTimeYear= currentDate.substring(6);
+                                          String selectDateTimeYear = formattedDate.substring(6);
+                                          String todayDateTimeYear = currentDate.substring(6);
                                           print("selected year $selectDateTimeYear and current year $todayDateTimeYear");
-                                          var selectYear= int.parse(selectDateTimeYear);
-                                          var currentYear= int.parse(todayDateTimeYear);
+                                          var selectYear = int.parse(selectDateTimeYear);
+                                          var currentYear = int.parse(todayDateTimeYear);
                                           print("after converted selected year $selectYear and current year $currentYear");
-                                          var year= currentYear-selectYear;
+                                          var year = currentYear - selectYear;
                                           print("calculated year: $year");
-                                          years= year.toString();
+                                          years = year.toString();
                                           print("string converted year: $years");
                                         });
                                       });
@@ -496,41 +559,38 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                                 Container(
                                   alignment: Alignment.center,
                                   padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                                  child: Text(
-                                    formattedDate == null ? "Picked Date" : formattedDate.toString(),
+
+                                  child: Text(formattedDate == null ? "Picked Date" : formattedDate.toString(),
                                     style: TextStyle(
                                       fontSize: 12.0,
                                     ),
                                   ),
                                 ),
                               ]),
-
                         ),
-
-                        onTap: (){
+                        onTap: () {
                           showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(2000),
-                              lastDate: DateTime(2222)
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(2000),
+                                  lastDate: DateTime(2222)
                           ).then((date) {
                             formattedDate = dateFormat.format(date);
                             print("Formatted date is: $formattedDate");
                             setState(() {
-                              String selectDateTimeYear= formattedDate.substring(6);
-                              String todayDateTimeYear= currentDate.substring(6);
+                              String selectDateTimeYear = formattedDate.substring(6);
+                              String todayDateTimeYear = currentDate.substring(6);
                               print("selected year $selectDateTimeYear and current year $todayDateTimeYear");
-                              var selectYear= int.parse(selectDateTimeYear);
-                              var currentYear= int.parse(todayDateTimeYear);
+                              var selectYear = int.parse(selectDateTimeYear);
+                              var currentYear = int.parse(todayDateTimeYear);
                               print("after converted selected year $selectYear and current year $currentYear");
-                              var year= currentYear-selectYear;
+                              var year = currentYear - selectYear;
                               print("calculated year: $year");
-                              years= year.toString();
+                              years = year.toString();
                               print("string converted year: $years");
                             });
                           });
                         },
-
                       ),
 
                       SizedBox(width: 10.0,),
@@ -538,15 +598,13 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                       /// Calculate year
                       Container(
                         height: 40.0,
-                        width: dateContainerWidth,
+                        width: containerHalfWidth,
                         alignment: Alignment.centerLeft,
                         decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
-                        padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
-                        child: Text(
-                            years == null ? "Select Date" : "$years years"
-                        ),
-                      ),
 
+                        padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
+                        child: Text(years == null ? "Select Date" : "$years years"),
+                      ),
                     ],
                   ),
 
@@ -561,34 +619,64 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                     height: 40.0,
                     width: mainContainerWidth,
                     alignment: Alignment.centerLeft,
-                    decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
-
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black26)),
                     child: Stack(children: <Widget>[
-
-                      Container(
-                        height: 40.0,
-                        width: mainContainerWidthWP,
-                        child: Row(
-                          children: <Widget>[
-
-                            Container(
-                              width: stackFirstContainer,
-                              padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                              child: Text(
-                                stayPeriodListItem == null ? "Select Period" : stayPeriodListItem,
-                                style: TextStyle(
-                                  fontSize: 12.0,
+                      Builder(builder: (context) {
+                        if (orientation.index == Orientation.landscape.index) {
+                          return Container(
+                            height: 40.0,
+                            width: mainContainerWidthWP,
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  width: landStackContainer,
+                                  padding:
+                                      EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                  child: Text(
+                                    stayPeriodListItem == null
+                                        ? "Select Period"
+                                        : stayPeriodListItem,
+                                    style: TextStyle(
+                                      fontSize: 12.0,
+                                    ),
+                                  ),
                                 ),
-                              ),
+                                Container(
+                                  width: landStackContainer1,
+                                  color: Colors.amberAccent,
+                                ),
+                              ],
                             ),
-                            Container(
-                              width: stackSecondContainer,
-                              color: Colors.amberAccent,
+                          );
+                        } else {
+                          return Container(
+                            height: 40.0,
+                            width: mainContainerWidthWP,
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  width: stackFirstContainer,
+                                  padding:
+                                      EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                  child: Text(
+                                    stayPeriodListItem == null
+                                        ? "Select Period"
+                                        : stayPeriodListItem,
+                                    style: TextStyle(
+                                      fontSize: 12.0,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  width: stackSecondContainer,
+                                  color: Colors.amberAccent,
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
-
+                          );
+                        }
+                      }),
                       Positioned(
                         child: Container(
                           child: Row(
@@ -596,7 +684,8 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                               children: <Widget>[
                                 Container(
                                   width: mainContainerWidthWP,
-                                  padding: EdgeInsets.fromLTRB(5.0, 0.0, 10.0, 0.0),
+                                  padding:
+                                      EdgeInsets.fromLTRB(5.0, 0.0, 10.0, 0.0),
                                   alignment: Alignment.centerRight,
                                   child: DropdownButtonHideUnderline(
                                     child: DropdownButton<String>(
@@ -608,25 +697,37 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                                       onChanged: (_newSelected) {
                                         setState(() {
                                           stayPeriodListItem = _newSelected;
-                                          print("Stay Period: $stayPeriodListItem");
+                                          print(
+                                              "Stay Period: $stayPeriodListItem");
                                         });
                                       },
-                                      items: stayPeriodList?.map<DropdownMenuItem<String>>((_item) {
+                                      items: stayPeriodList
+                                          ?.map<DropdownMenuItem<String>>(
+                                              (_item) {
                                         return DropdownMenuItem<String>(
-                                          child: new Text(_item['stay'], style: TextStyle(fontSize: 12.0),),
+                                          child: new Text(
+                                            _item['stay'],
+                                            style: TextStyle(fontSize: 12.0),
+                                          ),
                                           value: _item['stay'].toString(),
-                                          onTap: (){
-                                            quoteMax= _item['max_stay'].toString();
-                                            quoteMin= _item['min_stay'].toString();
-                                            postGetQuote(getTypeId, getCategoryId, quoteMax, quoteMin, formattedDate);
+                                          onTap: () {
+                                            quoteMax =
+                                                _item['max_stay'].toString();
+                                            quoteMin =
+                                                _item['min_stay'].toString();
+                                            postGetQuote(
+                                                getTypeId,
+                                                getCategoryId,
+                                                quoteMax,
+                                                quoteMin,
+                                                formattedDate);
                                           },
                                         );
                                       })?.toList(),
                                     ),
                                   ),
                                 ),
-                              ]
-                          ),
+                              ]),
                         ),
                       ),
                     ]),
@@ -639,37 +740,33 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Container(
-                          width: dateContainerWidth,
+                          width: containerHalfWidth,
                           child: RaisedButton(
-                            color: HexColor("#F9A825"),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  side: BorderSide(color: Colors.red)
+                              color: HexColor("#F9A825"),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0), side: BorderSide(color: Colors.red)),
+                              child: Text(
+                                "Get Quote",
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                ),
                               ),
-                            child: Text(
-                              "Get Quote",
-                              style: TextStyle(
-                                fontSize: 16.0,
-                              ),
-                            ),
-                            onPressed: () {
-                              if(typeListItem == null){
-                                customToast("Select OMP Information");
-                              } else if(categoryListItem == null) {
-                                customToast("Select Category");
-                              } else if(formattedDate == null){
-                                customToast("Select Date");
-                              } else if(stayPeriodListItem == null){
-                                customToast("Select Stay Period");
-                              } else{
-                                if(status != 1){
-                                  customDialog(context, message);
+                              onPressed: () {
+                                if (typeListItem == null) {
+                                  customToast("Select OMP Information");
+                                } else if (categoryListItem == null) {
+                                  customToast("Select Category");
+                                } else if (formattedDate == null) {
+                                  customToast("Select Date");
+                                } else if (stayPeriodListItem == null) {
+                                  customToast("Select Stay Period");
                                 } else {
-                                  YYDialogDemo(context);
+                                  if (status != 1) {
+                                    customDialog(context, message);
+                                  } else {
+                                    YYDialogDemo(context);
+                                  }
                                 }
-                              }
-                            }
-                          ),
+                              }),
                         ),
                       ]
                   ),
@@ -682,14 +779,14 @@ class _OverseasMedicalState extends State<OverseasMedical> {
     );
   }
 
-  saveDate() async{
-    SharedPreferences preferences= await SharedPreferences.getInstance();
+  saveDate() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString("type", typeListItem.toString());
     preferences.setString("categoryType", categoryListItem.toString());
     preferences.setString("stayPeriod", stayPeriodListItem.toString());
     preferences.setString("date", formattedDate.toString());
     preferences.setString("totalAmount", totalAmount.toString());
-    print("total amount passing :"+totalAmount.toString());
+    print("total amount passing :" + totalAmount.toString());
     preferences.commit();
     customToast("Date save successfully");
   }
@@ -699,15 +796,13 @@ class _OverseasMedicalState extends State<OverseasMedical> {
     return YYDialog().build(context)
       ..height = 300
       ..width = 250
-      ..barrierDismissible= false
+      ..barrierDismissible = false
       ..widget(
-
         Container(
           height: 300.0,
           width: 250.0,
           child: Column(
-            children: <Widget> [
-
+            children: <Widget>[
               Container(
                 height: 35.0,
                 width: 250.0,
@@ -721,15 +816,13 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                   ),
                 ),
               ),
-
               Padding(
                 padding: EdgeInsets.all(10.0),
                 child: Container(
                   height: 240.0,
                   width: 250.0,
                   child: Column(
-                    children: <Widget> [
-
+                    children: <Widget>[
                       Container(
                           height: 25.0,
                           width: 250.0,
@@ -737,15 +830,12 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                           child: Text(
                             "Premium Calculation",
                             style: TextStyle(fontSize: 12.0),
-                          )
-                      ),
-
+                          )),
                       Container(
                         height: 180.0,
                         width: 250.0,
                         child: Column(
-                          children: <Widget> [
-
+                          children: <Widget>[
                             Container(
                               width: 250.0,
                               height: 35.0,
@@ -769,12 +859,14 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                                 width: 250.0,
                                 alignment: Alignment.center,
                                 color: HexColor("#e6e6e6"),
-                                padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-
-                                child: Text("Total Amount", style: TextStyle(fontSize: 12.0),),
+                                padding:
+                                    EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                child: Text(
+                                  "Total Amount",
+                                  style: TextStyle(fontSize: 12.0),
+                                ),
                               ),
                             ),
-
                             Container(
                               height: 145.0,
                               width: 250.0,
@@ -787,16 +879,21 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                                         height: 40.0,
                                         color: HexColor("#e6e6e6"),
                                         alignment: Alignment.center,
-
-                                        child: Text("Net", style: TextStyle(fontSize: 12.0,),),
+                                        child: Text(
+                                          "Net",
+                                          style: TextStyle(
+                                            fontSize: 12.0,
+                                          ),
+                                        ),
                                       ),
-
                                       Container(
                                         height: 40.0,
                                         color: HexColor("#e6e6e6"),
                                         alignment: Alignment.center,
                                         child: Text(
-                                          netAmount == null ? "null" : netAmount.toString(),
+                                          netAmount == null
+                                              ? "null"
+                                              : netAmount.toString(),
                                           style: TextStyle(
                                             fontSize: 12.0,
                                           ),
@@ -804,22 +901,27 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                                       ),
                                     ],
                                   ),
-
                                   TableRow(
                                     children: [
                                       Container(
                                         height: 40.0,
                                         color: Colors.white,
                                         alignment: Alignment.center,
-                                        child: Text("Vat", style: TextStyle(fontSize: 12.0,),),
+                                        child: Text(
+                                          "Vat",
+                                          style: TextStyle(
+                                            fontSize: 12.0,
+                                          ),
+                                        ),
                                       ),
-
                                       Container(
                                         height: 40.0,
                                         color: Colors.white,
                                         alignment: Alignment.center,
                                         child: Text(
-                                          vatAmount == null ? "null" : vatAmount.toString(),
+                                          vatAmount == null
+                                              ? "null"
+                                              : vatAmount.toString(),
                                           style: TextStyle(
                                             fontSize: 12.0,
                                           ),
@@ -827,7 +929,6 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                                       ),
                                     ],
                                   ),
-
                                   TableRow(
                                     children: [
                                       Container(
@@ -841,13 +942,14 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                                           ),
                                         ),
                                       ),
-
                                       Container(
                                         height: 40.0,
                                         color: HexColor("#e6e6e6"),
                                         alignment: Alignment.center,
                                         child: Text(
-                                          totalAmount == null ? "null" : totalAmount.toString(),
+                                          totalAmount == null
+                                              ? "null"
+                                              : totalAmount.toString(),
                                           style: TextStyle(
                                             fontSize: 12.0,
                                           ),
@@ -858,38 +960,42 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                                 ],
                               ),
                             ),
-
                           ],
                         ),
                       ),
-
                       Container(
                         height: 35.0,
                         width: 250.0,
                         child: Row(
-                            children: [
-                              FlatButton(
-                                  shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),
-                                  color: Colors.amberAccent,
-                                  onPressed: (){
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text("Cancel")
-                              ),
-
-                              SizedBox(width: 20.0,),
-
-                              FlatButton(
-                                  shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),
-                                  color: Colors.amberAccent,
-                                  onPressed: (){
-                                    saveDate();
-                                    Navigator.pop(context);
-                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> OmihInfoEntry()));
-                                  },
-                                  child: Text("Buy Insurance")
-                              ),
-                            ],
+                          children: [
+                            FlatButton(
+                                shape: new RoundedRectangleBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(10.0)),
+                                color: Colors.amberAccent,
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text("Cancel")),
+                            SizedBox(
+                              width: 20.0,
+                            ),
+                            FlatButton(
+                                shape: new RoundedRectangleBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(10.0)),
+                                color: Colors.amberAccent,
+                                onPressed: () {
+                                  saveDate();
+                                  Navigator.pop(context);
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              OmihInfoEntry()));
+                                },
+                                child: Text("Buy Insurance")),
+                          ],
                         ),
                       ),
                     ],
@@ -899,9 +1005,7 @@ class _OverseasMedicalState extends State<OverseasMedical> {
             ],
           ),
         ),
-
       )
       ..show();
   }
 }
-

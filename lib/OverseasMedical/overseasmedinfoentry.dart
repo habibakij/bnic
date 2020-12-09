@@ -88,7 +88,6 @@ class _containerBodyState extends State<containerBody> {
   var categoryList= ["Select category", "Medical", "Non Medical"];
   var categoryListItem= "Select category";
 
-
   @override
   void initState() {
     // TODO: implement initState
@@ -96,14 +95,38 @@ class _containerBodyState extends State<containerBody> {
     getCityList();
   }
 
+  var mediaQueryWidth;
+  double mainContainerWidth, mainContainerWidthWP, stackFirstContainer, stackSecondContainer, containerHalfWidth, containerHalfWidthWP;
+  Orientation orientation;
+  double landStackContainer, landStackContainer1, landStackHalfContainer, landStackHalfContainer1, stackHalfContainer, stackHalfContainer1;
+
   @override
   Widget build(BuildContext context) {
+
+    mediaQueryWidth = MediaQuery.of(context).size.width;
+    mainContainerWidth = ((mediaQueryWidth / 100.0) * 90.0);
+    mainContainerWidthWP = mainContainerWidth - 18.0;
+
+    stackFirstContainer = ((mainContainerWidthWP / 100.0) * 87.0);
+    stackSecondContainer = ((mainContainerWidthWP / 100.0) * 13.0);
+    containerHalfWidth = ((mainContainerWidthWP / 2) - 4);
+    containerHalfWidthWP = (containerHalfWidth - 2);
+
+    landStackHalfContainer = ((containerHalfWidthWP / 100.0) * 87.00);
+    landStackHalfContainer1 = ((containerHalfWidthWP / 100.0) * 13.00);
+    stackHalfContainer = ((containerHalfWidthWP / 100.0) * 75.00);
+    stackHalfContainer1 = ((containerHalfWidthWP / 100.0) * 25.00);
+
+    landStackContainer = ((mainContainerWidthWP / 100.0) * 93.0);
+    landStackContainer1 = ((mainContainerWidthWP / 100.0) * 07.0);
+    orientation = MediaQuery.of(context).orientation;
+
     return SingleChildScrollView(
       child: Center(
         child: Card(
           margin: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 10.0),
           child: Container(
-            width: 320.0,
+            width: mainContainerWidth,
             padding: EdgeInsets.all(8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -111,14 +134,15 @@ class _containerBodyState extends State<containerBody> {
 
                 Container(
                   height: 40.0,
-                  width: 320.0,
+                  width: mainContainerWidth,
                   alignment: Alignment.centerLeft,
                   padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                   decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
                   child: Text("Personal Information",
                       style: TextStyle(
                         fontSize: 16.0,
-                      )),
+                      )
+                  ),
                 ),
 
                 SizedBox(height: 10.0,),
@@ -169,21 +193,41 @@ class _containerBodyState extends State<containerBody> {
 
                 Stack(children: <Widget>[
 
-                  Container(
-                    height: 40.0,
-                    width: 304.0,
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          width: 260.0,
+                  Builder(builder: (context) {
+                    if (orientation.index == Orientation.landscape.index) {
+                      return Container(
+                        height: 40.0,
+                        width: mainContainerWidthWP,
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                              width: (landStackContainer),
+                            ),
+                            Container(
+                              width: landStackContainer1,
+                              color: Colors.amberAccent,
+                            ),
+                          ],
                         ),
-                        Container(
-                          width: 44.0,
-                          color: Colors.amberAccent,
+                      );
+                    } else {
+                      return Container(
+                        height: 40.0,
+                        width: mainContainerWidthWP,
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                              width: (stackFirstContainer),
+                            ),
+                            Container(
+                              width: stackSecondContainer,
+                              color: Colors.amberAccent,
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
+                      );
+                    }
+                  }),
 
                   Positioned(
                     child: Container(
@@ -191,9 +235,10 @@ class _containerBodyState extends State<containerBody> {
                       child: Row(
                         children: <Widget> [
                           Container(
-                            width: 304.0,
-                            decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                            width: mainContainerWidthWP,
                             padding: EdgeInsets.fromLTRB(5.0, 0.0, 10.0, 0.0),
+                            alignment: Alignment.centerRight,
+                            decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
                             child: DropdownButtonHideUnderline(
                               child: DropdownButton(
                                 isExpanded: true,
@@ -279,112 +324,142 @@ class _containerBodyState extends State<containerBody> {
                 SizedBox(height: 10.0,),
 
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Container(
-                        alignment: Alignment.centerLeft,
-                        width: 160.0,
+                        width: containerHalfWidth,
                         child: Text(
                           "Passport Number",
                           style: TextStyle(
                             fontSize: 12.0,
                             color: HexColor("#008577"),
                           ),
-                        )),
+                        )
+                    ),
                     Container(
-                        alignment: Alignment.centerLeft,
-                        width: 140.0,
+                        padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
+                        width: containerHalfWidth,
                         child: Text(
                           "Category",
                           style: TextStyle(
                             fontSize: 12.0,
                             color: HexColor("#008577"),
                           ),
-                        )),
+                        )
+                    ),
                   ],
                 ),
 
                 SizedBox(height: 2.0,),
 
-                Container(
-                  height: 40.0,
-                  width: 300.0,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget> [
-                      Container(
-                        width: 145.0,
-                        child: TextField(
-                          maxLines: 1,
-                          controller: passportController,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Passport Number',
-                          ),
-                          style: TextStyle(
-                            fontSize: 12.0,
-                          ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget> [
+                    Container(
+                      height: 40.0,
+                      width: containerHalfWidth,
+                      alignment: Alignment.centerLeft,
+
+                      child: TextField(
+                        maxLines: 1,
+                        controller: passportController,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Passport Number',
+                        ),
+                        style: TextStyle(
+                          fontSize: 12.0,
                         ),
                       ),
+                    ),
 
-                      SizedBox(width: 10.0,),
+                    SizedBox(width: 10.0,),
 
-                      Container(
-                        width: 145.0,
-                        child: Stack(children: <Widget> [
+                    Container(
+                      width: containerHalfWidth,
+                      alignment: Alignment.centerLeft,
+                      decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                      child: Stack(children: <Widget> [
 
-                          Container(
+                        Builder(builder: (context) {
+                          if (orientation.index == Orientation.landscape.index) {
+                            return Container(
+                              height: 40.0,
+                              width: containerHalfWidthWP,
+                              child: Row(
+                                children: <Widget>[
+                                  Container(
+                                    width: landStackHalfContainer,
+                                  ),
+                                  Container(
+                                    width: landStackHalfContainer1,
+                                    color: Colors.amberAccent,
+                                  ),
+                                ],
+                              ),
+                            );
+                          } else {
+                            return Container(
+                              height: 40.0,
+                              width: containerHalfWidthWP,
+                              child: Row(
+                                children: <Widget>[
+                                  Container(
+                                    width: stackHalfContainer,
+                                  ),
+                                  Container(
+                                    width: stackHalfContainer1,
+                                    color: Colors.amberAccent,
+                                  ),
+                                ],
+                              ),
+                            );
+                          }
+                        }),
+
+                        Positioned(
+                          child: Container(
+                            height: 40.0,
                             child: Row(
-                              children: <Widget>[
+                              children: <Widget> [
                                 Container(
-                                  width: 105.0,
-                                ),
-                                Container(
-                                  width: 40.0,
-                                  color: Colors.amberAccent,
+                                    width: containerHalfWidthWP,
+                                    padding: EdgeInsets.fromLTRB(5.0, 0.0, 10.0, 0.0),
+                                    alignment: Alignment.centerRight,
+                                    child: DropdownButtonHideUnderline(
+                                      child: DropdownButton(
+                                        isExpanded: true,
+                                        hint: Text("Select Category"),
+                                        icon: Icon(Icons.arrow_downward),
+                                        iconSize: 18,
+                                        elevation: 16,
+                                        style: TextStyle(color: Colors.black, fontSize: 12.0,),
+                                        value: categoryListItem,
+
+                                        onChanged: (_newItem){
+                                          setState(() {
+                                            categoryFlag++;
+                                            categoryListItem = _newItem;
+                                          });
+                                        },
+
+                                        items: categoryList?.map<DropdownMenuItem<String>>((_item){
+                                          return DropdownMenuItem(
+                                            child: Text(_item),
+                                            value: _item,
+                                          );
+                                        })?.toList(),
+
+                                      ),
+                                    ),
                                 ),
                               ],
                             ),
                           ),
-
-                          Positioned(
-                            child: Container(
-                              decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
-                              padding: EdgeInsets.fromLTRB(5.0, 0.0, 8.0, 0.0),
-                              child: DropdownButtonHideUnderline(
-                                child: DropdownButton(
-                                  isExpanded: true,
-                                  hint: Text("Select Category"),
-                                  icon: Icon(Icons.arrow_downward),
-                                  iconSize: 18,
-                                  elevation: 16,
-                                  style: TextStyle(color: Colors.black, fontSize: 12.0,),
-                                  value: categoryListItem,
-
-                                  onChanged: (_newItem){
-                                    setState(() {
-                                      categoryFlag++;
-                                      categoryListItem = _newItem;
-                                    });
-                                  },
-
-                                  items: categoryList?.map<DropdownMenuItem<String>>((_item){
-                                    return DropdownMenuItem(
-                                      child: Text(_item),
-                                      value: _item,
-                                    );
-                                  })?.toList(),
-
-                                ),
-                              ),
-                            ),
-
-                          ),
-
-                        ]),
-                      ),
-                    ],
-                  ),
+                        ),
+                      ]),
+                    ),
+                  ],
                 ),
 
                 SizedBox(height: 10.0,),
@@ -411,30 +486,24 @@ class _containerBodyState extends State<containerBody> {
                 SizedBox(height: 20.0,),
 
                 /// RaisedButton
-                Container(
-                  height: 40.0,
-                  width: 300.0,
-                  alignment: Alignment.center,
-
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget> [
-                      Container(
-                        width: 120.0,
-                        child: RaisedButton(
-                          color: Colors.amber,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            side: BorderSide(color: Colors.red)
-                          ),
-                          child: Text("Next", style: TextStyle(fontSize: 16.0, color: Colors.black),),
-                          onPressed: (){
-                            checkValidity();
-                          },
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget> [
+                    Container(
+                      width: containerHalfWidth,
+                      child: RaisedButton(
+                        color: Colors.amber,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          side: BorderSide(color: Colors.red)
                         ),
+                        child: Text("Next", style: TextStyle(fontSize: 16.0, color: Colors.black),),
+                        onPressed: (){
+                          checkValidity();
+                        },
                       ),
-                  ]),
-                ),
+                    ),
+                ]),
               ],
             ),
           ),
@@ -463,7 +532,7 @@ class _containerBodyState extends State<containerBody> {
     } else{
       saveDate();
       customToast("data saved successfully");
-      Navigator.push(context, MaterialPageRoute(builder: (context)=> overseasConformation()));
+      Navigator.push(context, MaterialPageRoute(builder: (context)=> OverseasConformation()));
     }
   }
 
