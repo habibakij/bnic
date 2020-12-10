@@ -231,8 +231,36 @@ class _MotorCycleState extends State<MotorCycle> {
     super.initState();
   }
 
+  var mediaQueryWidth;
+  double mainContainerWidth, mainContainerWidthWP, stackFirstContainer, stackSecondContainer, containerHalfWidth, containerHalfWidthWP,
+      stackHalfContainer, stackHalfContainer1;
+  Orientation orientation;
+  double landStackContainer, landStackContainer1, landStackHalfContainer, landStackHalfContainer1, facilityContainer, facilityContainerWidth;
+
   @override
   Widget build(BuildContext context) {
+    mediaQueryWidth = MediaQuery.of(context).size.width;
+    mainContainerWidth = ((mediaQueryWidth / 100.0) * 90.0);
+    mainContainerWidthWP = mainContainerWidth - 18.0;
+
+    facilityContainer = (mainContainerWidthWP / 10);
+    facilityContainerWidth = (facilityContainer * 4);
+
+    stackFirstContainer = ((mainContainerWidthWP / 100.0) * 87.0);
+    stackSecondContainer = ((mainContainerWidthWP / 100.0) * 13.0);
+    containerHalfWidth = ((mainContainerWidthWP / 2) - 4);
+    containerHalfWidthWP = (containerHalfWidth - 2);
+
+    stackHalfContainer = ((containerHalfWidthWP / 100.0) * 75.00);
+    stackHalfContainer1 = ((containerHalfWidthWP / 100.0) * 25.00);
+
+    landStackHalfContainer = ((containerHalfWidthWP / 100.0) * 87.00);
+    landStackHalfContainer1 = ((containerHalfWidthWP / 100.0) * 13.00);
+
+    landStackContainer = ((mainContainerWidthWP / 100.0) * 93.0);
+    landStackContainer1 = ((mainContainerWidthWP / 100.0) * 07.0);
+    orientation = MediaQuery.of(context).orientation;
+
     return Scaffold(
 
       appBar: AppBar(
@@ -251,7 +279,7 @@ class _MotorCycleState extends State<MotorCycle> {
             child: Card(
               margin: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 10.0),
               child: Container(
-                width: 320.0,
+                width: mainContainerWidth,
                 padding: EdgeInsets.all(8.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -259,7 +287,7 @@ class _MotorCycleState extends State<MotorCycle> {
 
                     Container(
                       height: 40.0,
-                      width: 320.0,
+                      width: mainContainerWidth,
                       alignment: Alignment.centerLeft,
                       padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                       decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
@@ -283,37 +311,56 @@ class _MotorCycleState extends State<MotorCycle> {
                     /// select plan name spinner(dropdown list)
                     Container(
                       height: 40.0,
-                      width: 320.0,
+                      width: mainContainerWidth,
                       alignment: Alignment.centerLeft,
-                      padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                      decoration:
-                      BoxDecoration(border: Border.all(color: Colors.black26)),
+                      decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
                       child: Stack(
                         children: <Widget>[
 
-                          Container(
-                            height: 40.0,
-                            width: 297.0,
-                            child: Row(
-                              children: <Widget>[
-                                Container(
-                                  width: 260.0,
+                          Builder(builder: (context) {
+                            if (orientation.index == Orientation.landscape.index) {
+                              return Container(
+                                height: 40.0,
+                                width: mainContainerWidthWP,
+                                child: Row(
+                                  children: <Widget>[
+                                    Container(
+                                      width: (landStackContainer),
+                                    ),
+                                    Container(
+                                      width: landStackContainer1,
+                                      color: Colors.amberAccent,
+                                    ),
+                                  ],
                                 ),
-                                Container(
-                                  width: 37.0,
-                                  color: Colors.amberAccent,
+                              );
+                            } else {
+                              return Container(
+                                height: 40.0,
+                                width: mainContainerWidthWP,
+                                child: Row(
+                                  children: <Widget>[
+                                    Container(
+                                      width: (stackFirstContainer),
+                                    ),
+                                    Container(
+                                      width: stackSecondContainer,
+                                      color: Colors.amberAccent,
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          ),
+                              );
+                            }
+                          }),
 
                           Positioned(
                             child: Container(
+                              height: 40.0,
                               child: Row(children: <Widget>[
                                 Container(
-                                  width: 290.0,
+                                  width: mainContainerWidthWP,
+                                  padding: EdgeInsets.fromLTRB(5.0, 0.0, 10.0, 0.0),
                                   alignment: Alignment.centerRight,
-
                                   child: DropdownButtonHideUnderline(
                                     child: DropdownButton<String>(
                                       isExpanded: true,
@@ -362,39 +409,70 @@ class _MotorCycleState extends State<MotorCycle> {
                     /// select Vehicle type spinner(dropdown list)
                     Container(
                       height: 40.0,
-                      width: 320.0,
+                      width: mainContainerWidth,
                       alignment: Alignment.centerLeft,
-                      padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                       decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
                       child: Stack(children: <Widget>[
 
-                        Container(
-                          height: 40.0,
-                          width: 297.0,
-                          child: Row(
-                            children: <Widget>[
-                              Container(
-                                width: 260.0,
-                                child: Text(
-                                  vehiclesTypeListItem == null ? "Vehicle Type" : vehiclesTypeListItem,
-                                  style: TextStyle(
-                                    fontSize: 12.0,
+
+                        Builder(builder: (context) {
+                          if (orientation.index == Orientation.landscape.index) {
+                            return Container(
+                              height: 40.0,
+                              width: mainContainerWidthWP,
+                              child: Row(
+                                children: <Widget>[
+                                  Container(
+                                    width: (landStackContainer),
+                                    padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                    child: Text(
+                                      vehiclesTypeListItem == null ? "Vehicle Type" : vehiclesTypeListItem,
+                                      style: TextStyle(
+                                        fontSize: 12.0,
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                  Container(
+                                    width: landStackContainer1,
+                                    color: Colors.amberAccent,
+                                  ),
+                                ],
                               ),
-                              Container(
-                                width: 37.0,
-                                color: Colors.amberAccent,
+                            );
+                          } else {
+                            return Container(
+                              height: 40.0,
+                              width: mainContainerWidthWP,
+                              child: Row(
+                                children: <Widget>[
+                                  Container(
+                                    width: (stackFirstContainer),
+                                    padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                    child: Text(
+                                      vehiclesTypeListItem == null ? "Vehicle Type" : vehiclesTypeListItem,
+                                      style: TextStyle(
+                                        fontSize: 12.0,
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    width: stackSecondContainer,
+                                    color: Colors.amberAccent,
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                        ),
+                            );
+                          }
+                        }),
 
                         Positioned(
                           child: Container(
+                            height: 40.0,
                             child: Row(children: <Widget>[
                               Container(
-                                width: 290.0,
+                                width: mainContainerWidthWP,
+                                padding: EdgeInsets.fromLTRB(5.0, 0.0, 10.0, 0.0),
+                                alignment: Alignment.centerRight,
                                 child: DropdownButtonHideUnderline(
                                   child: DropdownButton<String>(
                                     isExpanded: true,
@@ -434,127 +512,152 @@ class _MotorCycleState extends State<MotorCycle> {
 
                     /// Driver and Capacity(cc/ton) text in row
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Container(
                             alignment: Alignment.centerLeft,
-                            width: 160.0,
+                            width: containerHalfWidth,
                             child: Text(
                               "Driver",
                               style: TextStyle(
                                 fontSize: 12.0,
                                 color: HexColor("#008577"),
                               ),
-                            )),
+                            )
+                        ),
                         Container(
                             alignment: Alignment.centerLeft,
-                            width: 140.0,
+                            width: containerHalfWidth,
+                            padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
                             child: Text(
                               "Capacity(cc/ton)",
                               style: TextStyle(
                                 fontSize: 12.0,
                                 color: HexColor("#008577"),
                               ),
-                            )),
+                            )
+                        ),
                       ],
                     ),
 
                     SizedBox(height: 2.0,),
 
                     /// Driver and Capacity(cc/ton) spinner in row
-                    Container(
-                      height: 40.0,
-                      width: 310.0,
-                      //color: Colors.deepPurple,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Container(
-                            width: 145.0,
-                            alignment: Alignment.centerLeft,
-                            decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
-                            child: Stack(
-                              children: <Widget> [
-                                Container(
-                                  width: 145.0,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+
+                        Container(
+                          height: 40.0,
+                          width: containerHalfWidth,
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+
+                          child: Stack(
+                            children: <Widget> [
+
+                              Builder(builder: (context) {
+                                if (orientation.index == Orientation.landscape.index) {
+                                  return Container(
+                                    height: 40.0,
+                                    width: containerHalfWidthWP,
+                                    child: Row(
+                                      children: <Widget>[
+                                        Container(
+                                          width: landStackHalfContainer,
+                                        ),
+                                        Container(
+                                          width: landStackHalfContainer1,
+                                          color: Colors.amberAccent,
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                } else {
+                                  return Container(
+                                    height: 40.0,
+                                    width: containerHalfWidthWP,
+                                    child: Row(
+                                      children: <Widget>[
+                                        Container(
+                                          width: stackHalfContainer,
+                                        ),
+                                        Container(
+                                          width: stackHalfContainer1,
+                                          color: Colors.amberAccent,
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }
+                              }),
+
+                              Positioned(
+                                child: Container(
+                                  height: 40.0,
                                   child: Row(
-                                    children: <Widget>[
+                                    children: <Widget> [
                                       Container(
-                                        width: 103.0,
-                                      ),
-                                      Container(
-                                        width: 40.0,
-                                        color: Colors.amberAccent,
+                                        width: containerHalfWidthWP,
+                                        padding: EdgeInsets.fromLTRB(5.0, 0.0, 10.0, 0.0),
+                                        alignment: Alignment.centerRight,
+                                        child: DropdownButtonHideUnderline(
+                                          child: DropdownButton<String>(
+                                            isExpanded: true,
+                                            hint: Text("Select Driver"),
+                                            icon: Icon(Icons.keyboard_arrow_down),
+                                            iconSize: 18,
+                                            elevation: 16,
+                                            style: TextStyle(color: Colors.black),
+                                            value: driverSelectItem,
+                                            onChanged: (_newSelected) {
+                                              setState(() {
+                                                driverSelectItem= _newSelected;
+                                              });
+                                            },
+                                            items: driverList?.map<DropdownMenuItem<String>>((_item){
+                                              return DropdownMenuItem<String>(
+                                                child: Text(
+                                                    _item.maxCapacity,
+                                                    style: TextStyle(fontSize: 12.0),
+                                                  ),
+                                                value: _item.maxCapacity,
+                                              );
+                                            })?.toList(),
+                                          ),
+                                        ),
                                       ),
                                     ],
                                   ),
                                 ),
+                              ),
 
-                                Positioned(
-                                  child: Container(
-                                    child: Row(
-                                      children: <Widget> [
-                                        Container(
-                                          width: 143.0,
-                                          padding: EdgeInsets.fromLTRB(5.0, 0.0, 10.0, 0.0),
-                                          child: DropdownButtonHideUnderline(
-                                            child: DropdownButton<String>(
-                                              isExpanded: true,
-                                              hint: Text("Select Driver"),
-                                              icon: Icon(Icons.keyboard_arrow_down),
-                                              iconSize: 18,
-                                              elevation: 16,
-                                              style: TextStyle(color: Colors.black),
-                                              value: driverSelectItem,
-                                              onChanged: (_newSelected) {
-                                                setState(() {
-                                                  driverSelectItem= _newSelected;
-                                                });
-                                              },
-                                              items: driverList?.map<DropdownMenuItem<String>>((_item){
-                                                return DropdownMenuItem<String>(
-                                                  child: Text(
-                                                      _item.maxCapacity,
-                                                      style: TextStyle(fontSize: 12.0),
-                                                    ),
-                                                  value: _item.maxCapacity,
-                                                );
-                                              })?.toList(),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
+                            ],
+                          ),
+                        ),
 
-                              ],
+                        SizedBox(width: 10.0,),
+
+                        Container(
+                          height: 40.0,
+                          width: containerHalfWidth,
+                          child: TextField(
+                            maxLines: 1,
+                            controller: capacityController,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.digitsOnly
+                            ],
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'capacity',
+                            ),
+                            style: TextStyle(
+                              fontSize: 12.0,
                             ),
                           ),
-
-                          SizedBox(width: 10.0,),
-
-                          Container(
-                            height: 40.0,
-                            width: 145.0,
-                            child: TextField(
-                              maxLines: 1,
-                              controller: capacityController,
-                              keyboardType: TextInputType.number,
-                              inputFormatters: <TextInputFormatter>[
-                                FilteringTextInputFormatter.digitsOnly
-                              ],
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: 'capacity',
-                              ),
-                              style: TextStyle(
-                                fontSize: 12.0,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
 
                     SizedBox(height: 10.0,),
@@ -566,34 +669,54 @@ class _MotorCycleState extends State<MotorCycle> {
                     /// select Passenger spinner(dropdown list)
                     Container(
                       height: 40.0,
-                      width: 320.0,
+                      width: mainContainerWidth,
                       alignment: Alignment.centerLeft,
-                      padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                       decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
-
                       child: Stack(children: <Widget>[
 
-                        Container(
-                          height: 40.0,
-                          width: 297.0,
-                          child: Row(
-                            children: <Widget>[
-                              Container(
-                                width: 260.0,
+                        Builder(builder: (context) {
+                          if (orientation.index == Orientation.landscape.index) {
+                            return Container(
+                              height: 40.0,
+                              width: mainContainerWidthWP,
+                              child: Row(
+                                children: <Widget>[
+                                  Container(
+                                    width: (landStackContainer),
+                                  ),
+                                  Container(
+                                    width: landStackContainer1,
+                                    color: Colors.amberAccent,
+                                  ),
+                                ],
                               ),
-                              Container(
-                                width: 37.0,
-                                color: Colors.amberAccent,
+                            );
+                          } else {
+                            return Container(
+                              height: 40.0,
+                              width: mainContainerWidthWP,
+                              child: Row(
+                                children: <Widget>[
+                                  Container(
+                                    width: (stackFirstContainer),
+                                  ),
+                                  Container(
+                                    width: stackSecondContainer,
+                                    color: Colors.amberAccent,
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                        ),
+                            );
+                          }
+                        }),
 
                         Positioned(
                           child: Container(
+                            height: 40.0,
                             child: Row(children: <Widget>[
                               Container(
-                                width: 290.0,
+                                width: mainContainerWidthWP,
+                                padding: EdgeInsets.fromLTRB(5.0, 0.0, 10.0, 0.0),
                                 alignment: Alignment.centerRight,
                                 child: DropdownButtonHideUnderline(
                                   child: DropdownButton<String>(
@@ -631,21 +754,23 @@ class _MotorCycleState extends State<MotorCycle> {
 
                     /// Date picker text in row
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Container(
                             alignment: Alignment.centerLeft,
-                            width: 160.0,
+                            width: containerHalfWidth,
                             child: Text(
                               "Policy Start Date",
                               style: TextStyle(
                                 fontSize: 12.0,
                                 color: HexColor("#008577"),
                               ),
-                            )),
+                            )
+                        ),
                         Container(
                             alignment: Alignment.centerLeft,
-                            width: 140.0,
+                            width: containerHalfWidth,
+                            padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
                             child: Text(
                               "Policy End Date",
                               style: TextStyle(
@@ -659,104 +784,103 @@ class _MotorCycleState extends State<MotorCycle> {
                     SizedBox(height: 2.0,),
 
                     /// Data picker start and end
-                    Container(
-                      height: 40.0,
-                      width: 320.0,
-                      child: Row(
-                        children: <Widget> [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget> [
 
-                          GestureDetector(
+                        GestureDetector(
 
-                            child: Container(
-                              width: 145.0,
-                              decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
-                              child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-
-                                    Container(
-                                      height: 39.0,
-                                      width: 40.0,
-                                      child: RaisedButton(
-                                        padding: EdgeInsets.all(0.0),
-                                        color: Colors.amberAccent,
-                                        child: Icon(
-                                          Icons.calendar_today,
-                                          size: 15.0,
-                                        ),
-                                        onPressed: () {
-                                          showDatePicker(
-                                              context: context,
-                                              initialDate: DateTime.now(),
-                                              firstDate: DateTime.now(),
-                                              lastDate: DateTime(2225)
-                                          ).then((date) {
-                                            setState(() {
-                                              formattedDate = dateFormat.format(date);
-                                              print("Formatted date is: $formattedDate");
-                                              newDate = new DateTime(date.year+1, date.month, date.day);
-                                              newDateFormat= dateFormat.format(newDate);
-                                              print("new Date is: $newDate");
-                                            });
-                                          });
-                                        },
-                                      ),
-                                    ),
-
-                                    Container(
-                                      alignment: Alignment.center,
-                                      padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                                      child: Text(
-                                        formattedDate == null ? "Picked Date" : formattedDate.toString(),
-                                        style: TextStyle(
-                                          fontSize: 12.0,
-                                        ),
-                                      ),
-                                    ),
-                                  ]
-                              ),
-                            ),
-
-                            onTap: (){
-                              showDatePicker(
-                                  context: context,
-                                  initialDate: DateTime.now(),
-                                  firstDate: DateTime.now(),
-                                  lastDate: DateTime(2225)
-                              ).then((date) {
-                                setState(() {
-                                  formattedDate = dateFormat.format(date);
-                                  print("Formatted date is: $formattedDate");
-                                  newDate = new DateTime(date.year+1, date.month, date.day);
-                                  newDateFormat= dateFormat.format(newDate);
-                                  print("new Date is: $newDate");
-                                });
-                              });
-                            },
-                          ),
-
-                          SizedBox(width: 14.0,),
-
-                          Container(
+                          child: Container(
                             height: 40.0,
-                            width: 145.0,
+                            width: containerHalfWidth,
+                            alignment: Alignment.centerLeft,
                             decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
-                            child: Container(
-                              height: 40.0,
-                              width: 145.0,
-                              alignment: Alignment.center,
-                              color: HexColor("#f5f5f5"),
-                              child: Text(
-                                newDateFormat == null ? "Select Date" : newDateFormat,
-                                style: TextStyle(
-                                  fontSize: 12.0,
-                                ),
+                            child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+
+                                  Container(
+                                    height: 39.0,
+                                    width: 40.0,
+                                    child: RaisedButton(
+                                      padding: EdgeInsets.all(0.0),
+                                      color: Colors.amberAccent,
+                                      child: Icon(
+                                        Icons.calendar_today,
+                                        size: 15.0,
+                                      ),
+                                      onPressed: () {
+                                        showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime.now(),
+                                            lastDate: DateTime(2225)
+                                        ).then((date) {
+                                          setState(() {
+                                            formattedDate = dateFormat.format(date);
+                                            print("Formatted date is: $formattedDate");
+                                            newDate = new DateTime(date.year+1, date.month, date.day);
+                                            newDateFormat= dateFormat.format(newDate);
+                                            print("new Date is: $newDate");
+                                          });
+                                        });
+                                      },
+                                    ),
+                                  ),
+
+                                  Container(
+                                    alignment: Alignment.center,
+                                    padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                    child: Text(
+                                      formattedDate == null ? "Picked Date" : formattedDate.toString(),
+                                      style: TextStyle(
+                                        fontSize: 12.0,
+                                      ),
+                                    ),
+                                  ),
+                                ]
+                            ),
+                          ),
+
+                          onTap: (){
+                            showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime.now(),
+                                lastDate: DateTime(2225)
+                            ).then((date) {
+                              setState(() {
+                                formattedDate = dateFormat.format(date);
+                                print("Formatted date is: $formattedDate");
+                                newDate = new DateTime(date.year+1, date.month, date.day);
+                                newDateFormat= dateFormat.format(newDate);
+                                print("new Date is: $newDate");
+                              });
+                            });
+                          },
+                        ),
+
+                        SizedBox(width: 10.0,),
+
+                        Container(
+                          height: 40.0,
+                          width: containerHalfWidth,
+                          decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                          child: Container(
+                            height: 40.0,
+                            width: containerHalfWidthWP,
+                            alignment: Alignment.centerLeft,
+                            color: HexColor("#f5f5f5"),
+                            padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                            child: Text(
+                              newDateFormat == null ? "Select Date" : newDateFormat,
+                              style: TextStyle(
+                                fontSize: 12.0,
                               ),
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
 
                     SizedBox(height: 15.0,),
@@ -766,7 +890,7 @@ class _MotorCycleState extends State<MotorCycle> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Container(
-                            width: 120.0,
+                            width: containerHalfWidth,
                             child: RaisedButton(
                                 color: HexColor("#F9A825"),
                                 shape: RoundedRectangleBorder(

@@ -152,6 +152,7 @@ class _CarState extends State<Car> {
   }
 
   /// Get Quote area
+  int priceStatus;
   List<int> passengerNo, passengerId;
   List terrifList;
   String totalCast;
@@ -174,126 +175,134 @@ class _CarState extends State<Car> {
       var decode = json.decode(response.body);
       setState(() {
         EasyLoading.dismiss();
-        terrifList = decode['terrif'];
-        totalCast = decode['total_cost'];
-        trLength = terrifList.length == null ? 0 : terrifList.length;
+        priceStatus = decode['status'];
+        if(priceStatus == 0){
+          customToast("No Terrif Plan Available");
+        } else{
+          terrifList = decode['terrif'];
+          totalCast = decode['total_cost'];
 
-        if (trLength > 0) {
-          showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  title: Text(
-                    'Motor Insurance Quotation',
-                    style: TextStyle(fontSize: 14.0),
-                  ),
-                  contentPadding: EdgeInsets.fromLTRB(25.0, 10.0, 0.0, 0.0),
+          print("priceStatus is: $priceStatus and type is: ${priceStatus.runtimeType}");
+          trLength = terrifList.length == null ? 0 : terrifList.length;
 
-                  content: Container(
-                    height: 200.0,
-                    child: ListView.builder(
-                      itemCount: trLength,
-                      itemBuilder: (ctx, index) {
-                        return Container(
-                          child: Row(
-                            children: <Widget>[
-
-                              Container(
-                                height: 40.0,
-                                width: 110.0,
-                                alignment: Alignment.centerLeft,
-                                decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
-                                padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-
-                                child: Text(
-                                  terrifList[index]['title'].toString() == null ? "null" : terrifList[index]['title'].toString(),
-                                  style: TextStyle(
-                                    fontSize: 12.0,
-                                  ),
-                                ),
-                              ),
-
-                              SizedBox(width: 2.0,),
-
-                              Container(
-                                height: 40.0,
-                                width: 110.0,
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
-
-                                child: Text(
-                                  terrifList[index]['total_cost'].toString() == null ? "null" : terrifList[index]['total_cost'].toString(),
-                                  style: TextStyle(
-                                    fontSize: 12.0,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
+          if (trLength > 0) {
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text(
+                      'Motor Insurance Quotation',
+                      style: TextStyle(fontSize: 14.0),
                     ),
-                  ),
+                    contentPadding: EdgeInsets.fromLTRB(25.0, 10.0, 0.0, 0.0),
 
-                  actions: <Widget>[
+                    content: Container(
+                      height: 200.0,
+                      child: ListView.builder(
+                        itemCount: trLength,
+                        itemBuilder: (ctx, index) {
+                          return Container(
+                            child: Row(
+                              children: <Widget>[
 
-                    Container(
-                      width: 300.0,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
+                                Container(
+                                  height: 40.0,
+                                  width: 110.0,
+                                  alignment: Alignment.centerLeft,
+                                  decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                                  padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
 
-                          Container(
-                            width: 120.0,
-                            child: RaisedButton(
-                              color: Colors.amber,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  side: BorderSide(color: Colors.red)
-                              ),
-                              child: Text(
-                                "Go Back",
-                                style: TextStyle(
-                                    fontSize: 16.0, color: Colors.black),
-                              ),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
+                                  child: Text(
+                                    terrifList[index]['title'].toString() == null ? "null" : terrifList[index]['title'].toString(),
+                                    style: TextStyle(
+                                      fontSize: 12.0,
+                                    ),
+                                  ),
+                                ),
+
+                                SizedBox(width: 2.0,),
+
+                                Container(
+                                  height: 40.0,
+                                  width: 110.0,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+
+                                  child: Text(
+                                    terrifList[index]['total_cost'].toString() == null ? "null" : terrifList[index]['total_cost'].toString(),
+                                    style: TextStyle(
+                                      fontSize: 12.0,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-
-                          SizedBox(width: 5.0,),
-
-                          Container(
-                            width: 120.0,
-                            child: RaisedButton(
-                              color: Colors.amber,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  side: BorderSide(color: Colors.red)
-                              ),
-                              child: Text(
-                                "Buy Insurance",
-                                style: TextStyle(
-                                    fontSize: 16.0, color: Colors.black),
-                              ),
-                              onPressed: () {
-                                Navigator.pop(context);
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => CarInfoEntry()));
-                              },
-                            ),
-                          ),
-                        ],
+                          );
+                        },
                       ),
                     ),
-                  ],
-                );
-              });
-        } else {
-          EasyLoading.dismiss();
-          customToast("length null");
+
+                    actions: <Widget>[
+
+                      Container(
+                        width: 300.0,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+
+                            Container(
+                              width: 120.0,
+                              child: RaisedButton(
+                                color: Colors.amber,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    side: BorderSide(color: Colors.red)
+                                ),
+                                child: Text(
+                                  "Go Back",
+                                  style: TextStyle(
+                                      fontSize: 16.0, color: Colors.black),
+                                ),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ),
+
+                            SizedBox(width: 5.0,),
+
+                            Container(
+                              width: 120.0,
+                              child: RaisedButton(
+                                color: Colors.amber,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    side: BorderSide(color: Colors.red)
+                                ),
+                                child: Text(
+                                  "Buy Insurance",
+                                  style: TextStyle(
+                                      fontSize: 16.0, color: Colors.black),
+                                ),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => CarInfoEntry()));
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  );
+                });
+          } else {
+            EasyLoading.dismiss();
+            customToast("length null");
+          }
         }
+        
         print("trLength is: $trLength");
       });
       print("get Quote area: $terrifList and total cast: $totalCast");
@@ -311,8 +320,7 @@ class _CarState extends State<Car> {
   double mainContainerWidth, mainContainerWidthWP, stackFirstContainer, stackSecondContainer, containerHalfWidth, containerHalfWidthWP,
       stackHalfContainer, stackHalfContainer1;
   Orientation orientation;
-  double landStackContainer, landStackContainer1, landStackHalfContainer, landStackHalfContainer1;
-  double facilityContainer, facilityContainerWidth;
+  double landStackContainer, landStackContainer1, landStackHalfContainer, landStackHalfContainer1, facilityContainer, facilityContainerWidth;
 
   @override
   Widget build(BuildContext context) {
@@ -369,13 +377,14 @@ class _CarState extends State<Car> {
                       width: mainContainerWidth,
                       alignment: Alignment.centerLeft,
                       padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black26)),
+                      decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+
                       child: Text("Please Enter Vehicle Information",
                           style: TextStyle(
                             fontSize: 16.0,
                             color: HexColor("#008577"),
-                          )),
+                          )
+                      ),
                     ),
 
                     SizedBox(height: 10.0,),
@@ -389,12 +398,11 @@ class _CarState extends State<Car> {
                       height: 40.0,
                       width: mainContainerWidth,
                       alignment: Alignment.centerLeft,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black26)),
+                      decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
                       child: Stack(children: <Widget>[
+
                         Builder(builder: (context) {
-                          if (orientation.index ==
-                              Orientation.landscape.index) {
+                          if (orientation.index == Orientation.landscape.index) {
                             return Container(
                               height: 40.0,
                               width: mainContainerWidthWP,
@@ -428,14 +436,14 @@ class _CarState extends State<Car> {
                             );
                           }
                         }),
+
                         Positioned(
                           child: Container(
                             height: 40.0,
                             child: Row(children: <Widget>[
                               Container(
                                 width: mainContainerWidthWP,
-                                padding:
-                                    EdgeInsets.fromLTRB(5.0, 0.0, 10.0, 0.0),
+                                padding: EdgeInsets.fromLTRB(5.0, 0.0, 10.0, 0.0),
                                 alignment: Alignment.centerRight,
                                 child: DropdownButtonHideUnderline(
                                   child: DropdownButton<String>(
@@ -915,6 +923,13 @@ class _CarState extends State<Car> {
                                 children: <Widget>[
                                   Container(
                                     width: (landStackContainer),
+                                    padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                    child: Text(
+                                      helperSelectItem == null ? "Helper" : helperSelectItem,
+                                      style: TextStyle(
+                                          fontSize: 12.0
+                                      ),
+                                    ),
                                   ),
                                   Container(
                                     width: landStackContainer1,
@@ -931,6 +946,13 @@ class _CarState extends State<Car> {
                                 children: <Widget>[
                                   Container(
                                     width: (stackFirstContainer),
+                                    padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                    child: Text(
+                                      helperSelectItem == null ? "Helper" : helperSelectItem,
+                                      style: TextStyle(
+                                        fontSize: 12.0
+                                      ),
+                                    ),
                                   ),
                                   Container(
                                     width: stackSecondContainer,
@@ -953,11 +975,9 @@ class _CarState extends State<Car> {
                                 child: DropdownButtonHideUnderline(
                                   child: DropdownButton<String>(
                                     isExpanded: true,
-                                    hint: Text("Helper"),
                                     icon: Icon(Icons.keyboard_arrow_down),
                                     iconSize: 18,
                                     elevation: 16,
-                                    value: helperSelectItem,
                                     style: TextStyle(color: Colors.black),
                                     onChanged: (_newSelected) {
                                       setState(() {
@@ -1094,6 +1114,13 @@ class _CarState extends State<Car> {
                                 children: <Widget>[
                                   Container(
                                     width: (landStackContainer),
+                                    padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                    child: Text(
+                                      passengerSelectItem == null ? "Select Passenger" : passengerSelectItem,
+                                      style: TextStyle(
+                                          fontSize: 12.0
+                                      ),
+                                    ),
                                   ),
                                   Container(
                                     width: landStackContainer1,
@@ -1110,6 +1137,13 @@ class _CarState extends State<Car> {
                                 children: <Widget>[
                                   Container(
                                     width: (stackFirstContainer),
+                                    padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                    child: Text(
+                                      passengerSelectItem == null ? "Select Passenger" : passengerSelectItem,
+                                      style: TextStyle(
+                                          fontSize: 12.0
+                                      ),
+                                    ),
                                   ),
                                   Container(
                                     width: stackSecondContainer,
@@ -1132,11 +1166,9 @@ class _CarState extends State<Car> {
                                 child: DropdownButtonHideUnderline(
                                   child: DropdownButton<String>(
                                     isExpanded: true,
-                                    hint: Text("Passenger"),
                                     icon: Icon(Icons.keyboard_arrow_down),
                                     iconSize: 18,
                                     elevation: 16,
-                                    value: passengerSelectItem,
                                     style: TextStyle(color: Colors.black),
                                     onChanged: (_newSelected) {
                                       setState(() {
@@ -1374,16 +1406,8 @@ class _CarState extends State<Car> {
           "passengerNo: ${passengerNo.toString()}, cc: ${capacityController.text.toString()}, carPrice: "
           "${carPriceController.text.toString()}, facility: ${facilityIdList.toString()}");
 
-      getQuotePost(
-          planId,
-          _typeId,
-          _subTypeId,
-          vehiclesTypeId,
-          passengerId.toString(),
-          passengerNo.toString(),
-          capacityController.text.toString(),
-          carPriceController.text.toString(),
-          facilityIdList.toString());
+      getQuotePost(planId, _typeId, _subTypeId, vehiclesTypeId, passengerId.toString(), passengerNo.toString(),
+          capacityController.text.toString(), carPriceController.text.toString(), facilityIdList.toString());
     });
     saveDataSP();
   }

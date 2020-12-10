@@ -38,7 +38,7 @@ dependencies:
   shared_preferences: ^0.5.12+4
   flutter_easyloading: ^2.2.0
   countdown_flutter: ^0.1.2
-
+  data_connection_checker: ^0.3.4
 
 dev_dependencies:
   flutter_test:
@@ -64,6 +64,7 @@ flutter:
     - assetimage/logo.png
     - assetimage/car.png
     - assetimage/bike.png
+    - assetimage/notconnect.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -63,7 +63,6 @@ class _commercialConformationState extends State<commercialConformation> {
 
   double convertTaka;
 
-
   /// SSL Commerce area
   String status;
   String id= 'bnicllive';
@@ -99,8 +98,35 @@ class _commercialConformationState extends State<commercialConformation> {
     super.initState();
   }
 
+  var mediaQueryWidth;
+  double mainContainerWidth, mainContainerWidthWP, stackFirstContainer, stackSecondContainer, containerHalfWidth, containerHalfWidthWP, stackHalfContainer, stackHalfContainer1;
+  Orientation orientation;
+  double landStackContainer, landStackContainer1, landStackHalfContainer, landStackHalfContainer1, facilityContainer, facilityContainerWidth, privacyContainerWidth;
+
    @override
    Widget build(BuildContext context) {
+
+     mediaQueryWidth = MediaQuery.of(context).size.width;
+     mainContainerWidth = ((mediaQueryWidth / 100.0) * 90.0);
+     mainContainerWidthWP = mainContainerWidth - 18.0;
+
+     facilityContainer = (mainContainerWidthWP / 10);
+     facilityContainerWidth = (facilityContainer * 4);
+
+     stackFirstContainer = ((mainContainerWidthWP / 100.0) * 87.0);
+     stackSecondContainer = ((mainContainerWidthWP / 100.0) * 13.0);
+     containerHalfWidth = ((mainContainerWidthWP / 2) - 4);
+     containerHalfWidthWP = (containerHalfWidth - 2);
+
+     landStackHalfContainer = ((containerHalfWidthWP / 100.0) * 87.00);
+     landStackHalfContainer1 = ((containerHalfWidthWP / 100.0) * 13.00);
+     stackHalfContainer = ((containerHalfWidthWP / 100.0) * 75.00);
+     stackHalfContainer1 = ((containerHalfWidthWP / 100.0) * 25.00);
+
+     landStackContainer = ((mainContainerWidthWP / 100.0) * 93.0);
+     landStackContainer1 = ((mainContainerWidthWP / 100.0) * 07.0);
+     privacyContainerWidth = (facilityContainer * 9);
+     orientation = MediaQuery.of(context).orientation;
 
      return SingleChildScrollView(
        child: Center(
@@ -112,18 +138,18 @@ class _commercialConformationState extends State<commercialConformation> {
                elevation: 10.0,
                child: Container(
                  color: HexColor("#f5f5f5"),
-                 width: 320.0,
+                 width: mainContainerWidth,
                  child: Column(
                    crossAxisAlignment: CrossAxisAlignment.start,
                    children: <Widget> [
 
                      Container(
                        height: 40.0,
-                       width: 320.0,
+                       width: mainContainerWidth,
                        decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
                        child: Container(
                          height: 40.0,
-                         width: 320.0,
+                         width: mainContainerWidth,
                          color: HexColor("#75f9a825"),
                          alignment: Alignment.centerLeft,
                          padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
@@ -149,7 +175,6 @@ class _commercialConformationState extends State<commercialConformation> {
 
                            Container(
                              height: 40.0,
-                             width: 320.0,
                              padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                              alignment: Alignment.centerLeft,
                              decoration:
@@ -170,7 +195,6 @@ class _commercialConformationState extends State<commercialConformation> {
 
                            Container(
                              height: 40.0,
-                             width: 320.0,
                              padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                              alignment: Alignment.centerLeft,
                              decoration:
@@ -191,7 +215,6 @@ class _commercialConformationState extends State<commercialConformation> {
 
                            Container(
                              height: 40.0,
-                             width: 320.0,
                              padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                              alignment: Alignment.centerLeft,
                              decoration:
@@ -212,7 +235,6 @@ class _commercialConformationState extends State<commercialConformation> {
 
                            Container(
                              height: 40.0,
-                             width: 320.0,
                              padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                              alignment: Alignment.centerLeft,
                              decoration:
@@ -233,7 +255,6 @@ class _commercialConformationState extends State<commercialConformation> {
 
                            Container(
                              height: 40.0,
-                             width: 320.0,
                              padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                              alignment: Alignment.centerLeft,
                              decoration:
@@ -249,11 +270,11 @@ class _commercialConformationState extends State<commercialConformation> {
                            SizedBox(height: 15.0,),
 
                            Row(
+                             mainAxisAlignment: MainAxisAlignment.start,
                              children: <Widget>[
                                Container(
                                  height: 20.0,
-                                 width: 145.0,
-                                 padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                 width: containerHalfWidth,
                                  child: Text("Mobile", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),),),
                                ),
 
@@ -261,64 +282,57 @@ class _commercialConformationState extends State<commercialConformation> {
 
                                Container(
                                  height: 20.0,
-                                 width: 145.0,
-                                 padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                 width: containerHalfWidth,
                                  child: Text("Email", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),)),
                                ),
                              ],
                            ),
 
-                           //SizedBox(height: 5.0,),
+                           Row(
+                             mainAxisAlignment: MainAxisAlignment.start,
+                             children: <Widget>[
+                               Container(
+                                 height: 40.0,
+                                 width: containerHalfWidth,
+                                 alignment: Alignment.centerLeft,
+                                 padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                 decoration: BoxDecoration(
+                                     border: Border.all(color: Colors.black26)),
+                                 child: Text(
+                                   getMobileFromSP == null ? 'null' : getMobileFromSP.toString(),
+                                   style: TextStyle(
+                                     fontSize: 12.0,
+                                   ),
+                                 ),
+                               ),
 
-                           Container(
-                             height: 40.0,
-                             width: 320.0,
-                             child: Row(
-                               mainAxisAlignment: MainAxisAlignment.center,
-                               children: <Widget>[
-                                 Container(
-                                   height: 40.0,
-                                   width: 145.0,
-                                   alignment: Alignment.centerLeft,
-                                   padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                                   decoration: BoxDecoration(
-                                       border: Border.all(color: Colors.black26)),
-                                   child: Text(
-                                     getMobileFromSP == null ? 'null' : getMobileFromSP.toString(),
-                                     style: TextStyle(
-                                       fontSize: 12.0,
-                                     ),
+                               SizedBox(width: 10.0,),
+
+                               Container(
+                                 height: 40.0,
+                                 width: containerHalfWidth,
+                                 alignment: Alignment.centerLeft,
+                                 padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                 decoration: BoxDecoration(
+                                     border: Border.all(color: Colors.black26)),
+                                 child: Text(
+                                   getEmailFromSP == null ? 'null' : getEmailFromSP.toString(),
+                                   style: TextStyle(
+                                     fontSize: 12.0,
                                    ),
                                  ),
-                                 SizedBox(
-                                   width: 10.0,
-                                 ),
-                                 Container(
-                                   height: 40.0,
-                                   width: 145.0,
-                                   alignment: Alignment.centerLeft,
-                                   padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                                   decoration: BoxDecoration(
-                                       border: Border.all(color: Colors.black26)),
-                                   child: Text(
-                                     getEmailFromSP == null ? 'null' : getEmailFromSP.toString(),
-                                     style: TextStyle(
-                                       fontSize: 12.0,
-                                     ),
-                                   ),
-                                 ),
-                               ],
-                             ),
+                               ),
+                             ],
                            ),
 
                            SizedBox(height: 15.0,),
 
                            Row(
+                             mainAxisAlignment: MainAxisAlignment.start,
                              children: <Widget>[
                                Container(
                                  height: 20.0,
-                                 width: 145.0,
-                                 padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                 width: containerHalfWidth,
                                  child: Text("Vehicles Brand/Make", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),),),
                                ),
 
@@ -326,64 +340,57 @@ class _commercialConformationState extends State<commercialConformation> {
 
                                Container(
                                  height: 20.0,
-                                 width: 145.0,
-                                 padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                 width: containerHalfWidth,
                                  child: Text("Year of Manufacture", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),)),
                                ),
                              ],
                            ),
 
-                           //SizedBox(height: 5.0,),
+                           Row(
+                             mainAxisAlignment: MainAxisAlignment.start,
+                             children: <Widget>[
+                               Container(
+                                 height: 40.0,
+                                 width: containerHalfWidth,
+                                 alignment: Alignment.centerLeft,
+                                 padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                 decoration: BoxDecoration(
+                                     border: Border.all(color: Colors.black26)),
+                                 child: Text(
+                                   getBrandFromSP == null ? 'null' : getBrandFromSP.toString(),
+                                   style: TextStyle(
+                                     fontSize: 12.0,
+                                   ),
+                                 ),
+                               ),
 
-                           Container(
-                             height: 40.0,
-                             width: 320.0,
-                             child: Row(
-                               mainAxisAlignment: MainAxisAlignment.center,
-                               children: <Widget>[
-                                 Container(
-                                   height: 40.0,
-                                   width: 145.0,
-                                   alignment: Alignment.centerLeft,
-                                   padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                                   decoration: BoxDecoration(
-                                       border: Border.all(color: Colors.black26)),
-                                   child: Text(
-                                     getBrandFromSP == null ? 'null' : getBrandFromSP.toString(),
-                                     style: TextStyle(
-                                       fontSize: 12.0,
-                                     ),
+                               SizedBox(width: 10.0,),
+
+                               Container(
+                                 height: 40.0,
+                                 width: containerHalfWidth,
+                                 alignment: Alignment.centerLeft,
+                                 padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                 decoration: BoxDecoration(
+                                     border: Border.all(color: Colors.black26)),
+                                 child: Text(
+                                   getMenuYearFromSP == null ? 'null' : getMenuYearFromSP.toString(),
+                                   style: TextStyle(
+                                     fontSize: 12.0,
                                    ),
                                  ),
-                                 SizedBox(
-                                   width: 10.0,
-                                 ),
-                                 Container(
-                                   height: 40.0,
-                                   width: 145.0,
-                                   alignment: Alignment.centerLeft,
-                                   padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                                   decoration: BoxDecoration(
-                                       border: Border.all(color: Colors.black26)),
-                                   child: Text(
-                                     getMenuYearFromSP == null ? 'null' : getMenuYearFromSP.toString(),
-                                     style: TextStyle(
-                                       fontSize: 12.0,
-                                     ),
-                                   ),
-                                 ),
-                               ],
-                             ),
+                               ),
+                             ],
                            ),
 
                            SizedBox(height: 15.0,),
 
                            Row(
+                             mainAxisAlignment: MainAxisAlignment.start,
                              children: <Widget>[
                                Container(
                                  height: 20.0,
-                                 width: 145.0,
-                                 padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                 width: containerHalfWidth,
                                  child: Text("Registration Number", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),),),
                                ),
 
@@ -391,64 +398,57 @@ class _commercialConformationState extends State<commercialConformation> {
 
                                Container(
                                  height: 20.0,
-                                 width: 145.0,
-                                 padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                 width: containerHalfWidth,
                                  child: Text("Registration Date", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),)),
                                ),
                              ],
                            ),
 
-                           //SizedBox(height: 5.0,),
+                           Row(
+                             mainAxisAlignment: MainAxisAlignment.start,
+                             children: <Widget>[
+                               Container(
+                                 height: 40.0,
+                                 width: containerHalfWidth,
+                                 alignment: Alignment.centerLeft,
+                                 padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                 decoration: BoxDecoration(
+                                     border: Border.all(color: Colors.black26)),
+                                 child: Text(
+                                   getRegNumberFromSP == null ? 'null' : getRegNumberFromSP.toString(),
+                                   style: TextStyle(
+                                     fontSize: 12.0,
+                                   ),
+                                 ),
+                               ),
 
-                           Container(
-                             height: 40.0,
-                             width: 320.0,
-                             child: Row(
-                               mainAxisAlignment: MainAxisAlignment.center,
-                               children: <Widget>[
-                                 Container(
-                                   height: 40.0,
-                                   width: 145.0,
-                                   alignment: Alignment.centerLeft,
-                                   padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                                   decoration: BoxDecoration(
-                                       border: Border.all(color: Colors.black26)),
-                                   child: Text(
-                                     getRegNumberFromSP == null ? 'null' : getRegNumberFromSP.toString(),
-                                     style: TextStyle(
-                                       fontSize: 12.0,
-                                     ),
+                               SizedBox(width: 10.0,),
+
+                               Container(
+                                 height: 40.0,
+                                 width: containerHalfWidth,
+                                 alignment: Alignment.centerLeft,
+                                 padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                 decoration: BoxDecoration(
+                                     border: Border.all(color: Colors.black26)),
+                                 child: Text(
+                                   getRegDateFromSP == null ? 'null' : getRegDateFromSP.toString(),
+                                   style: TextStyle(
+                                     fontSize: 12.0,
                                    ),
                                  ),
-                                 SizedBox(
-                                   width: 10.0,
-                                 ),
-                                 Container(
-                                   height: 40.0,
-                                   width: 145.0,
-                                   alignment: Alignment.centerLeft,
-                                   padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                                   decoration: BoxDecoration(
-                                       border: Border.all(color: Colors.black26)),
-                                   child: Text(
-                                     getRegDateFromSP == null ? 'null' : getRegDateFromSP.toString(),
-                                     style: TextStyle(
-                                       fontSize: 12.0,
-                                     ),
-                                   ),
-                                 ),
-                               ],
-                             ),
+                               ),
+                             ],
                            ),
 
                            SizedBox(height: 15.0,),
 
                            Row(
+                             mainAxisAlignment: MainAxisAlignment.start,
                              children: <Widget>[
                                Container(
                                  height: 20.0,
-                                 width: 145.0,
-                                 padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                 width: containerHalfWidth,
                                  child: Text("Engine Number", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),),),
                                ),
 
@@ -456,60 +456,52 @@ class _commercialConformationState extends State<commercialConformation> {
 
                                Container(
                                  height: 20.0,
-                                 width: 145.0,
-                                 padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                 width: containerHalfWidth,
                                  child: Text("Chassis No", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),)),
                                ),
                              ],
                            ),
 
-                           //SizedBox(height: 5.0,),
-
-                           Container(
-                             height: 40.0,
-                             width: 320.0,
-                             child: Row(
-                               mainAxisAlignment: MainAxisAlignment.center,
-                               children: <Widget>[
-                                 Container(
-                                   height: 40.0,
-                                   width: 145.0,
-                                   alignment: Alignment.centerLeft,
-                                   padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                                   decoration: BoxDecoration(
-                                       border: Border.all(color: Colors.black26)),
-                                   child: Text(
-                                     getEngNumberFromSP == null ? 'null' : getEngNumberFromSP.toString(),
-                                     style: TextStyle(
-                                       fontSize: 12.0,
-                                     ),
+                           Row(
+                             mainAxisAlignment: MainAxisAlignment.start,
+                             children: <Widget>[
+                               Container(
+                                 height: 40.0,
+                                 width: containerHalfWidth,
+                                 alignment: Alignment.centerLeft,
+                                 padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                 decoration: BoxDecoration(
+                                     border: Border.all(color: Colors.black26)),
+                                 child: Text(
+                                   getEngNumberFromSP == null ? 'null' : getEngNumberFromSP.toString(),
+                                   style: TextStyle(
+                                     fontSize: 12.0,
                                    ),
                                  ),
+                               ),
 
-                                 SizedBox(width: 10.0,),
+                               SizedBox(width: 10.0,),
 
-                                 Container(
-                                   height: 40.0,
-                                   width: 145.0,
-                                   alignment: Alignment.centerLeft,
-                                   padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                                   decoration: BoxDecoration(
-                                       border: Border.all(color: Colors.black26)),
-                                   child: Text(
-                                     getChassisNoFromSP == null ? 'null' : getChassisNoFromSP.toString(),
-                                     style: TextStyle(
-                                       fontSize: 12.0,
-                                     ),
+                               Container(
+                                 height: 40.0,
+                                 width: containerHalfWidth,
+                                 alignment: Alignment.centerLeft,
+                                 padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                 decoration: BoxDecoration(
+                                     border: Border.all(color: Colors.black26)),
+                                 child: Text(
+                                   getChassisNoFromSP == null ? 'null' : getChassisNoFromSP.toString(),
+                                   style: TextStyle(
+                                     fontSize: 12.0,
                                    ),
                                  ),
-                               ],
-                             ),
+                               ),
+                             ],
                            ),
 
                          ],
                        ),
                      ),
-
                    ],
                  ),
                ),
@@ -520,18 +512,18 @@ class _commercialConformationState extends State<commercialConformation> {
                elevation: 10.0,
                child: Container(
                  color: HexColor("#f5f5f5"),
-                 width: 320.0,
+                 width: mainContainerWidth,
                  child: Column(
                    crossAxisAlignment: CrossAxisAlignment.start,
                    children: <Widget> [
 
                      Container(
                        height: 40.0,
-                       width: 320.0,
+                       width: mainContainerWidth,
                        decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
                        child: Container(
                          height: 40.0,
-                         width: 320.0,
+                         width: mainContainerWidth,
                          color: HexColor("#75f9a825"),
                          alignment: Alignment.centerLeft,
                          padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
@@ -539,7 +531,8 @@ class _commercialConformationState extends State<commercialConformation> {
                              style: TextStyle(
                                color: HexColor("#008577"),
                                fontSize: 16.0,
-                             )),
+                             )
+                         ),
                        ),
                      ),
 
@@ -557,7 +550,6 @@ class _commercialConformationState extends State<commercialConformation> {
 
                            Container(
                              height: 40.0,
-                             width: 320.0,
                              padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                              alignment: Alignment.centerLeft,
                              decoration:
@@ -578,7 +570,6 @@ class _commercialConformationState extends State<commercialConformation> {
 
                            Container(
                              height: 40.0,
-                             width: 320.0,
                              padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                              alignment: Alignment.centerLeft,
                              decoration:
@@ -594,11 +585,11 @@ class _commercialConformationState extends State<commercialConformation> {
                            SizedBox(height: 15.0,),
 
                            Row(
+                             mainAxisAlignment: MainAxisAlignment.start,
                              children: <Widget>[
                                Container(
                                  height: 20.0,
-                                 width: 145.0,
-                                 padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                 width: containerHalfWidth,
                                  child: Text("Driver", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),),),
                                ),
 
@@ -606,62 +597,57 @@ class _commercialConformationState extends State<commercialConformation> {
 
                                Container(
                                  height: 20.0,
-                                 width: 145.0,
-                                 padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                 width: containerHalfWidth,
                                  child: Text("Capacity ()cc/ton", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),)),
                                ),
                              ],
                            ),
 
-                           Container(
-                             height: 40.0,
-                             width: 320.0,
-                             child: Row(
-                               mainAxisAlignment: MainAxisAlignment.center,
-                               children: <Widget>[
-                                 Container(
-                                   height: 40.0,
-                                   width: 145.0,
-                                   alignment: Alignment.centerLeft,
-                                   padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                                   decoration: BoxDecoration(
-                                       border: Border.all(color: Colors.black26)),
-                                   child: Text(
-                                     getDriverFromSP == null ? 'null' : getDriverFromSP.toString(),
-                                     style: TextStyle(
-                                       fontSize: 12.0,
-                                     ),
+                           Row(
+                             mainAxisAlignment: MainAxisAlignment.start,
+                             children: <Widget>[
+                               Container(
+                                 height: 40.0,
+                                 width: containerHalfWidth,
+                                 alignment: Alignment.centerLeft,
+                                 padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                 decoration: BoxDecoration(
+                                     border: Border.all(color: Colors.black26)),
+                                 child: Text(
+                                   getDriverFromSP == null ? 'null' : getDriverFromSP.toString(),
+                                   style: TextStyle(
+                                     fontSize: 12.0,
                                    ),
                                  ),
-                                 SizedBox(
-                                   width: 10.0,
-                                 ),
-                                 Container(
-                                   height: 40.0,
-                                   width: 145.0,
-                                   alignment: Alignment.centerLeft,
-                                   padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                                   decoration: BoxDecoration(
-                                       border: Border.all(color: Colors.black26)),
-                                   child: Text(
-                                     getCapacityFromSP.toString() == null ? 'null' : getCapacityFromSP.toString(),
-                                     style: TextStyle(
-                                       fontSize: 12.0,
-                                     ),
+                               ),
+
+                               SizedBox(width: 10.0,),
+
+                               Container(
+                                 height: 40.0,
+                                 width: containerHalfWidth,
+                                 alignment: Alignment.centerLeft,
+                                 padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                 decoration: BoxDecoration(
+                                     border: Border.all(color: Colors.black26)),
+                                 child: Text(
+                                   getCapacityFromSP.toString() == null ? 'null' : getCapacityFromSP.toString(),
+                                   style: TextStyle(
+                                     fontSize: 12.0,
                                    ),
                                  ),
-                               ],
-                             ),
+                               ),
+                             ],
                            ),
 
                            SizedBox(height: 15.0,),
 
                            Row(
+                             mainAxisAlignment: MainAxisAlignment.start,
                              children: <Widget>[
                                Container(
                                  height: 20.0,
-                                 width: 145.0,
-                                 padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                 width: containerHalfWidth,
                                  child: Text("Contactor", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),),),
                                ),
 
@@ -669,52 +655,47 @@ class _commercialConformationState extends State<commercialConformation> {
 
                                Container(
                                  height: 20.0,
-                                 width: 145.0,
-                                 padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                 width: containerHalfWidth,
                                  child: Text("Helper", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),)),
                                ),
                              ],
                            ),
 
-                           Container(
-                             height: 40.0,
-                             width: 320.0,
-                             child: Row(
-                               mainAxisAlignment: MainAxisAlignment.center,
-                               children: <Widget>[
-                                 Container(
-                                   height: 40.0,
-                                   width: 145.0,
-                                   alignment: Alignment.centerLeft,
-                                   padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                                   decoration: BoxDecoration(
-                                       border: Border.all(color: Colors.black26)),
-                                   child: Text(
-                                     contactor,
-                                     style: TextStyle(
-                                       fontSize: 12.0,
-                                     ),
+                           Row(
+                             mainAxisAlignment: MainAxisAlignment.start,
+                             children: <Widget>[
+                               Container(
+                                 height: 40.0,
+                                 width: containerHalfWidth,
+                                 alignment: Alignment.centerLeft,
+                                 padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                 decoration: BoxDecoration(
+                                     border: Border.all(color: Colors.black26)),
+                                 child: Text(
+                                   contactor,
+                                   style: TextStyle(
+                                     fontSize: 12.0,
                                    ),
                                  ),
-                                 SizedBox(
-                                   width: 10.0,
-                                 ),
-                                 Container(
-                                   height: 40.0,
-                                   width: 145.0,
-                                   alignment: Alignment.centerLeft,
-                                   padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                                   decoration: BoxDecoration(
-                                       border: Border.all(color: Colors.black26)),
-                                   child: Text(
-                                     getHelperFromSP == '' ? "0" : getHelperFromSP.toString(),
-                                     style: TextStyle(
-                                       fontSize: 12.0,
-                                     ),
+                               ),
+
+                               SizedBox(width: 10.0,),
+
+                               Container(
+                                 height: 40.0,
+                                 width: containerHalfWidth,
+                                 alignment: Alignment.centerLeft,
+                                 padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                 decoration: BoxDecoration(
+                                     border: Border.all(color: Colors.black26)),
+                                 child: Text(
+                                   getHelperFromSP == '' ? "0" : getHelperFromSP.toString(),
+                                   style: TextStyle(
+                                     fontSize: 12.0,
                                    ),
                                  ),
-                               ],
-                             ),
+                               ),
+                             ],
                            ),
 
                            SizedBox(height: 15.0,),
@@ -725,7 +706,6 @@ class _commercialConformationState extends State<commercialConformation> {
 
                            Container(
                              height: 40.0,
-                             width: 320.0,
                              padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                              alignment: Alignment.centerLeft,
                              decoration:
@@ -741,11 +721,11 @@ class _commercialConformationState extends State<commercialConformation> {
                            SizedBox(height: 15.0,),
 
                            Row(
+                             mainAxisAlignment: MainAxisAlignment.start,
                              children: <Widget>[
                                Container(
                                  height: 20.0,
-                                 width: 145.0,
-                                 padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                 width: containerHalfWidth,
                                  child: Text("Policy Start Date", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),),),
                                ),
 
@@ -753,52 +733,47 @@ class _commercialConformationState extends State<commercialConformation> {
 
                                Container(
                                  height: 20.0,
-                                 width: 145.0,
-                                 padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                 width: containerHalfWidth,
                                  child: Text("Policy End Date", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),)),
                                ),
                              ],
                            ),
 
-                           Container(
-                             height: 40.0,
-                             width: 320.0,
-                             child: Row(
-                               mainAxisAlignment: MainAxisAlignment.center,
-                               children: <Widget>[
-                                 Container(
-                                   height: 40.0,
-                                   width: 145.0,
-                                   alignment: Alignment.centerLeft,
-                                   padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                                   decoration: BoxDecoration(
-                                       border: Border.all(color: Colors.black26)),
-                                   child: Text(
-                                     getPoStartDateFromSP == null ? 'null' : getPoStartDateFromSP.toString(),
-                                     style: TextStyle(
-                                       fontSize: 12.0,
-                                     ),
+                           Row(
+                             mainAxisAlignment: MainAxisAlignment.start,
+                             children: <Widget>[
+                               Container(
+                                 height: 40.0,
+                                 width: containerHalfWidth,
+                                 alignment: Alignment.centerLeft,
+                                 padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                 decoration: BoxDecoration(
+                                     border: Border.all(color: Colors.black26)),
+                                 child: Text(
+                                   getPoStartDateFromSP == null ? 'null' : getPoStartDateFromSP.toString(),
+                                   style: TextStyle(
+                                     fontSize: 12.0,
                                    ),
                                  ),
+                               ),
 
-                                 SizedBox(width: 10.0,),
+                               SizedBox(width: 10.0,),
 
-                                 Container(
-                                   height: 40.0,
-                                   width: 145.0,
-                                   alignment: Alignment.centerLeft,
-                                   padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                                   decoration: BoxDecoration(
-                                       border: Border.all(color: Colors.black26)),
-                                   child: Text(
-                                     getPoEndDateFromSP == null ? 'null' : getPoEndDateFromSP.toString(),
-                                     style: TextStyle(
-                                       fontSize: 12.0,
-                                     ),
+                               Container(
+                                 height: 40.0,
+                                 width: containerHalfWidth,
+                                 alignment: Alignment.centerLeft,
+                                 padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                 decoration: BoxDecoration(
+                                     border: Border.all(color: Colors.black26)),
+                                 child: Text(
+                                   getPoEndDateFromSP == null ? 'null' : getPoEndDateFromSP.toString(),
+                                   style: TextStyle(
+                                     fontSize: 12.0,
                                    ),
                                  ),
-                               ],
-                             ),
+                               ),
+                             ],
                            ),
 
                            SizedBox(height: 15.0,),
@@ -806,7 +781,6 @@ class _commercialConformationState extends State<commercialConformation> {
                          ],
                        ),
                      ),
-
                    ],
                  ),
                ),
@@ -817,18 +791,18 @@ class _commercialConformationState extends State<commercialConformation> {
                elevation: 10.0,
                child: Container(
                  color: HexColor("#f5f5f5"),
-                 width: 320.0,
+                 width: mainContainerWidth,
                  child: Column(
                    crossAxisAlignment: CrossAxisAlignment.start,
                    children: <Widget> [
 
                      Container(
                        height: 40.0,
-                       width: 320.0,
+                       width: mainContainerWidth,
                        decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
                        child: Container(
                          height: 40.0,
-                         width: 320.0,
+                         width: mainContainerWidth,
                          color: HexColor("#75f9a825"),
                          alignment: Alignment.centerLeft,
                          padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
@@ -836,7 +810,8 @@ class _commercialConformationState extends State<commercialConformation> {
                              style: TextStyle(
                                color: HexColor("#008577"),
                                fontSize: 16.0,
-                             )),
+                             )
+                         ),
                        ),
                      ),
 
@@ -850,7 +825,7 @@ class _commercialConformationState extends State<commercialConformation> {
 
                            Container(
                              height: 130.0,
-                             width: 320.0,
+                             width: mainContainerWidth,
                              child: Row(
                                crossAxisAlignment: CrossAxisAlignment.start,
                                children: <Widget> [
@@ -874,14 +849,14 @@ class _commercialConformationState extends State<commercialConformation> {
                                  SizedBox(width: 5.0,),
 
                                  Container(
-                                   width: 250.0,
+                                   width: privacyContainerWidth,
                                    child: Column(
                                      children: <Widget> [
                                        Container(
                                          child: Text(
                                            privacyPolicyText,
                                            style: TextStyle(
-                                             fontSize: 10.0,
+                                             fontSize: 12.0,
                                            ),
                                          ),
                                        ),
@@ -911,11 +886,9 @@ class _commercialConformationState extends State<commercialConformation> {
                                ],
                              ),
                            ),
-
                          ],
                        ),
                      ),
-
                    ],
                  ),
                ),
@@ -925,7 +898,7 @@ class _commercialConformationState extends State<commercialConformation> {
 
              Container(
                height: 40.0,
-               width: 320.0,
+               width: mainContainerWidth,
                margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 20.0),
                child: Row(
                  mainAxisAlignment: MainAxisAlignment.center,

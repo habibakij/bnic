@@ -1,6 +1,8 @@
+
 /// created by AK IJ
 /// 12-11-2020
 
+import 'dart:async';
 import 'package:bnic/OverseasMedical/overseasmedical.dart';
 import 'package:bnic/webview/about.dart';
 import 'package:bnic/webview/branchoffice.dart';
@@ -8,6 +10,7 @@ import 'package:bnic/webview/claiminformation.dart';
 import 'package:bnic/webview/compayprofile.dart';
 import 'package:bnic/webview/directorboard.dart';
 import 'package:bnic/webview/management.dart';
+import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -47,6 +50,53 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
+  var connectionChecker;
+
+  /// Internet connection Dialog
+  void dialogConnectionTest(BuildContext context, String msg) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10.0))),
+            child: Container(
+              height: 200.0,
+              child: Column(
+                children: <Widget>[
+                  SizedBox(height: 10.0,),
+
+                  Text(msg, style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),),
+
+                  Image.asset(
+                    "assetimage/notconnect.jpg",
+                    height: 100.0,
+                    width: 80.0,
+                  ),
+
+                  SizedBox(height: 10.0,),
+
+                  SizedBox(height: 10.0,),
+
+                  RaisedButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                    color: HexColor("#F9A825"),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      "OK",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
   void configLoading() {
     EasyLoading.instance
       ..displayDuration = const Duration(milliseconds: 2000)
@@ -65,7 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
     EasyLoading.isShow;
   }
 
-  void inValidToast(){
+  void inValidToast() {
     Fluttertoast.showToast(
         msg: "Not valid at this time",
         toastLength: Toast.LENGTH_SHORT,
@@ -76,43 +126,97 @@ class _MyHomePageState extends State<MyHomePage> {
         fontSize: 16.0
     );
   }
-  
-  void customDialog(BuildContext context){
+
+  void customDialog(BuildContext context) {
     showDialog(context: context,
-    builder: (context){
-      return Dialog(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10.0))
-        ),
-        child: Container(
-          height: 200.0,
-          width: 100.0,
-          child: Column(
-            children: <Widget> [
-              SizedBox(height: 10.0,),
-              Image.asset("assetimage/logo.png", color: HexColor("#F9A825"), height: 100.0,),
-              SizedBox(height: 10.0,),
-              Text("This feature will be available soon.", style: TextStyle(fontSize: 14.0,),),
-              SizedBox(height: 10.0,),
-              RaisedButton(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(5.0))
-                ),
-                color: HexColor("#F9A825"),
-                onPressed: (){Navigator.pop(context);},
-                child: Text("OK", style: TextStyle(color: Colors.white),),)
-            ],
-          ),
-        ),
-      );
-    });
+        builder: (context) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10.0))
+            ),
+            child: Container(
+              height: 200.0,
+              width: 100.0,
+              child: Column(
+                children: <Widget>[
+                  SizedBox(height: 10.0,),
+                  Image.asset("assetimage/logo.png", color: HexColor("#F9A825"),
+                    height: 100.0,),
+                  SizedBox(height: 10.0,),
+                  Text("This feature will be available soon.",
+                    style: TextStyle(fontSize: 14.0,),),
+                  SizedBox(height: 10.0,),
+                  RaisedButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0))
+                    ),
+                    color: HexColor("#F9A825"),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text("OK", style: TextStyle(color: Colors.white),),)
+                ],
+              ),
+            ),
+          );
+        });
   }
 
   @override
   void initState() {
     // TODO: implement initState
+    connectivityStatus();
     configLoading();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    connectivityStatus();
+    super.dispose();
+  }
+
+  void connectivityStatus() async {
+    print("The statement 'this machine is connected to the Internet' is: ");
+    print(await DataConnectionChecker().hasConnection);
+    // returns a bool
+
+    // We can also get an enum value instead of a bool
+    print("Current status: ${await DataConnectionChecker().connectionStatus}");
+    connectionChecker= await DataConnectionChecker().connectionStatus;
+
+    if(connectionChecker == DataConnectionStatus.connected){
+      print("permission granted");
+    } else{
+      dialogConnectionTest(context, "No Internet Connection");
+    }
+
+    // prints either DataConnectionStatus.connected
+    // or DataConnectionStatus.disconnected
+
+    // This returns the last results from the last call
+    // to either hasConnection or connectionStatus
+    print("Last results: ${DataConnectionChecker().lastTryResults}");
+
+    // actively listen for status updates
+    // this will cause DataConnectionChecker to check periodically
+    // with the interval specified in DataConnectionChecker().checkInterval
+    // until listener.cancel() is called
+    var listener = DataConnectionChecker().onStatusChange.listen((status) {
+      switch (status) {
+        case DataConnectionStatus.connected:
+          print('Data connection is available.');
+          break;
+        case DataConnectionStatus.disconnected:
+          print('You are disconnected from the internet.');
+          break;
+      }
+    });
+
+    // close listener after 30 seconds, so the program doesn't run forever
+    await Future.delayed(Duration(seconds: 30));
+    await listener.cancel();
   }
 
   @override
@@ -170,29 +274,41 @@ class _MyHomePageState extends State<MyHomePage> {
                 color: Colors.blue,
               ),
             ),
-            CustomListTile(Icons.person, "About Us", () => {
-                  Navigator.pop(context),
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => AboutUS())),
-                }),
-            CustomListTile(Icons.business, "Company Profile", () => {
+            CustomListTile(Icons.person, "About Us", () =>
+            {
               Navigator.pop(context),
-              Navigator.push(context, MaterialPageRoute(builder: (context) => CompanyProfile())),
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => AboutUS())),
             }),
-            CustomListTile(Icons.people, "Board of Director", () => {
+            CustomListTile(Icons.business, "Company Profile", () =>
+            {
               Navigator.pop(context),
-              Navigator.push(context, MaterialPageRoute(builder: (context) => DirectorBoard())),
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => CompanyProfile())),
             }),
-            CustomListTile(Icons.business_center, "Management", () => {
+            CustomListTile(Icons.people, "Board of Director", () =>
+            {
               Navigator.pop(context),
-              Navigator.push(context, MaterialPageRoute(builder: (context) => Management())),
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => DirectorBoard())),
             }),
-            CustomListTile(Icons.offline_pin_outlined, "Branch Office", () => {
+            CustomListTile(Icons.business_center, "Management", () =>
+            {
               Navigator.pop(context),
-              Navigator.push(context, MaterialPageRoute(builder: (context) => BranchOffice())),
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => Management())),
             }),
-            CustomListTile(Icons.info, "Claim Information", () => {
+            CustomListTile(Icons.offline_pin_outlined, "Branch Office", () =>
+            {
               Navigator.pop(context),
-              Navigator.push(context, MaterialPageRoute(builder: (context) => ClaimInformation())),
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => BranchOffice())),
+            }),
+            CustomListTile(Icons.info, "Claim Information", () =>
+            {
+              Navigator.pop(context),
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ClaimInformation())),
             }),
           ],
         ),
@@ -225,14 +341,17 @@ class _MyHomePageState extends State<MyHomePage> {
                 Container(
                   //margin: const EdgeInsets.all(5.0),
                   //padding: const EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black)),
                   child: FlatButton(
                     child: Column(
                       children: <Widget>[
                         Container(
                           height: 80.0,
                           width: 120.0,
-                          child: Image.asset("assetimage/motor.png", color: HexColor("#F9A825"),),
+                          child: Image.asset(
+                            "assetimage/motor.png", color: HexColor(
+                              "#F9A825"),),
                         ),
                         SizedBox(height: 10.0,),
                         Container(
@@ -248,15 +367,17 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ],
                     ),
-                    onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => MotorInsurance()));
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => MotorInsurance()));
                     },
                   ),
                 ),
                 SizedBox(width: 10.0,),
 
                 Container(
-                  decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black)),
                   child: FlatButton(
                     child: Column(
                       children: <Widget>[
@@ -264,7 +385,9 @@ class _MyHomePageState extends State<MyHomePage> {
                         Container(
                           height: 50.0,
                           width: 120.0,
-                          child: Image.asset("assetimage/travel.png", color: HexColor("#F9A825"),),
+                          child: Image.asset(
+                            "assetimage/travel.png", color: HexColor(
+                              "#F9A825"),),
                         ),
                         SizedBox(height: 15.0,),
                         Container(
@@ -280,8 +403,9 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ],
                     ),
-                    onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => OverseasMedical()));
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => OverseasMedical()));
                     },
                   ),
                 ),
@@ -295,14 +419,17 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black)),
                   child: FlatButton(
                     child: Column(
                       children: <Widget>[
                         Container(
                           height: 90.0,
                           width: 120.0,
-                          child: Image.asset("assetimage/marin.png", color: HexColor("#F9A825"),),
+                          child: Image.asset(
+                            "assetimage/marin.png", color: HexColor(
+                              "#F9A825"),),
                         ),
                         SizedBox(height: 10.0,),
                         Container(
@@ -318,7 +445,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ],
                     ),
-                    onPressed: (){
+                    onPressed: () {
                       customDialog(context);
                     },
                   ),
@@ -330,7 +457,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 Container(
                   //margin: const EdgeInsets.all(5.0),
                   //padding: const EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black)),
                   child: FlatButton(
                     child: Column(
                       children: <Widget>[
@@ -338,7 +466,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         Container(
                           height: 70.0,
                           width: 120.0,
-                          child: Image.asset("assetimage/fire.png", color: HexColor("#F9A825"),),
+                          child: Image.asset(
+                            "assetimage/fire.png", color: HexColor("#F9A825"),),
                         ),
                         SizedBox(height: 20.0,),
                         Container(
@@ -354,7 +483,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ],
                     ),
-                    onPressed: (){
+                    onPressed: () {
                       customDialog(context);
                     },
                   ),

@@ -96,11 +96,9 @@ class _InfoDetailsState extends State<InfoDetails> {
   }
 
   var mediaQueryWidth;
-  double mainContainerWidth, mainContainerWidthWP, stackFirstContainer, stackSecondContainer, containerHalfWidth, containerHalfWidthWP,
-      stackHalfContainer, stackHalfContainer1;
+  double mainContainerWidth, mainContainerWidthWP, stackFirstContainer, stackSecondContainer, containerHalfWidth, containerHalfWidthWP, stackHalfContainer, stackHalfContainer1;
   Orientation orientation;
-  double landStackContainer, landStackContainer1, landStackHalfContainer, landStackHalfContainer1;
-  double facilityContainer, facilityContainerWidth, privacyContainerWidth;
+  double landStackContainer, landStackContainer1, landStackHalfContainer, landStackHalfContainer1, facilityContainer, facilityContainerWidth, privacyContainerWidth;
 
   @override
   Widget build(BuildContext context) {

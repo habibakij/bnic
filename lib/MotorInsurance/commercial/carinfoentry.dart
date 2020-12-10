@@ -111,15 +111,39 @@ class _EnterDetailsState extends State<EnterDetails> {
     super.initState();
   }
 
+  var mediaQueryWidth;
+  double mainContainerWidth, mainContainerWidthWP, stackFirstContainer, stackSecondContainer, containerHalfWidth, containerHalfWidthWP, stackHalfContainer, stackHalfContainer1;
+  Orientation orientation;
+  double landStackContainer, landStackContainer1, landStackHalfContainer, landStackHalfContainer1;
+
   @override
   Widget build(BuildContext context) {
+
+    mediaQueryWidth = MediaQuery.of(context).size.width;
+    mainContainerWidth = ((mediaQueryWidth / 100.0) * 90.0);
+    mainContainerWidthWP = mainContainerWidth - 18.0;
+
+    stackFirstContainer = ((mainContainerWidthWP / 100.0) * 87.0);
+    stackSecondContainer = ((mainContainerWidthWP / 100.0) * 13.0);
+    containerHalfWidth = ((mainContainerWidthWP / 2) - 4);
+    containerHalfWidthWP = (containerHalfWidth - 2);
+
+    landStackHalfContainer = ((containerHalfWidthWP / 100.0) * 87.00);
+    landStackHalfContainer1 = ((containerHalfWidthWP / 100.0) * 13.00);
+    stackHalfContainer = ((containerHalfWidthWP / 100.0) * 75.00);
+    stackHalfContainer1 = ((containerHalfWidthWP / 100.0) * 25.00);
+
+    landStackContainer = ((mainContainerWidthWP / 100.0) * 93.0);
+    landStackContainer1 = ((mainContainerWidthWP / 100.0) * 07.0);
+    orientation = MediaQuery.of(context).orientation;
+
     return SingleChildScrollView(
       child: Center(
         child: Card(
           margin: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 10.0),
           elevation: 5.0,
           child: Container(
-            width: 320.0,
+            width: mainContainerWidth,
             color: HexColor("#f5f5f5"),
             padding: EdgeInsets.all(8.0),
             child: Column(
@@ -129,7 +153,7 @@ class _EnterDetailsState extends State<EnterDetails> {
                 /// Title information
                 Container(
                   height: 40.0,
-                  width: 320.0,
+                  width: mainContainerWidth,
                   alignment: Alignment.centerLeft,
                   padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                   decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
@@ -193,23 +217,41 @@ class _EnterDetailsState extends State<EnterDetails> {
                 /// City Dropdown List
                 Stack(children: <Widget>[
 
-                  Container(
-                    height: 40.0,
-                    width: 304.0,
-                    child: Row(
-                      children: <Widget>[
-
-                        Container(
-                          width: 260.0,
+                  Builder(builder: (context) {
+                    if (orientation.index == Orientation.landscape.index) {
+                      return Container(
+                        height: 40.0,
+                        width: mainContainerWidthWP,
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                              width: (landStackContainer),
+                            ),
+                            Container(
+                              width: landStackContainer1,
+                              color: Colors.amberAccent,
+                            ),
+                          ],
                         ),
-
-                        Container(
-                          width: 44.0,
-                          color: Colors.amberAccent,
+                      );
+                    } else {
+                      return Container(
+                        height: 40.0,
+                        width: mainContainerWidthWP,
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                              width: (stackFirstContainer),
+                            ),
+                            Container(
+                              width: stackSecondContainer,
+                              color: Colors.amberAccent,
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
+                      );
+                    }
+                  }),
 
                   Positioned(
                     child: Container(
@@ -217,9 +259,10 @@ class _EnterDetailsState extends State<EnterDetails> {
                       child: Row(
                         children: <Widget> [
                           Container(
-                            width: 304.0,
-                            decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                            width: mainContainerWidthWP,
                             padding: EdgeInsets.fromLTRB(5.0, 0.0, 10.0, 0.0),
+                            alignment: Alignment.centerRight,
+                            decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
                             child: DropdownButtonHideUnderline(
                               child: DropdownButton(
                                 isExpanded: true,
@@ -262,7 +305,7 @@ class _EnterDetailsState extends State<EnterDetails> {
                 /// Checkbox and text for same as insured city, address
                 Container(
                   height: 40.0,
-                  width: 320.0,
+                  width: mainContainerWidth,
                   child: Row(
                     children: <Widget> [
 
@@ -335,23 +378,41 @@ class _EnterDetailsState extends State<EnterDetails> {
                       /// Mailing city spinner dropdown
                       Stack(children: <Widget>[
 
-                        Container(
-                          height: 40.0,
-                          width: 304.0,
-                          child: Row(
-                            children: <Widget>[
-
-                              Container(
-                                width: 260.0,
+                        Builder(builder: (context) {
+                          if (orientation.index == Orientation.landscape.index) {
+                            return Container(
+                              height: 40.0,
+                              width: mainContainerWidthWP,
+                              child: Row(
+                                children: <Widget>[
+                                  Container(
+                                    width: (landStackContainer),
+                                  ),
+                                  Container(
+                                    width: landStackContainer1,
+                                    color: Colors.amberAccent,
+                                  ),
+                                ],
                               ),
-
-                              Container(
-                                width: 44.0,
-                                color: Colors.amberAccent,
+                            );
+                          } else {
+                            return Container(
+                              height: 40.0,
+                              width: mainContainerWidthWP,
+                              child: Row(
+                                children: <Widget>[
+                                  Container(
+                                    width: (stackFirstContainer),
+                                  ),
+                                  Container(
+                                    width: stackSecondContainer,
+                                    color: Colors.amberAccent,
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                        ),
+                            );
+                          }
+                        }),
 
                         Positioned(
                           child: Container(
@@ -359,9 +420,10 @@ class _EnterDetailsState extends State<EnterDetails> {
                             child: Row(
                               children: <Widget> [
                                 Container(
-                                  width: 304.0,
-                                  decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                                  width: mainContainerWidthWP,
                                   padding: EdgeInsets.fromLTRB(5.0, 0.0, 10.0, 0.0),
+                                  alignment: Alignment.centerRight,
+                                  decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
                                   child: DropdownButtonHideUnderline(
                                     child: DropdownButton(
                                       isExpanded: true,
@@ -455,11 +517,12 @@ class _EnterDetailsState extends State<EnterDetails> {
 
                 /// Brand and Manufacture text
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
+
                     Container(
                         alignment: Alignment.centerLeft,
-                        width: 160.0,
+                        width: containerHalfWidth,
                         child: Text(
                           "Vehicles Brand/Make",
                           style: TextStyle(
@@ -470,7 +533,8 @@ class _EnterDetailsState extends State<EnterDetails> {
                     ),
                     Container(
                         alignment: Alignment.centerLeft,
-                        width: 140.0,
+                        width: containerHalfWidth,
+                        padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
                         child: Text(
                           "Year of Manufacture",
                           style: TextStyle(
@@ -485,61 +549,80 @@ class _EnterDetailsState extends State<EnterDetails> {
                 SizedBox(height: 5.0,),
 
                 /// Brand TextField, Manufacture year Spinner
-                Container(
-                  height: 40.0,
-                  width: 320.0,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget> [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget> [
 
-                      Container(
-                        height: 40.0,
-                        width: 145.0,
-                        child: TextField(
-                          maxLines: 1,
-                          controller: vehiclesBrandController,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Vehicles Brand/Make',
-                          ),
-                          style: TextStyle(
-                            fontSize: 12.0,
-                          ),
+                    Container(
+                      height: 40.0,
+                      width: containerHalfWidth,
+                      child: TextField(
+                        maxLines: 1,
+                        controller: vehiclesBrandController,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Vehicles Brand/Make',
+                        ),
+                        style: TextStyle(
+                          fontSize: 12.0,
                         ),
                       ),
+                    ),
 
-                      SizedBox(width: 10.0,),
+                    SizedBox(width: 10.0,),
 
-                      Stack(
+                    Container(
+                      width: containerHalfWidth,
+                      alignment: Alignment.centerLeft,
+                      decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                      child: Stack(
                         children: <Widget> [
-                          Container(
-                            height: 40.0,
-                            width: 145.0,
-                            child: Row(
-                              children: <Widget>[
 
-                                Container(
-                                  width: 100.0,
+                          Builder(builder: (context) {
+                            if (orientation.index == Orientation.landscape.index) {
+                              return Container(
+                                height: 40.0,
+                                width: containerHalfWidthWP,
+                                child: Row(
+                                  children: <Widget>[
+                                    Container(
+                                      width: landStackHalfContainer,
+                                    ),
+                                    Container(
+                                      width: landStackHalfContainer1,
+                                      color: Colors.amberAccent,
+                                    ),
+                                  ],
                                 ),
-
-                                Container(
-                                  width: 45.0,
-                                  color: Colors.amberAccent,
+                              );
+                            } else {
+                              return Container(
+                                height: 40.0,
+                                width: containerHalfWidthWP,
+                                child: Row(
+                                  children: <Widget>[
+                                    Container(
+                                      width: stackHalfContainer,
+                                    ),
+                                    Container(
+                                      width: stackHalfContainer1,
+                                      color: Colors.amberAccent,
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          ),
+                              );
+                            }
+                          }),
 
                           Positioned(
                               child: Container(
                                 height: 40.0,
                                 child: Row(
                                   children: <Widget> [
-
                                     Container(
-                                      width: 145.0,
-                                      decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                                      width: containerHalfWidthWP,
                                       padding: EdgeInsets.fromLTRB(5.0, 0.0, 10.0, 0.0),
+                                      alignment: Alignment.centerRight,
                                       child: DropdownButtonHideUnderline(
                                         child: DropdownButton(
                                           isExpanded: true,
@@ -577,20 +660,20 @@ class _EnterDetailsState extends State<EnterDetails> {
 
                         ]
                       ),
+                    ),
 
-                    ],
-                  ),
+                  ],
                 ),
 
                 SizedBox(height: 15.0,),
 
                 /// Registration number and date text
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Container(
                         alignment: Alignment.centerLeft,
-                        width: 160.0,
+                        width: containerHalfWidth,
                         child: Text(
                           "Registration Number",
                           style: TextStyle(
@@ -601,7 +684,8 @@ class _EnterDetailsState extends State<EnterDetails> {
                     ),
                     Container(
                         alignment: Alignment.centerLeft,
-                        width: 140.0,
+                        width: containerHalfWidth,
+                        padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
                         child: Text(
                           "Registration Date",
                           style: TextStyle(
@@ -616,38 +700,38 @@ class _EnterDetailsState extends State<EnterDetails> {
                 SizedBox(height: 5.0,),
 
                 /// Registration number TextField and Registration DatePicker
-                Container(
-                  height: 40.0,
-                  width: 320.0,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget> [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget> [
 
-                      Container(
-                        height: 40.0,
-                        width: 145.0,
-                        child: TextField(
-                          maxLines: 1,
-                          controller: regNumberController,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Registration Number',
-                          ),
-                          style: TextStyle(
-                            fontSize: 12.0,
-                          ),
+                    Container(
+                      height: 40.0,
+                      width: containerHalfWidth,
+                      child: TextField(
+                        maxLines: 1,
+                        controller: regNumberController,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Registration Number',
+                        ),
+                        style: TextStyle(
+                          fontSize: 12.0,
                         ),
                       ),
+                    ),
 
-                      SizedBox(width: 10.0,),
+                    SizedBox(width: 10.0,),
 
-                      Container(
-                        width: 145.0,
-                        decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                    Container(
+                      width: containerHalfWidth,
+                      decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+
+                      child: GestureDetector(
+
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
+
                               Container(
                                 height: 39.0,
                                 width: 40.0,
@@ -667,39 +751,52 @@ class _EnterDetailsState extends State<EnterDetails> {
                                       setState(() {
                                         formattedDate = dateFormat.format(date);
                                         print("Formatted date is: $formattedDate");
-                                        /*newDate = new DateTime(date.year + 1, date.month, date.day);
-                                        newDateFormat = dateFormat.format(newDate);
-                                        print("new Date is: $newDate");*/
                                       });
                                     });
                                   },
                                 ),
                               ),
+
                               Container(
                                 alignment: Alignment.center,
-                                padding:
-                                EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                                 child: Text(
                                   formattedDate == null ? "Picked Date" : formattedDate.toString(),
                                   style: TextStyle(fontSize: 12.0,),
                                 ),
                               ),
-                            ]),
-                      ),
 
-                    ],
-                  ),
+                            ]
+                        ),
+
+                        onTap: (){
+                          showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(2000),
+                              lastDate: DateTime(2222)
+                          ).then((date) {
+                            setState(() {
+                              formattedDate = dateFormat.format(date);
+                              print("Formatted date is: $formattedDate");
+                            });
+                          });
+                        },
+
+                      ),
+                    ),
+                  ],
                 ),
 
                 SizedBox(height: 15.0,),
 
                 /// Engine and Chassis no text
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Container(
                         alignment: Alignment.centerLeft,
-                        width: 160.0,
+                        width: containerHalfWidth,
                         child: Text(
                           "Engine Number",
                           style: TextStyle(
@@ -710,7 +807,8 @@ class _EnterDetailsState extends State<EnterDetails> {
                     ),
                     Container(
                         alignment: Alignment.centerLeft,
-                        width: 140.0,
+                        width: containerHalfWidth,
+                        padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
                         child: Text(
                           "Chassis No",
                           style: TextStyle(
@@ -725,49 +823,45 @@ class _EnterDetailsState extends State<EnterDetails> {
                 SizedBox(height: 5.0,),
 
                 /// Engine and Chassis no TextField
-                Container(
-                  height: 40.0,
-                  width: 320.0,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget> [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget> [
 
-                      Container(
-                        height: 40.0,
-                        width: 145.0,
-                        child: TextField(
-                          maxLines: 1,
-                          controller: engineController,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Engine Number',
-                          ),
-                          style: TextStyle(
-                            fontSize: 12.0,
-                          ),
+                    Container(
+                      height: 40.0,
+                      width: containerHalfWidth,
+                      child: TextField(
+                        maxLines: 1,
+                        controller: engineController,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Engine Number',
+                        ),
+                        style: TextStyle(
+                          fontSize: 12.0,
                         ),
                       ),
+                    ),
 
-                      SizedBox(width: 10.0,),
+                    SizedBox(width: 10.0,),
 
-                      Container(
-                        height: 40.0,
-                        width: 145.0,
-                        child: TextField(
-                          maxLines: 1,
-                          controller: chassisController,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Chassis No',
-                          ),
-                          style: TextStyle(
-                            fontSize: 12.0,
-                          ),
+                    Container(
+                      height: 40.0,
+                      width: containerHalfWidth,
+                      child: TextField(
+                        maxLines: 1,
+                        controller: chassisController,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Chassis No',
+                        ),
+                        style: TextStyle(
+                          fontSize: 12.0,
                         ),
                       ),
+                    ),
 
-                    ],
-                  ),
+                  ],
                 ),
 
                 SizedBox(height: 30.0,),
@@ -775,10 +869,9 @@ class _EnterDetailsState extends State<EnterDetails> {
                 /// RaisingButton
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget> [
                     Container(
-                      width: 150.0,
+                      width: containerHalfWidth,
                       child: RaisedButton(
                         color: Colors.amber,
                         shape: RoundedRectangleBorder(
