@@ -34,52 +34,66 @@ class _PaymentPageState extends State<PaymentPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
 
-      appBar: AppBar(
-        backgroundColor: HexColor("#F9A825"),
-        title: Text(
-          "Payment",
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ),
-        actions: <Widget> [
-          Container(
-            width: 70.0,
-            child: Center(
-              child: CountdownFormatted(
-                duration: Duration(minutes: 5),
-                onFinish: (){
-                  _done= true;
-                  Navigator.pop(context);
-                  //Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
-                },
-                builder: (BuildContext ctx, String remaining) {
-                  return Text(
-                    _done ? 'Finish' : "Remain time \n \t \t $remaining",
-                    style: TextStyle(fontSize: 12.0, color: Colors.white),
-                  ); // 01:00:00
-                },
-              ),
+      onWillPop: _willPopCallback,
+
+      child: Scaffold(
+
+        appBar: AppBar(
+          backgroundColor: HexColor("#F9A825"),
+          title: Text(
+            "Payment",
+            style: TextStyle(
+              color: Colors.white,
             ),
           ),
-        ],
-      ),
+          actions: <Widget> [
+            Container(
+              width: 70.0,
+              child: Center(
+                child: CountdownFormatted(
+                  duration: Duration(minutes: 5),
+                  onFinish: (){
+                    _done= true;
+                    Navigator.pop(context);
+                    //Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
+                  },
+                  builder: (BuildContext ctx, String remaining) {
+                    return Text(
+                      _done ? 'Finish' : "Remain time \n \t \t $remaining",
+                      style: TextStyle(fontSize: 12.0, color: Colors.white),
+                    ); // 01:00:00
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
 
-      body: SafeArea(
-          child: WebView(
-            initialUrl: widget.paymentPageUrl,
-            javascriptMode: JavascriptMode.unrestricted,
-            onWebViewCreated: (WebViewController webViewController) {
-              _controller.complete(webViewController);
-            },
-          ),
+        body: SafeArea(
+            child: WebView(
+              initialUrl: widget.paymentPageUrl,
+              javascriptMode: JavascriptMode.unrestricted,
+              onWebViewCreated: (WebViewController webViewController) {
+                _controller.complete(webViewController);
+              },
+            ),
+        ),
       ),
     );
   }
 
-
+  Future<bool> _willPopCallback() async {
+    WebViewController webViewController = await _controller.future;
+    bool canNavigate = await webViewController.canGoBack();
+    if (canNavigate) {
+      webViewController.goBack();
+      return false;
+    } else {
+      return true;
+    }
+  }
 
 }
 

@@ -116,8 +116,15 @@ class _MotorCycleState extends State<MotorCycle> {
         if(trLength > 0){
           showDialog(context: context, builder: (context){
             return AlertDialog(
-              title: Text('Motor Insurance Quotation', style: TextStyle(fontSize: 14.0),),
+              title: Text(
+                'Motor Insurance Quotation',
+                style: TextStyle(
+                  fontSize: 14.0,
+                ),
+              ),
+
               contentPadding: EdgeInsets.fromLTRB(25.0, 10.0, 0.0, 0.0),
+              //contentPadding: EdgeInsets.all(0.0),
 
               content: Container(
                 height: 200.0,
@@ -200,7 +207,7 @@ class _MotorCycleState extends State<MotorCycle> {
                           child: Text("Buy Insurance", style: TextStyle(fontSize: 16.0, color: Colors.black),),
                           onPressed: (){
                             saveDataSP();
-                            customToast("data save successfully");
+                            print("data save successfully");
                             Navigator.pop(context);
                             Navigator.push(context, MaterialPageRoute(builder: (context) => MotorInformationEntry()));
                           },
@@ -280,13 +287,14 @@ class _MotorCycleState extends State<MotorCycle> {
               margin: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 10.0),
               child: Container(
                 width: mainContainerWidth,
+                color: HexColor("#f2f2f2"),
                 padding: EdgeInsets.all(8.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
 
                     Container(
-                      height: 40.0,
+                      height: 45.0,
                       width: mainContainerWidth,
                       alignment: Alignment.centerLeft,
                       padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
@@ -310,7 +318,7 @@ class _MotorCycleState extends State<MotorCycle> {
 
                     /// select plan name spinner(dropdown list)
                     Container(
-                      height: 40.0,
+                      height: 45.0,
                       width: mainContainerWidth,
                       alignment: Alignment.centerLeft,
                       decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
@@ -320,32 +328,34 @@ class _MotorCycleState extends State<MotorCycle> {
                           Builder(builder: (context) {
                             if (orientation.index == Orientation.landscape.index) {
                               return Container(
-                                height: 40.0,
+                                height: 45.0,
                                 width: mainContainerWidthWP,
                                 child: Row(
                                   children: <Widget>[
                                     Container(
                                       width: (landStackContainer),
+                                      color: Colors.white,
                                     ),
                                     Container(
                                       width: landStackContainer1,
-                                      color: Colors.amberAccent,
+                                      color: HexColor("#f2f2f2"),
                                     ),
                                   ],
                                 ),
                               );
                             } else {
                               return Container(
-                                height: 40.0,
+                                height: 45.0,
                                 width: mainContainerWidthWP,
                                 child: Row(
                                   children: <Widget>[
                                     Container(
                                       width: (stackFirstContainer),
+                                      color: Colors.white,
                                     ),
                                     Container(
                                       width: stackSecondContainer,
-                                      color: Colors.amberAccent,
+                                      color: HexColor("#f2f2f2"),
                                     ),
                                   ],
                                 ),
@@ -355,7 +365,7 @@ class _MotorCycleState extends State<MotorCycle> {
 
                           Positioned(
                             child: Container(
-                              height: 40.0,
+                              height: 45.0,
                               child: Row(children: <Widget>[
                                 Container(
                                   width: mainContainerWidthWP,
@@ -366,9 +376,9 @@ class _MotorCycleState extends State<MotorCycle> {
                                       isExpanded: true,
                                       hint: Text("Plan Name"),
                                       icon: Icon(Icons.keyboard_arrow_down),
-                                      value: planListItem,
                                       iconSize: 18,
                                       elevation: 16,
+                                      iconEnabledColor: Colors.amber[900],
                                       style: TextStyle(color: Colors.black),
 
                                       onChanged: (_newSelected){
@@ -408,22 +418,24 @@ class _MotorCycleState extends State<MotorCycle> {
 
                     /// select Vehicle type spinner(dropdown list)
                     Container(
-                      height: 40.0,
+                      height: 45.0,
                       width: mainContainerWidth,
                       alignment: Alignment.centerLeft,
                       decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
                       child: Stack(children: <Widget>[
 
-
                         Builder(builder: (context) {
                           if (orientation.index == Orientation.landscape.index) {
                             return Container(
-                              height: 40.0,
+                              height: 45.0,
                               width: mainContainerWidthWP,
                               child: Row(
                                 children: <Widget>[
                                   Container(
+                                    height: 45.0,
                                     width: (landStackContainer),
+                                    color: Colors.white,
+                                    alignment: Alignment.centerLeft,
                                     padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                                     child: Text(
                                       vehiclesTypeListItem == null ? "Vehicle Type" : vehiclesTypeListItem,
@@ -434,19 +446,22 @@ class _MotorCycleState extends State<MotorCycle> {
                                   ),
                                   Container(
                                     width: landStackContainer1,
-                                    color: Colors.amberAccent,
+                                    color: HexColor("#f2f2f2"),
                                   ),
                                 ],
                               ),
                             );
                           } else {
                             return Container(
-                              height: 40.0,
+                              height: 45.0,
                               width: mainContainerWidthWP,
                               child: Row(
                                 children: <Widget>[
                                   Container(
+                                    height: 45.0,
                                     width: (stackFirstContainer),
+                                    alignment: Alignment.centerLeft,
+                                    color: Colors.white,
                                     padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                                     child: Text(
                                       vehiclesTypeListItem == null ? "Vehicle Type" : vehiclesTypeListItem,
@@ -457,7 +472,7 @@ class _MotorCycleState extends State<MotorCycle> {
                                   ),
                                   Container(
                                     width: stackSecondContainer,
-                                    color: Colors.amberAccent,
+                                    color: HexColor("#f2f2f2"),
                                   ),
                                 ],
                               ),
@@ -467,7 +482,7 @@ class _MotorCycleState extends State<MotorCycle> {
 
                         Positioned(
                           child: Container(
-                            height: 40.0,
+                            height: 45.0,
                             child: Row(children: <Widget>[
                               Container(
                                 width: mainContainerWidthWP,
@@ -479,6 +494,7 @@ class _MotorCycleState extends State<MotorCycle> {
                                     icon: Icon(Icons.keyboard_arrow_down),
                                     iconSize: 18,
                                     elevation: 16,
+                                    iconEnabledColor: Colors.amber[900],
                                     style: TextStyle(color: Colors.black),
                                     onChanged: (_newSelected) {
                                       setState(() {
@@ -548,7 +564,7 @@ class _MotorCycleState extends State<MotorCycle> {
                       children: <Widget>[
 
                         Container(
-                          height: 40.0,
+                          height: 45.0,
                           width: containerHalfWidth,
                           alignment: Alignment.centerLeft,
                           decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
@@ -559,32 +575,34 @@ class _MotorCycleState extends State<MotorCycle> {
                               Builder(builder: (context) {
                                 if (orientation.index == Orientation.landscape.index) {
                                   return Container(
-                                    height: 40.0,
+                                    height: 45.0,
                                     width: containerHalfWidthWP,
                                     child: Row(
                                       children: <Widget>[
                                         Container(
                                           width: landStackHalfContainer,
+                                          color: Colors.white,
                                         ),
                                         Container(
                                           width: landStackHalfContainer1,
-                                          color: Colors.amberAccent,
+                                          color: HexColor("#f2f2f2"),
                                         ),
                                       ],
                                     ),
                                   );
                                 } else {
                                   return Container(
-                                    height: 40.0,
+                                    height: 45.0,
                                     width: containerHalfWidthWP,
                                     child: Row(
                                       children: <Widget>[
                                         Container(
                                           width: stackHalfContainer,
+                                          color: Colors.white,
                                         ),
                                         Container(
                                           width: stackHalfContainer1,
-                                          color: Colors.amberAccent,
+                                          color: HexColor("#f2f2f2"),
                                         ),
                                       ],
                                     ),
@@ -594,7 +612,7 @@ class _MotorCycleState extends State<MotorCycle> {
 
                               Positioned(
                                 child: Container(
-                                  height: 40.0,
+                                  height: 45.0,
                                   child: Row(
                                     children: <Widget> [
                                       Container(
@@ -608,6 +626,7 @@ class _MotorCycleState extends State<MotorCycle> {
                                             icon: Icon(Icons.keyboard_arrow_down),
                                             iconSize: 18,
                                             elevation: 16,
+                                            iconEnabledColor: Colors.amber[900],
                                             style: TextStyle(color: Colors.black),
                                             value: driverSelectItem,
                                             onChanged: (_newSelected) {
@@ -639,18 +658,27 @@ class _MotorCycleState extends State<MotorCycle> {
                         SizedBox(width: 10.0,),
 
                         Container(
-                          height: 40.0,
+                          height: 45.0,
                           width: containerHalfWidth,
                           child: TextField(
                             maxLines: 1,
+                            autocorrect: false,
                             controller: capacityController,
                             keyboardType: TextInputType.number,
                             inputFormatters: <TextInputFormatter>[
                               FilteringTextInputFormatter.digitsOnly
                             ],
                             decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: 'capacity',
+                              hintText: 'Capacity (cc/ton)',
+                              filled: true,
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                borderSide: BorderSide(color: Colors.grey[400]),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                borderSide: BorderSide(color: Colors.grey[400]),
+                              ),
                             ),
                             style: TextStyle(
                               fontSize: 12.0,
@@ -668,7 +696,7 @@ class _MotorCycleState extends State<MotorCycle> {
 
                     /// select Passenger spinner(dropdown list)
                     Container(
-                      height: 40.0,
+                      height: 45.0,
                       width: mainContainerWidth,
                       alignment: Alignment.centerLeft,
                       decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
@@ -677,32 +705,34 @@ class _MotorCycleState extends State<MotorCycle> {
                         Builder(builder: (context) {
                           if (orientation.index == Orientation.landscape.index) {
                             return Container(
-                              height: 40.0,
+                              height: 45.0,
                               width: mainContainerWidthWP,
                               child: Row(
                                 children: <Widget>[
                                   Container(
                                     width: (landStackContainer),
+                                    color: Colors.white,
                                   ),
                                   Container(
                                     width: landStackContainer1,
-                                    color: Colors.amberAccent,
+                                    color: HexColor("#f2f2f2"),
                                   ),
                                 ],
                               ),
                             );
                           } else {
                             return Container(
-                              height: 40.0,
+                              height: 45.0,
                               width: mainContainerWidthWP,
                               child: Row(
                                 children: <Widget>[
                                   Container(
                                     width: (stackFirstContainer),
+                                    color: Colors.white,
                                   ),
                                   Container(
                                     width: stackSecondContainer,
-                                    color: Colors.amberAccent,
+                                    color: HexColor("#f2f2f2"),
                                   ),
                                 ],
                               ),
@@ -712,7 +742,7 @@ class _MotorCycleState extends State<MotorCycle> {
 
                         Positioned(
                           child: Container(
-                            height: 40.0,
+                            height: 45.0,
                             child: Row(children: <Widget>[
                               Container(
                                 width: mainContainerWidthWP,
@@ -725,6 +755,7 @@ class _MotorCycleState extends State<MotorCycle> {
                                     icon: Icon(Icons.keyboard_arrow_down),
                                     iconSize: 18,
                                     elevation: 16,
+                                    iconEnabledColor: Colors.amber[900],
                                     style: TextStyle(color: Colors.black),
                                     value: passengerSelectItem,
                                     onChanged: (_newSelected) {
@@ -791,54 +822,60 @@ class _MotorCycleState extends State<MotorCycle> {
                         GestureDetector(
 
                           child: Container(
-                            height: 40.0,
+                            height: 45.0,
                             width: containerHalfWidth,
                             alignment: Alignment.centerLeft,
                             decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
 
-                                  Container(
-                                    height: 39.0,
-                                    width: 40.0,
-                                    child: RaisedButton(
-                                      padding: EdgeInsets.all(0.0),
-                                      color: Colors.amberAccent,
-                                      child: Icon(
-                                        Icons.calendar_today,
-                                        size: 15.0,
-                                      ),
-                                      onPressed: () {
-                                        showDatePicker(
-                                            context: context,
-                                            initialDate: DateTime.now(),
-                                            firstDate: DateTime.now(),
-                                            lastDate: DateTime(2225)
-                                        ).then((date) {
-                                          setState(() {
-                                            formattedDate = dateFormat.format(date);
-                                            print("Formatted date is: $formattedDate");
-                                            newDate = new DateTime(date.year+1, date.month, date.day);
-                                            newDateFormat= dateFormat.format(newDate);
-                                            print("new Date is: $newDate");
+                            child: Container(
+                              height: 45.0,
+                              width: containerHalfWidth,
+                              color: Colors.white,
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+
+                                    Container(
+                                      height: 45.0,
+                                      width: 40.0,
+                                      child: RaisedButton(
+                                        padding: EdgeInsets.all(0.0),
+                                        color: HexColor("#f2f2f2"),
+                                        child: Icon(
+                                          Icons.calendar_today,
+                                          size: 15.0,
+                                        ),
+                                        onPressed: () {
+                                          showDatePicker(
+                                              context: context,
+                                              initialDate: DateTime.now(),
+                                              firstDate: DateTime.now(),
+                                              lastDate: DateTime(2225)
+                                          ).then((date) {
+                                            setState(() {
+                                              formattedDate = dateFormat.format(date);
+                                              print("Formatted date is: $formattedDate");
+                                              newDate = new DateTime(date.year+1, date.month, date.day);
+                                              newDateFormat= dateFormat.format(newDate);
+                                              print("new Date is: $newDate");
+                                            });
                                           });
-                                        });
-                                      },
-                                    ),
-                                  ),
-
-                                  Container(
-                                    alignment: Alignment.center,
-                                    padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                                    child: Text(
-                                      formattedDate == null ? "Picked Date" : formattedDate.toString(),
-                                      style: TextStyle(
-                                        fontSize: 12.0,
+                                        },
                                       ),
                                     ),
-                                  ),
-                                ]
+
+                                    Container(
+                                      alignment: Alignment.center,
+                                      padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                      child: Text(
+                                        formattedDate == null ? "Picked Date" : formattedDate.toString(),
+                                        style: TextStyle(
+                                          fontSize: 12.0,
+                                        ),
+                                      ),
+                                    ),
+                                  ]
+                              ),
                             ),
                           ),
 
@@ -863,11 +900,11 @@ class _MotorCycleState extends State<MotorCycle> {
                         SizedBox(width: 10.0,),
 
                         Container(
-                          height: 40.0,
+                          height: 45.0,
                           width: containerHalfWidth,
                           decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
                           child: Container(
-                            height: 40.0,
+                            height: 45.0,
                             width: containerHalfWidthWP,
                             alignment: Alignment.centerLeft,
                             color: HexColor("#f5f5f5"),

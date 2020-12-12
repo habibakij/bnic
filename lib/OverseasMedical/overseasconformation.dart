@@ -598,7 +598,7 @@ class _InfoDetailsState extends State<InfoDetails> {
 
           Container(
             height: 40.0,
-            width: 320.0,
+            width: mainContainerWidth,
             margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 20.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -614,7 +614,7 @@ class _InfoDetailsState extends State<InfoDetails> {
                     ),
                     child: Text("Go Back", style: TextStyle(fontSize: 16.0, color: Colors.black),),
                     onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=> OmihInfoEntry()));
+                      Navigator.pop(context);
                     },
                   ),
                 ),

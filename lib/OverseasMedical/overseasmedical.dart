@@ -284,10 +284,11 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                                 children: <Widget>[
                                   Container(
                                     width: (landStackContainer),
+                                    color: Colors.white,
                                   ),
                                   Container(
                                     width: landStackContainer1,
-                                    color: Colors.amberAccent,
+                                    color: HexColor("#f2f2f2"),
                                   ),
                                 ],
                               ),
@@ -300,10 +301,11 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                                 children: <Widget>[
                                   Container(
                                     width: (stackFirstContainer),
+                                    color: Colors.white,
                                   ),
                                   Container(
                                     width: stackSecondContainer,
-                                    color: Colors.amberAccent,
+                                    color: HexColor("#f2f2f2"),
                                   ),
                                 ],
                               ),
@@ -329,6 +331,7 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                                         icon: Icon(Icons.keyboard_arrow_down),
                                         iconSize: 18,
                                         elevation: 16,
+                                        iconEnabledColor: Colors.amber[900],
                                         style: TextStyle(color: Colors.black),
                                         onChanged: (_newSelected) {
                                           setState(() {
@@ -385,7 +388,10 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                             child: Row(
                               children: <Widget>[
                                 Container(
+                                  height: 40.0,
                                   width: landStackContainer,
+                                  alignment: Alignment.centerLeft,
+                                  color: Colors.white,
                                   padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                                   child: Text(
                                     categoryListItem == null ? "Select Category" : categoryListItem,
@@ -396,7 +402,7 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                                 ),
                                 Container(
                                   width: landStackContainer1,
-                                  color: Colors.amberAccent,
+                                  color: HexColor("#f2f2f2"),
                                 ),
                               ],
                             ),
@@ -408,7 +414,10 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                             child: Row(
                               children: <Widget>[
                                 Container(
+                                  height: 40.0,
                                   width: stackFirstContainer,
+                                  alignment: Alignment.centerLeft,
+                                  color: Colors.white,
                                   padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                                   child: Text(
                                     categoryListItem == null ? "Select Category" : categoryListItem,
@@ -419,7 +428,7 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                                 ),
                                 Container(
                                   width: stackSecondContainer,
-                                  color: Colors.amberAccent,
+                                  color: HexColor("#f2f2f2"),
                                 ),
                               ],
                             ),
@@ -443,6 +452,7 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                                       icon: Icon(Icons.keyboard_arrow_down),
                                       iconSize: 18,
                                       elevation: 16,
+                                      iconEnabledColor: Colors.amber[900],
                                       style: TextStyle(color: Colors.black),
                                       onChanged: (_newSelected) {
                                         setState(() {
@@ -518,55 +528,61 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                           alignment: Alignment.centerLeft,
                           decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
 
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Container(
-                                  height: 39.0,
-                                  width: 40.0,
-                                  child: RaisedButton(
-                                    padding: EdgeInsets.all(0.0),
-                                    color: Colors.amberAccent,
-                                    child: Icon(
-                                      Icons.calendar_today_outlined,
-                                      size: 15.0,
-                                    ),
-                                    onPressed: () {
-                                      showDatePicker(
-                                              context: context,
-                                              initialDate: DateTime.now(),
-                                              firstDate: DateTime(2000),
-                                              lastDate: DateTime(2222)
-                                      ).then((date) {
-                                        formattedDate = dateFormat.format(date);
-                                        print("Formatted date is: $formattedDate");
-                                        setState(() {
-                                          String selectDateTimeYear = formattedDate.substring(6);
-                                          String todayDateTimeYear = currentDate.substring(6);
-                                          print("selected year $selectDateTimeYear and current year $todayDateTimeYear");
-                                          var selectYear = int.parse(selectDateTimeYear);
-                                          var currentYear = int.parse(todayDateTimeYear);
-                                          print("after converted selected year $selectYear and current year $currentYear");
-                                          var year = currentYear - selectYear;
-                                          print("calculated year: $year");
-                                          years = year.toString();
-                                          print("string converted year: $years");
+                          child: Container(
+                            height: 40.0,
+                            width: containerHalfWidth,
+                            color: Colors.white,
+                            child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                    height: 39.0,
+                                    width: 40.0,
+                                    child: RaisedButton(
+                                      padding: EdgeInsets.all(0.0),
+                                      color: HexColor("#f2f2f2"),
+                                      child: Icon(
+                                        Icons.calendar_today_outlined,
+                                        size: 15.0,
+                                      ),
+                                      onPressed: () {
+                                        showDatePicker(
+                                                context: context,
+                                                initialDate: DateTime.now(),
+                                                firstDate: DateTime(2000),
+                                                lastDate: DateTime(2222)
+                                        ).then((date) {
+                                          formattedDate = dateFormat.format(date);
+                                          print("Formatted date is: $formattedDate");
+                                          setState(() {
+                                            String selectDateTimeYear = formattedDate.substring(6);
+                                            String todayDateTimeYear = currentDate.substring(6);
+                                            print("selected year $selectDateTimeYear and current year $todayDateTimeYear");
+                                            var selectYear = int.parse(selectDateTimeYear);
+                                            var currentYear = int.parse(todayDateTimeYear);
+                                            print("after converted selected year $selectYear and current year $currentYear");
+                                            var year = currentYear - selectYear;
+                                            print("calculated year: $year");
+                                            years = year.toString();
+                                            print("string converted year: $years");
+                                          });
                                         });
-                                      });
-                                    },
-                                  ),
-                                ),
-                                Container(
-                                  alignment: Alignment.center,
-                                  padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-
-                                  child: Text(formattedDate == null ? "Picked Date" : formattedDate.toString(),
-                                    style: TextStyle(
-                                      fontSize: 12.0,
+                                      },
                                     ),
                                   ),
-                                ),
-                              ]),
+                                  Container(
+                                    alignment: Alignment.center,
+                                    padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+
+                                    child: Text(formattedDate == null ? "Picked Date" : formattedDate.toString(),
+                                      style: TextStyle(
+                                        fontSize: 12.0,
+                                      ),
+                                    ),
+                                  ),
+                                ]
+                            ),
+                          ),
                         ),
                         onTap: () {
                           showDatePicker(
@@ -619,9 +635,9 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                     height: 40.0,
                     width: mainContainerWidth,
                     alignment: Alignment.centerLeft,
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black26)),
+                    decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
                     child: Stack(children: <Widget>[
+
                       Builder(builder: (context) {
                         if (orientation.index == Orientation.landscape.index) {
                           return Container(
@@ -630,13 +646,12 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                             child: Row(
                               children: <Widget>[
                                 Container(
+                                  height: 40.0,
+                                  alignment: Alignment.centerLeft,
                                   width: landStackContainer,
-                                  padding:
-                                      EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                                  child: Text(
-                                    stayPeriodListItem == null
-                                        ? "Select Period"
-                                        : stayPeriodListItem,
+                                  color: Colors.white,
+                                  padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                  child: Text(stayPeriodListItem == null ? "Select Period" : stayPeriodListItem,
                                     style: TextStyle(
                                       fontSize: 12.0,
                                     ),
@@ -644,7 +659,7 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                                 ),
                                 Container(
                                   width: landStackContainer1,
-                                  color: Colors.amberAccent,
+                                  color: HexColor("#f2f2f2"),
                                 ),
                               ],
                             ),
@@ -656,13 +671,13 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                             child: Row(
                               children: <Widget>[
                                 Container(
+                                  height: 40.0,
                                   width: stackFirstContainer,
-                                  padding:
-                                      EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                  alignment: Alignment.centerLeft,
+                                  color: Colors.white,
+                                  padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                                   child: Text(
-                                    stayPeriodListItem == null
-                                        ? "Select Period"
-                                        : stayPeriodListItem,
+                                    stayPeriodListItem == null ? "Select Period" : stayPeriodListItem,
                                     style: TextStyle(
                                       fontSize: 12.0,
                                     ),
@@ -670,7 +685,7 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                                 ),
                                 Container(
                                   width: stackSecondContainer,
-                                  color: Colors.amberAccent,
+                                  color: HexColor("#f2f2f2"),
                                 ),
                               ],
                             ),
@@ -684,8 +699,7 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                               children: <Widget>[
                                 Container(
                                   width: mainContainerWidthWP,
-                                  padding:
-                                      EdgeInsets.fromLTRB(5.0, 0.0, 10.0, 0.0),
+                                  padding: EdgeInsets.fromLTRB(5.0, 0.0, 10.0, 0.0),
                                   alignment: Alignment.centerRight,
                                   child: DropdownButtonHideUnderline(
                                     child: DropdownButton<String>(
@@ -693,17 +707,15 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                                       icon: Icon(Icons.keyboard_arrow_down),
                                       iconSize: 18,
                                       elevation: 16,
+                                      iconEnabledColor: Colors.amber[900],
                                       style: TextStyle(color: Colors.black),
                                       onChanged: (_newSelected) {
                                         setState(() {
                                           stayPeriodListItem = _newSelected;
-                                          print(
-                                              "Stay Period: $stayPeriodListItem");
+                                          print("Stay Period: $stayPeriodListItem");
                                         });
                                       },
-                                      items: stayPeriodList
-                                          ?.map<DropdownMenuItem<String>>(
-                                              (_item) {
+                                      items: stayPeriodList?.map<DropdownMenuItem<String>>((_item) {
                                         return DropdownMenuItem<String>(
                                           child: new Text(
                                             _item['stay'],
@@ -711,16 +723,9 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                                           ),
                                           value: _item['stay'].toString(),
                                           onTap: () {
-                                            quoteMax =
-                                                _item['max_stay'].toString();
-                                            quoteMin =
-                                                _item['min_stay'].toString();
-                                            postGetQuote(
-                                                getTypeId,
-                                                getCategoryId,
-                                                quoteMax,
-                                                quoteMin,
-                                                formattedDate);
+                                            quoteMax = _item['max_stay'].toString();
+                                            quoteMin = _item['min_stay'].toString();
+                                            postGetQuote(getTypeId, getCategoryId, quoteMax, quoteMin, formattedDate);
                                           },
                                         );
                                       })?.toList(),
@@ -763,7 +768,7 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                                   if (status != 1) {
                                     customDialog(context, message);
                                   } else {
-                                    YYDialogDemo(context);
+                                    YYDialogDialog(context);
                                   }
                                 }
                               }),
@@ -791,7 +796,7 @@ class _OverseasMedicalState extends State<OverseasMedical> {
     customToast("Date save successfully");
   }
 
-  YYDialog YYDialogDemo(BuildContext context) {
+  YYDialog YYDialogDialog(BuildContext context) {
     print("get quote data: $getTypeId, $getCategoryId, $quoteMax, $quoteMin, $formattedDate");
     return YYDialog().build(context)
       ..height = 300
@@ -830,7 +835,8 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                           child: Text(
                             "Premium Calculation",
                             style: TextStyle(fontSize: 12.0),
-                          )),
+                          )
+                      ),
                       Container(
                         height: 180.0,
                         width: 250.0,
@@ -859,10 +865,8 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                                 width: 250.0,
                                 alignment: Alignment.center,
                                 color: HexColor("#e6e6e6"),
-                                padding:
-                                    EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                                child: Text(
-                                  "Total Amount",
+                                padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                child: Text("Total Amount",
                                   style: TextStyle(fontSize: 12.0),
                                 ),
                               ),
@@ -890,10 +894,7 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                                         height: 40.0,
                                         color: HexColor("#e6e6e6"),
                                         alignment: Alignment.center,
-                                        child: Text(
-                                          netAmount == null
-                                              ? "null"
-                                              : netAmount.toString(),
+                                        child: Text(netAmount == null ? "null" : netAmount.toString(),
                                           style: TextStyle(
                                             fontSize: 12.0,
                                           ),
@@ -918,10 +919,7 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                                         height: 40.0,
                                         color: Colors.white,
                                         alignment: Alignment.center,
-                                        child: Text(
-                                          vatAmount == null
-                                              ? "null"
-                                              : vatAmount.toString(),
+                                        child: Text(vatAmount == null ? "null" : vatAmount.toString(),
                                           style: TextStyle(
                                             fontSize: 12.0,
                                           ),
@@ -946,10 +944,7 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                                         height: 40.0,
                                         color: HexColor("#e6e6e6"),
                                         alignment: Alignment.center,
-                                        child: Text(
-                                          totalAmount == null
-                                              ? "null"
-                                              : totalAmount.toString(),
+                                        child: Text(totalAmount == null ? "null" : totalAmount.toString(),
                                           style: TextStyle(
                                             fontSize: 12.0,
                                           ),
@@ -970,29 +965,25 @@ class _OverseasMedicalState extends State<OverseasMedical> {
                           children: [
                             FlatButton(
                                 shape: new RoundedRectangleBorder(
-                                    borderRadius:
-                                        new BorderRadius.circular(10.0)),
-                                color: Colors.amberAccent,
+                                    borderRadius: new BorderRadius.circular(10.0)
+                                ),
+                                color: HexColor("#F9A825"),
                                 onPressed: () {
                                   Navigator.pop(context);
                                 },
-                                child: Text("Cancel")),
-                            SizedBox(
-                              width: 20.0,
+                                child: Text("Cancel")
                             ),
+                            SizedBox(width: 20.0,),
+
                             FlatButton(
                                 shape: new RoundedRectangleBorder(
-                                    borderRadius:
-                                        new BorderRadius.circular(10.0)),
-                                color: Colors.amberAccent,
+                                    borderRadius: new BorderRadius.circular(10.0)
+                                ),
+                                color: HexColor("#F9A825"),
                                 onPressed: () {
                                   saveDate();
                                   Navigator.pop(context);
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              OmihInfoEntry()));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => OmihInfoEntry()));
                                 },
                                 child: Text("Buy Insurance")),
                           ],

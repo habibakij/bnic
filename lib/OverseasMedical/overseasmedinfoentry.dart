@@ -126,6 +126,7 @@ class _containerBodyState extends State<containerBody> {
         child: Card(
           margin: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 10.0),
           child: Container(
+            color: HexColor("f2f2f2"),
             width: mainContainerWidth,
             padding: EdgeInsets.all(8.0),
             child: Column(
@@ -152,13 +153,23 @@ class _containerBodyState extends State<containerBody> {
                 SizedBox(height: 2.0,),
 
                 Container(
-                  height: 40.0,
+                  height: 45.0,
+                  alignment: Alignment.center,
                   child: TextField(
-                    maxLines: 1,
+                    //maxLines: 1,
+                    autocorrect: false,
                     controller: nameController,
                     decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Full Name',
+                      hintText: 'Name',
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        borderSide: BorderSide(color: Colors.grey[400]),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        borderSide: BorderSide(color: Colors.grey[400]),
+                      ),
                     ),
                     style: TextStyle(
                       fontSize: 12.0,
@@ -173,13 +184,22 @@ class _containerBodyState extends State<containerBody> {
                 SizedBox(height: 2.0,),
 
                 Container(
-                  height: 40.0,
+                  height: 45.0,
                   child: TextField(
                     maxLines: 1,
+                    autocorrect: false,
                     controller: addressController,
                     decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Address',
+                      hintText: 'Address',
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        borderSide: BorderSide(color: Colors.grey[400]),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        borderSide: BorderSide(color: Colors.grey[400]),
+                      ),
                     ),
                     style: TextStyle(
                       fontSize: 12.0,
@@ -196,32 +216,34 @@ class _containerBodyState extends State<containerBody> {
                   Builder(builder: (context) {
                     if (orientation.index == Orientation.landscape.index) {
                       return Container(
-                        height: 40.0,
+                        height: 45.0,
                         width: mainContainerWidthWP,
                         child: Row(
                           children: <Widget>[
                             Container(
                               width: (landStackContainer),
+                              color: Colors.white,
                             ),
                             Container(
                               width: landStackContainer1,
-                              color: Colors.amberAccent,
+                              color: HexColor("#f2f2f2"),
                             ),
                           ],
                         ),
                       );
                     } else {
                       return Container(
-                        height: 40.0,
+                        height: 45.0,
                         width: mainContainerWidthWP,
                         child: Row(
                           children: <Widget>[
                             Container(
                               width: (stackFirstContainer),
+                              color: HexColor("#ffffff"),
                             ),
                             Container(
                               width: stackSecondContainer,
-                              color: Colors.amberAccent,
+                              color: HexColor("#f2f2f2"),
                             ),
                           ],
                         ),
@@ -231,7 +253,7 @@ class _containerBodyState extends State<containerBody> {
 
                   Positioned(
                     child: Container(
-                      height: 40.0,
+                      height: 45.0,
                       child: Row(
                         children: <Widget> [
                           Container(
@@ -243,9 +265,10 @@ class _containerBodyState extends State<containerBody> {
                               child: DropdownButton(
                                 isExpanded: true,
                                 hint: Text("Select City"),
-                                icon: Icon(Icons.arrow_downward),
+                                icon: Icon(Icons.keyboard_arrow_down),
                                 iconSize: 18,
                                 elevation: 16,
+                                iconEnabledColor: Colors.amber[900],
                                 style: TextStyle(color: Colors.black),
                                 value: cityListItem,
 
@@ -281,18 +304,26 @@ class _containerBodyState extends State<containerBody> {
                 SizedBox(height: 2.0,),
 
                 Container(
-                  height: 60.0,
+                  height: 45.0,
                   child: TextField(
                     maxLines: 1,
-                    maxLength: 11,
+                    autocorrect: false,
                     controller: mobileController,
                     keyboardType: TextInputType.number,
                     inputFormatters: <TextInputFormatter>[
                       FilteringTextInputFormatter.digitsOnly
                     ],
                     decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Mobile',
+                      hintText: 'Mobile',
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        borderSide: BorderSide(color: Colors.grey[400]),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        borderSide: BorderSide(color: Colors.grey[400]),
+                      ),
                     ),
                     style: TextStyle(
                       fontSize: 12.0,
@@ -307,13 +338,22 @@ class _containerBodyState extends State<containerBody> {
                 SizedBox(height: 2.0,),
 
                 Container(
-                  height: 40.0,
+                  height: 45.0,
                   child: TextField(
                     maxLines: 1,
+                    autocorrect: false,
                     controller: emailController,
                     decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Email',
+                      hintText: 'Email',
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        borderSide: BorderSide(color: Colors.grey[400]),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        borderSide: BorderSide(color: Colors.grey[400]),
+                      ),
                     ),
                     style: TextStyle(
                       fontSize: 12.0,
@@ -323,144 +363,122 @@ class _containerBodyState extends State<containerBody> {
 
                 SizedBox(height: 10.0,),
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                        width: containerHalfWidth,
-                        child: Text(
-                          "Passport Number",
-                          style: TextStyle(
-                            fontSize: 12.0,
-                            color: HexColor("#008577"),
-                          ),
-                        )
-                    ),
-                    Container(
-                        padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
-                        width: containerHalfWidth,
-                        child: Text(
-                          "Category",
-                          style: TextStyle(
-                            fontSize: 12.0,
-                            color: HexColor("#008577"),
-                          ),
-                        )
-                    ),
-                  ],
-                ),
+                Text("Passport Number", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),),),
 
                 SizedBox(height: 2.0,),
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget> [
-                    Container(
-                      height: 40.0,
-                      width: containerHalfWidth,
-                      alignment: Alignment.centerLeft,
-
-                      child: TextField(
-                        maxLines: 1,
-                        controller: passportController,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Passport Number',
-                        ),
-                        style: TextStyle(
-                          fontSize: 12.0,
-                        ),
+                Container(
+                  height: 45.0,
+                  child: TextField(
+                    maxLines: 1,
+                    autocorrect: false,
+                    controller: passportController,
+                    decoration: InputDecoration(
+                      hintText: 'Passport',
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        borderSide: BorderSide(color: Colors.grey[400]),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        borderSide: BorderSide(color: Colors.grey[400]),
                       ),
                     ),
-
-                    SizedBox(width: 10.0,),
-
-                    Container(
-                      width: containerHalfWidth,
-                      alignment: Alignment.centerLeft,
-                      decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
-                      child: Stack(children: <Widget> [
-
-                        Builder(builder: (context) {
-                          if (orientation.index == Orientation.landscape.index) {
-                            return Container(
-                              height: 40.0,
-                              width: containerHalfWidthWP,
-                              child: Row(
-                                children: <Widget>[
-                                  Container(
-                                    width: landStackHalfContainer,
-                                  ),
-                                  Container(
-                                    width: landStackHalfContainer1,
-                                    color: Colors.amberAccent,
-                                  ),
-                                ],
-                              ),
-                            );
-                          } else {
-                            return Container(
-                              height: 40.0,
-                              width: containerHalfWidthWP,
-                              child: Row(
-                                children: <Widget>[
-                                  Container(
-                                    width: stackHalfContainer,
-                                  ),
-                                  Container(
-                                    width: stackHalfContainer1,
-                                    color: Colors.amberAccent,
-                                  ),
-                                ],
-                              ),
-                            );
-                          }
-                        }),
-
-                        Positioned(
-                          child: Container(
-                            height: 40.0,
-                            child: Row(
-                              children: <Widget> [
-                                Container(
-                                    width: containerHalfWidthWP,
-                                    padding: EdgeInsets.fromLTRB(5.0, 0.0, 10.0, 0.0),
-                                    alignment: Alignment.centerRight,
-                                    child: DropdownButtonHideUnderline(
-                                      child: DropdownButton(
-                                        isExpanded: true,
-                                        hint: Text("Select Category"),
-                                        icon: Icon(Icons.arrow_downward),
-                                        iconSize: 18,
-                                        elevation: 16,
-                                        style: TextStyle(color: Colors.black, fontSize: 12.0,),
-                                        value: categoryListItem,
-
-                                        onChanged: (_newItem){
-                                          setState(() {
-                                            categoryFlag++;
-                                            categoryListItem = _newItem;
-                                          });
-                                        },
-
-                                        items: categoryList?.map<DropdownMenuItem<String>>((_item){
-                                          return DropdownMenuItem(
-                                            child: Text(_item),
-                                            value: _item,
-                                          );
-                                        })?.toList(),
-
-                                      ),
-                                    ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ]),
+                    style: TextStyle(
+                      fontSize: 12.0,
                     ),
-                  ],
+                  ),
                 ),
+
+                SizedBox(height: 10.0,),
+
+                Text("Category", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),),),
+
+                SizedBox(height: 2.0,),
+
+                Stack(children: <Widget> [
+
+                  Builder(builder: (context) {
+                    if (orientation.index == Orientation.landscape.index) {
+                      return Container(
+                        height: 45.0,
+                        width: mainContainerWidthWP,
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                              width: (landStackContainer),
+                              color: Colors.white,
+                            ),
+                            Container(
+                              width: landStackContainer1,
+                              color: HexColor("#f2f2f2"),
+                            ),
+                          ],
+                        ),
+                      );
+                    } else {
+                      return Container(
+                        height: 45.0,
+                        width: mainContainerWidthWP,
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                              width: (stackFirstContainer),
+                              color: HexColor("#ffffff"),
+                            ),
+                            Container(
+                              width: stackSecondContainer,
+                              color: HexColor("#f2f2f2"),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                  }),
+
+                  Positioned(
+                    child: Container(
+                      height: 45.0,
+                      child: Row(
+                        children: <Widget> [
+                          Container(
+                            width: mainContainerWidthWP,
+                            padding: EdgeInsets.fromLTRB(5.0, 0.0, 10.0, 0.0),
+                            alignment: Alignment.centerRight,
+                            decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton(
+                                  isExpanded: true,
+                                  hint: Text("Select Category"),
+                                  icon: Icon(Icons.keyboard_arrow_down),
+                                  iconSize: 18,
+                                  elevation: 16,
+                                  iconEnabledColor: Colors.amber[900],
+                                  style: TextStyle(color: Colors.black, fontSize: 12.0,),
+                                  value: categoryListItem,
+
+                                  onChanged: (_newItem){
+                                    setState(() {
+                                      categoryFlag++;
+                                      categoryListItem = _newItem;
+                                    });
+                                  },
+
+                                  items: categoryList?.map<DropdownMenuItem<String>>((_item){
+                                    return DropdownMenuItem(
+                                      child: Text(_item),
+                                      value: _item,
+                                    );
+                                  })?.toList(),
+                                ),
+                              ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ]),
 
                 SizedBox(height: 10.0,),
 
@@ -469,13 +487,22 @@ class _containerBodyState extends State<containerBody> {
                 SizedBox(height: 2.0,),
 
                 Container(
-                  height: 40.0,
+                  height: 45.0,
                   child: TextField(
                     maxLines: 1,
+                    autocorrect: false,
                     controller: countryController,
                     decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Visited Country',
+                      hintText: 'Country',
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        borderSide: BorderSide(color: Colors.grey[400]),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        borderSide: BorderSide(color: Colors.grey[400]),
+                      ),
                     ),
                     style: TextStyle(
                       fontSize: 12.0,

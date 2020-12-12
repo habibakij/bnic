@@ -332,8 +332,6 @@ class _MotorDetailsState extends State<MotorDetails> {
                             ],
                           ),
 
-                          //SizedBox(height: 5.0,),
-
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
@@ -391,8 +389,6 @@ class _MotorDetailsState extends State<MotorDetails> {
                               ),
                             ],
                           ),
-
-                          //SizedBox(height: 5.0,),
 
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -849,7 +845,7 @@ class _MotorDetailsState extends State<MotorDetails> {
                       ),
                       child: Text("Go Back", style: TextStyle(fontSize: 16.0, color: Colors.black),),
                       onPressed: (){
-                        Navigator.push(context, MaterialPageRoute (builder: (context) => MotorInformationEntry()));
+                        Navigator.pop(context);
                       },
                     ),
                   ),

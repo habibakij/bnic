@@ -914,7 +914,7 @@ class _commercialConformationState extends State<commercialConformation> {
                        ),
                        child: Text("Go Back", style: TextStyle(fontSize: 16.0, color: Colors.black),),
                        onPressed: (){
-                         Navigator.push(context, MaterialPageRoute (builder: (context) => CarInfoEntry()));
+                         Navigator.pop(context);
                        },
                      ),
                    ),

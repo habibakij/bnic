@@ -144,7 +144,7 @@ class _EnterDetailsState extends State<EnterDetails> {
           elevation: 5.0,
           child: Container(
             width: mainContainerWidth,
-            color: HexColor("#f5f5f5"),
+            color: HexColor("#f2f2f2"),
             padding: EdgeInsets.all(8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -152,7 +152,7 @@ class _EnterDetailsState extends State<EnterDetails> {
 
                 /// Title information
                 Container(
-                  height: 40.0,
+                  height: 45.0,
                   width: mainContainerWidth,
                   alignment: Alignment.centerLeft,
                   padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
@@ -172,13 +172,22 @@ class _EnterDetailsState extends State<EnterDetails> {
 
                 /// Insured name TextField
                 Container(
-                  height: 40.0,
+                  height: 45.0,
                   child: TextField(
                     maxLines: 1,
+                    autocorrect: false,
                     controller: nameController,
                     decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Insured Name same as BRTA Registration',
+                      hintText: 'Insured Name same as BRTA Registration',
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        borderSide: BorderSide(color: Colors.grey[400]),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        borderSide: BorderSide(color: Colors.grey[400]),
+                      ),
                     ),
                     style: TextStyle(
                       fontSize: 12.0,
@@ -194,13 +203,22 @@ class _EnterDetailsState extends State<EnterDetails> {
 
                 /// Insured address TextField
                 Container(
-                  height: 40.0,
+                  height: 45.0,
                   child: TextField(
                     maxLines: 1,
+                    autocorrect: false,
                     controller: addressController,
                     decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Address',
+                      hintText: 'Address',
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        borderSide: BorderSide(color: Colors.grey[400]),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        borderSide: BorderSide(color: Colors.grey[400]),
+                      ),
                     ),
                     style: TextStyle(
                       fontSize: 12.0,
@@ -220,32 +238,34 @@ class _EnterDetailsState extends State<EnterDetails> {
                   Builder(builder: (context) {
                     if (orientation.index == Orientation.landscape.index) {
                       return Container(
-                        height: 40.0,
+                        height: 45.0,
                         width: mainContainerWidthWP,
                         child: Row(
                           children: <Widget>[
                             Container(
                               width: (landStackContainer),
+                              color: Colors.white,
                             ),
                             Container(
                               width: landStackContainer1,
-                              color: Colors.amberAccent,
+                              color: HexColor("#f2f2f2"),
                             ),
                           ],
                         ),
                       );
                     } else {
                       return Container(
-                        height: 40.0,
+                        height: 45.0,
                         width: mainContainerWidthWP,
                         child: Row(
                           children: <Widget>[
                             Container(
                               width: (stackFirstContainer),
+                              color: Colors.white,
                             ),
                             Container(
                               width: stackSecondContainer,
-                              color: Colors.amberAccent,
+                              color: HexColor("#f2f2f2"),
                             ),
                           ],
                         ),
@@ -255,7 +275,7 @@ class _EnterDetailsState extends State<EnterDetails> {
 
                   Positioned(
                     child: Container(
-                      height: 40.0,
+                      height: 45.0,
                       child: Row(
                         children: <Widget> [
                           Container(
@@ -267,9 +287,10 @@ class _EnterDetailsState extends State<EnterDetails> {
                               child: DropdownButton(
                                 isExpanded: true,
                                 hint: Text("Select City"),
-                                icon: Icon(Icons.arrow_downward),
+                                icon: Icon(Icons.keyboard_arrow_down),
                                 iconSize: 18,
                                 elevation: 16,
+                                iconEnabledColor: Colors.amber[900],
                                 style: TextStyle(color: Colors.black),
                                 value: getCityListItem,
 
@@ -304,7 +325,7 @@ class _EnterDetailsState extends State<EnterDetails> {
 
                 /// Checkbox and text for same as insured city, address
                 Container(
-                  height: 40.0,
+                  height: 45.0,
                   width: mainContainerWidth,
                   child: Row(
                     children: <Widget> [
@@ -357,13 +378,22 @@ class _EnterDetailsState extends State<EnterDetails> {
 
                       /// Mailing address textField
                       Container(
-                        height: 40.0,
+                        height: 45.0,
                         child: TextField(
                           maxLines: 1,
+                          autocorrect: false,
                           controller: mailingAddressController,
                           decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Mailing Address',
+                            hintText: 'Mailing Address',
+                            filled: true,
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                              borderSide: BorderSide(color: Colors.grey[400]),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                              borderSide: BorderSide(color: Colors.grey[400]),
+                            ),
                           ),
                           style: TextStyle(
                             fontSize: 12.0,
@@ -381,32 +411,34 @@ class _EnterDetailsState extends State<EnterDetails> {
                         Builder(builder: (context) {
                           if (orientation.index == Orientation.landscape.index) {
                             return Container(
-                              height: 40.0,
+                              height: 45.0,
                               width: mainContainerWidthWP,
                               child: Row(
                                 children: <Widget>[
                                   Container(
                                     width: (landStackContainer),
+                                    color: Colors.white,
                                   ),
                                   Container(
                                     width: landStackContainer1,
-                                    color: Colors.amberAccent,
+                                    color: HexColor("#f2f2f2"),
                                   ),
                                 ],
                               ),
                             );
                           } else {
                             return Container(
-                              height: 40.0,
+                              height: 45.0,
                               width: mainContainerWidthWP,
                               child: Row(
                                 children: <Widget>[
                                   Container(
                                     width: (stackFirstContainer),
+                                    color: Colors.white,
                                   ),
                                   Container(
                                     width: stackSecondContainer,
-                                    color: Colors.amberAccent,
+                                    color: HexColor("#f2f2f2"),
                                   ),
                                 ],
                               ),
@@ -416,7 +448,7 @@ class _EnterDetailsState extends State<EnterDetails> {
 
                         Positioned(
                           child: Container(
-                            height: 40.0,
+                            height: 45.0,
                             child: Row(
                               children: <Widget> [
                                 Container(
@@ -428,9 +460,10 @@ class _EnterDetailsState extends State<EnterDetails> {
                                     child: DropdownButton(
                                       isExpanded: true,
                                       hint: Text("Mailing City"),
-                                      icon: Icon(Icons.arrow_downward),
+                                      icon: Icon(Icons.keyboard_arrow_down),
                                       iconSize: 18,
                                       elevation: 16,
+                                      iconEnabledColor: Colors.amber[900],
                                       style: TextStyle(color: Colors.black),
                                       value: getMailingCityListItem,
                                       onChanged: (_newItem){
@@ -465,25 +498,33 @@ class _EnterDetailsState extends State<EnterDetails> {
 
                 SizedBox(height: 15.0,),
 
-                /// Mobile Text
                 Text("Mobile", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),),),
 
                 SizedBox(height: 5.0,),
 
                 /// Mobile TextField
                 Container(
-                  height: 60.0,
+                  height: 65.0,
                   child: TextField(
                     maxLines: 1,
                     maxLength: 11,
+                    autocorrect: false,
                     controller: mobileController,
                     keyboardType: TextInputType.number,
                     inputFormatters: <TextInputFormatter>[
                       FilteringTextInputFormatter.digitsOnly
                     ],
                     decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Mobile',
+                      hintText: 'Mobile',
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        borderSide: BorderSide(color: Colors.grey[400]),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        borderSide: BorderSide(color: Colors.grey[400]),
+                      ),
                     ),
                     style: TextStyle(
                       fontSize: 12.0,
@@ -491,21 +532,28 @@ class _EnterDetailsState extends State<EnterDetails> {
                   ),
                 ),
 
-                /// Email Text
                 Text("Email", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),),),
 
                 SizedBox(height: 5.0,),
 
                 ///Email TextField
                 Container(
-                  height: 40.0,
+                  height: 45.0,
                   child: TextField(
-                    controller: emailController,
-                    keyboardType: TextInputType.emailAddress,
                     maxLines: 1,
+                    autocorrect: false,
+                    controller: emailController,
                     decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Email',
+                      hintText: 'Email',
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        borderSide: BorderSide(color: Colors.grey[400]),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        borderSide: BorderSide(color: Colors.grey[400]),
+                      ),
                     ),
                     style: TextStyle(
                       fontSize: 12.0,
@@ -515,7 +563,38 @@ class _EnterDetailsState extends State<EnterDetails> {
 
                 SizedBox(height: 15.0,),
 
-                /// Brand and Manufacture text
+                Text("Vehicles Brand/Make", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),),),
+
+                SizedBox(height: 5.0,),
+
+                /// Brand TextField
+                Container(
+                  height: 45.0,
+                  child: TextField(
+                    maxLines: 1,
+                    autocorrect: false,
+                    controller: vehiclesBrandController,
+                    decoration: InputDecoration(
+                      hintText: 'Vehicles Brand/Make',
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        borderSide: BorderSide(color: Colors.grey[400]),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        borderSide: BorderSide(color: Colors.grey[400]),
+                      ),
+                    ),
+                    style: TextStyle(
+                      fontSize: 12.0,
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: 15.0,),
+
+                ///Manufacture year Registration Date text
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
@@ -524,18 +603,6 @@ class _EnterDetailsState extends State<EnterDetails> {
                         alignment: Alignment.centerLeft,
                         width: containerHalfWidth,
                         child: Text(
-                          "Vehicles Brand/Make",
-                          style: TextStyle(
-                            fontSize: 12.0,
-                            color: HexColor("#008577"),
-                          ),
-                        )
-                    ),
-                    Container(
-                        alignment: Alignment.centerLeft,
-                        width: containerHalfWidth,
-                        padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
-                        child: Text(
                           "Year of Manufacture",
                           style: TextStyle(
                             fontSize: 12.0,
@@ -543,33 +610,29 @@ class _EnterDetailsState extends State<EnterDetails> {
                           ),
                         )
                     ),
+
+                    Container(
+                        alignment: Alignment.centerLeft,
+                        width: containerHalfWidth,
+                        padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
+                        child: Text(
+                          "Registration Date",
+                          style: TextStyle(
+                            fontSize: 12.0,
+                            color: HexColor("#008577"),
+                          ),
+                        )
+                    ),
+
                   ],
                 ),
 
                 SizedBox(height: 5.0,),
 
-                /// Brand TextField, Manufacture year Spinner
+                ///Manufacture year Registration Date Spinner
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget> [
-
-                    Container(
-                      height: 40.0,
-                      width: containerHalfWidth,
-                      child: TextField(
-                        maxLines: 1,
-                        controller: vehiclesBrandController,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Vehicles Brand/Make',
-                        ),
-                        style: TextStyle(
-                          fontSize: 12.0,
-                        ),
-                      ),
-                    ),
-
-                    SizedBox(width: 10.0,),
 
                     Container(
                       width: containerHalfWidth,
@@ -581,32 +644,34 @@ class _EnterDetailsState extends State<EnterDetails> {
                           Builder(builder: (context) {
                             if (orientation.index == Orientation.landscape.index) {
                               return Container(
-                                height: 40.0,
+                                height: 45.0,
                                 width: containerHalfWidthWP,
                                 child: Row(
                                   children: <Widget>[
                                     Container(
                                       width: landStackHalfContainer,
+                                      color: Colors.white,
                                     ),
                                     Container(
                                       width: landStackHalfContainer1,
-                                      color: Colors.amberAccent,
+                                      color: HexColor("#f2f2f2"),
                                     ),
                                   ],
                                 ),
                               );
                             } else {
                               return Container(
-                                height: 40.0,
+                                height: 45.0,
                                 width: containerHalfWidthWP,
                                 child: Row(
                                   children: <Widget>[
                                     Container(
                                       width: stackHalfContainer,
+                                      color: Colors.white,
                                     ),
                                     Container(
                                       width: stackHalfContainer1,
-                                      color: Colors.amberAccent,
+                                      color: HexColor("#f2f2f2"),
                                     ),
                                   ],
                                 ),
@@ -616,7 +681,7 @@ class _EnterDetailsState extends State<EnterDetails> {
 
                           Positioned(
                               child: Container(
-                                height: 40.0,
+                                height: 45.0,
                                 child: Row(
                                   children: <Widget> [
                                     Container(
@@ -627,9 +692,10 @@ class _EnterDetailsState extends State<EnterDetails> {
                                         child: DropdownButton(
                                           isExpanded: true,
                                           hint: Text("Years"),
-                                          icon: Icon(Icons.arrow_downward),
+                                          icon: Icon(Icons.keyboard_arrow_down),
                                           iconSize: 18,
                                           elevation: 16,
+                                          iconEnabledColor: Colors.amber[900],
                                           style: TextStyle(color: Colors.black),
                                           value: getYearListItem,
                                           onChanged: (_newSelected){
@@ -652,71 +718,11 @@ class _EnterDetailsState extends State<EnterDetails> {
                                         ),
                                       ),
                                     ),
-
                                   ],
                                 ),
                               ),
                           ),
-
                         ]
-                      ),
-                    ),
-
-                  ],
-                ),
-
-                SizedBox(height: 15.0,),
-
-                /// Registration number and date text
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                        alignment: Alignment.centerLeft,
-                        width: containerHalfWidth,
-                        child: Text(
-                          "Registration Number",
-                          style: TextStyle(
-                            fontSize: 12.0,
-                            color: HexColor("#008577"),
-                          ),
-                        )
-                    ),
-                    Container(
-                        alignment: Alignment.centerLeft,
-                        width: containerHalfWidth,
-                        padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
-                        child: Text(
-                          "Registration Date",
-                          style: TextStyle(
-                            fontSize: 12.0,
-                            color: HexColor("#008577"),
-                          ),
-                        )
-                    ),
-                  ],
-                ),
-
-                SizedBox(height: 5.0,),
-
-                /// Registration number TextField and Registration DatePicker
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget> [
-
-                    Container(
-                      height: 40.0,
-                      width: containerHalfWidth,
-                      child: TextField(
-                        maxLines: 1,
-                        controller: regNumberController,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Registration Number',
-                        ),
-                        style: TextStyle(
-                          fontSize: 12.0,
-                        ),
                       ),
                     ),
 
@@ -728,45 +734,50 @@ class _EnterDetailsState extends State<EnterDetails> {
 
                       child: GestureDetector(
 
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
+                        child: Container(
+                          height: 45.0,
+                          width: containerHalfWidth,
+                          color: Colors.white,
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
 
-                              Container(
-                                height: 39.0,
-                                width: 40.0,
-                                child: RaisedButton(
-                                  color: Colors.amberAccent,
-                                  child: Icon(
-                                    Icons.calendar_today,
-                                    size: 15.0,
-                                  ),
-                                  onPressed: () {
-                                    showDatePicker(
-                                        context: context,
-                                        initialDate: DateTime.now(),
-                                        firstDate: DateTime(2000),
-                                        lastDate: DateTime(2222)
-                                    ).then((date) {
-                                      setState(() {
-                                        formattedDate = dateFormat.format(date);
-                                        print("Formatted date is: $formattedDate");
+                                Container(
+                                  height: 45.0,
+                                  width: 40.0,
+                                  child: RaisedButton(
+                                    color: HexColor("#f2f2f2"),
+                                    child: Icon(
+                                      Icons.calendar_today,
+                                      size: 15.0,
+                                    ),
+                                    onPressed: () {
+                                      showDatePicker(
+                                          context: context,
+                                          initialDate: DateTime.now(),
+                                          firstDate: DateTime(2000),
+                                          lastDate: DateTime(2222)
+                                      ).then((date) {
+                                        setState(() {
+                                          formattedDate = dateFormat.format(date);
+                                          print("Formatted date is: $formattedDate");
+                                        });
                                       });
-                                    });
-                                  },
+                                    },
+                                  ),
                                 ),
-                              ),
 
-                              Container(
-                                alignment: Alignment.center,
-                                padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-                                child: Text(
-                                  formattedDate == null ? "Picked Date" : formattedDate.toString(),
-                                  style: TextStyle(fontSize: 12.0,),
+                                Container(
+                                  alignment: Alignment.center,
+                                  padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+                                  child: Text(
+                                    formattedDate == null ? "Picked Date" : formattedDate.toString(),
+                                    style: TextStyle(fontSize: 12.0,),
+                                  ),
                                 ),
-                              ),
 
-                            ]
+                              ]
+                          ),
                         ),
 
                         onTap: (){
@@ -785,83 +796,101 @@ class _EnterDetailsState extends State<EnterDetails> {
 
                       ),
                     ),
+
                   ],
                 ),
 
                 SizedBox(height: 15.0,),
 
-                /// Engine and Chassis no text
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                        alignment: Alignment.centerLeft,
-                        width: containerHalfWidth,
-                        child: Text(
-                          "Engine Number",
-                          style: TextStyle(
-                            fontSize: 12.0,
-                            color: HexColor("#008577"),
-                          ),
-                        )
-                    ),
-                    Container(
-                        alignment: Alignment.centerLeft,
-                        width: containerHalfWidth,
-                        padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
-                        child: Text(
-                          "Chassis No",
-                          style: TextStyle(
-                            fontSize: 12.0,
-                            color: HexColor("#008577"),
-                          ),
-                        )
-                    ),
-                  ],
-                ),
+                Text("Registration Number", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),),),
 
                 SizedBox(height: 5.0,),
 
-                /// Engine and Chassis no TextField
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget> [
-
-                    Container(
-                      height: 40.0,
-                      width: containerHalfWidth,
-                      child: TextField(
-                        maxLines: 1,
-                        controller: engineController,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Engine Number',
-                        ),
-                        style: TextStyle(
-                          fontSize: 12.0,
-                        ),
+                /// Registration number TextField
+                Container(
+                  height: 45.0,
+                  child: TextField(
+                    maxLines: 1,
+                    autocorrect: false,
+                    controller: regNumberController,
+                    decoration: InputDecoration(
+                      hintText: 'Registration Number',
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        borderSide: BorderSide(color: Colors.grey[400]),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        borderSide: BorderSide(color: Colors.grey[400]),
                       ),
                     ),
+                    style: TextStyle(
+                      fontSize: 12.0,
+                    ),
+                  ),
+                ),
 
-                    SizedBox(width: 10.0,),
+                SizedBox(height: 15.0,),
 
-                    Container(
-                      height: 40.0,
-                      width: containerHalfWidth,
-                      child: TextField(
-                        maxLines: 1,
-                        controller: chassisController,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Chassis No',
-                        ),
-                        style: TextStyle(
-                          fontSize: 12.0,
-                        ),
+                Text("Engine Number", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),),),
+
+                SizedBox(height: 5.0,),
+
+                /// Engine Number TextField
+                Container(
+                  height: 45.0,
+                  child: TextField(
+                    maxLines: 1,
+                    autocorrect: false,
+                    controller: engineController,
+                    decoration: InputDecoration(
+                      hintText: 'Engine Number',
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        borderSide: BorderSide(color: Colors.grey[400]),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        borderSide: BorderSide(color: Colors.grey[400]),
                       ),
                     ),
+                    style: TextStyle(
+                      fontSize: 12.0,
+                    ),
+                  ),
+                ),
 
-                  ],
+                SizedBox(height: 15.0,),
+
+                Text("Chassis No", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),),),
+
+                SizedBox(height: 5.0,),
+
+                /// Chassis No TextField
+                Container(
+                  height: 45.0,
+                  child: TextField(
+                    maxLines: 1,
+                    autocorrect: false,
+                    controller: chassisController,
+                    decoration: InputDecoration(
+                      hintText: 'Chassis No',
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        borderSide: BorderSide(color: Colors.grey[400]),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        borderSide: BorderSide(color: Colors.grey[400]),
+                      ),
+                    ),
+                    style: TextStyle(
+                      fontSize: 12.0,
+                    ),
+                  ),
                 ),
 
                 SizedBox(height: 30.0,),
@@ -950,7 +979,7 @@ class _EnterDetailsState extends State<EnterDetails> {
       customToast("Select Date");
     } else {
       saveDataSP();
-      customToast("Data Saved successfully");
+      print("Data save successfully");
       Navigator.push(context, MaterialPageRoute (builder: (context) => commercialConformation()));
     }
   }

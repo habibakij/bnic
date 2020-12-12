@@ -1,3 +1,7 @@
+
+/// CREATED BY AK IJ
+/// 29-11-2020
+
 import 'dart:convert';
 
 import 'package:bnic/Network/facilitymodel.dart';
@@ -89,8 +93,7 @@ class _CarState extends State<Car> {
   List<Seat> vehiclesSeatList;
   String vehiclesTypeListItem;
   String vehiclesTypeId;
-  String getVehiclesTypeListUrl =
-      'http://online.bnicl.net/api/vehicle-type/list';
+  String getVehiclesTypeListUrl = 'http://online.bnicl.net/api/vehicle-type/list';
   Future<String> getVehiclesTypeList() async {
     await http.post(getVehiclesTypeListUrl, body: {
       'type_id': '1',
@@ -114,8 +117,7 @@ class _CarState extends State<Car> {
   int length = 0;
   String status;
   int conStatus;
-  String facilityListUrl =
-      'http://online.bnicl.net/api/insurance-facility/list';
+  String facilityListUrl = 'http://online.bnicl.net/api/insurance-facility/list';
   List facilityPercentageList = new List();
   String capacity;
   Future<String> getFacilityList(
@@ -366,14 +368,14 @@ class _CarState extends State<Car> {
               elevation: 5.0,
               child: Container(
                 width: mainContainerWidth,
-                color: HexColor("#f5f5f5"),
+                color: HexColor("#f2f2f2"),
                 padding: EdgeInsets.all(8.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
 
                     Container(
-                      height: 40.0,
+                      height: 45.0,
                       width: mainContainerWidth,
                       alignment: Alignment.centerLeft,
                       padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
@@ -395,7 +397,7 @@ class _CarState extends State<Car> {
 
                     /// select Plan type spinner(dropdown list)
                     Container(
-                      height: 40.0,
+                      height: 45.0,
                       width: mainContainerWidth,
                       alignment: Alignment.centerLeft,
                       decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
@@ -404,32 +406,34 @@ class _CarState extends State<Car> {
                         Builder(builder: (context) {
                           if (orientation.index == Orientation.landscape.index) {
                             return Container(
-                              height: 40.0,
+                              height: 45.0,
                               width: mainContainerWidthWP,
                               child: Row(
                                 children: <Widget>[
                                   Container(
                                     width: (landStackContainer),
+                                    color: Colors.white,
                                   ),
                                   Container(
                                     width: landStackContainer1,
-                                    color: Colors.amberAccent,
+                                    color: HexColor("#f2f2f2"),
                                   ),
                                 ],
                               ),
                             );
                           } else {
                             return Container(
-                              height: 40.0,
+                              height: 45.0,
                               width: mainContainerWidthWP,
                               child: Row(
                                 children: <Widget>[
                                   Container(
                                     width: (stackFirstContainer),
+                                    color: Colors.white,
                                   ),
                                   Container(
                                     width: stackSecondContainer,
-                                    color: Colors.amberAccent,
+                                    color: HexColor("#f2f2f2"),
                                   ),
                                 ],
                               ),
@@ -439,7 +443,7 @@ class _CarState extends State<Car> {
 
                         Positioned(
                           child: Container(
-                            height: 40.0,
+                            height: 45.0,
                             child: Row(children: <Widget>[
                               Container(
                                 width: mainContainerWidthWP,
@@ -453,6 +457,7 @@ class _CarState extends State<Car> {
                                     value: planListItem,
                                     iconSize: 18,
                                     elevation: 16,
+                                    iconEnabledColor: Colors.amber[900],
                                     style: TextStyle(color: Colors.black),
                                     onChanged: (_newSelected) {
                                       setState(() {
@@ -503,7 +508,7 @@ class _CarState extends State<Car> {
 
                     /// select Sub type spinner(dropdown list)
                     Container(
-                      height: 40.0,
+                      height: 45.0,
                       width: mainContainerWidth,
                       alignment: Alignment.centerLeft,
                       decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
@@ -513,32 +518,34 @@ class _CarState extends State<Car> {
                         Builder(builder: (context) {
                           if (orientation.index == Orientation.landscape.index) {
                             return Container(
-                              height: 40.0,
+                              height: 45.0,
                               width: mainContainerWidthWP,
                               child: Row(
                                 children: <Widget>[
                                   Container(
                                     width: (landStackContainer),
+                                    color: Colors.white,
                                   ),
                                   Container(
                                     width: landStackContainer1,
-                                    color: Colors.amberAccent,
+                                    color: HexColor("#f2f2f2"),
                                   ),
                                 ],
                               ),
                             );
                           } else {
                             return Container(
-                              height: 40.0,
+                              height: 45.0,
                               width: mainContainerWidthWP,
                               child: Row(
                                 children: <Widget>[
                                   Container(
                                     width: (stackFirstContainer),
+                                    color: Colors.white,
                                   ),
                                   Container(
                                     width: stackSecondContainer,
-                                    color: Colors.amberAccent,
+                                    color: HexColor("#f2f2f2"),
                                   ),
                                 ],
                               ),
@@ -548,7 +555,7 @@ class _CarState extends State<Car> {
 
                         Positioned(
                           child: Container(
-                            height: 40.0,
+                            height: 45.0,
                             child: Row(children: <Widget>[
                               Container(
                                 width: mainContainerWidthWP,
@@ -561,6 +568,7 @@ class _CarState extends State<Car> {
                                     icon: Icon(Icons.keyboard_arrow_down),
                                     iconSize: 18,
                                     elevation: 16,
+                                    iconEnabledColor: Colors.amber[900],
                                     value: subTypeListItem,
                                     style: TextStyle(color: Colors.black),
                                     onChanged: (_newSelected) {
@@ -610,7 +618,7 @@ class _CarState extends State<Car> {
 
                     /// select Vehicle type spinner(dropdown list)
                     Container(
-                      height: 40.0,
+                      height: 45.0,
                       width: mainContainerWidth,
                       alignment: Alignment.centerLeft,
                       decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
@@ -620,12 +628,14 @@ class _CarState extends State<Car> {
                         Builder(builder: (context) {
                           if (orientation.index == Orientation.landscape.index) {
                             return Container(
-                              height: 40.0,
+                              height: 45.0,
                               width: mainContainerWidthWP,
                               child: Row(
                                 children: <Widget>[
                                   Container(
                                     width: (landStackContainer),
+                                    color: Colors.white,
+                                    alignment: Alignment.centerLeft,
                                     padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                                     child: Text(
                                       vehiclesTypeListItem == null ? "Vehicle Type" : vehiclesTypeListItem,
@@ -633,19 +643,22 @@ class _CarState extends State<Car> {
                                   ),
                                   Container(
                                     width: landStackContainer1,
-                                    color: Colors.amberAccent,
+                                    color: HexColor("#f2f2f2"),
                                   ),
                                 ],
                               ),
                             );
                           } else {
                             return Container(
-                              height: 40.0,
+                              height: 45.0,
                               width: mainContainerWidthWP,
                               child: Row(
                                 children: <Widget>[
                                   Container(
+                                    height: 45.0,
                                     width: (stackFirstContainer),
+                                    alignment: Alignment.centerLeft,
+                                    color: Colors.white,
                                     padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                                     child: Text(
                                       vehiclesTypeListItem == null ? "Vehicle Type" : vehiclesTypeListItem,
@@ -653,7 +666,7 @@ class _CarState extends State<Car> {
                                   ),
                                   Container(
                                     width: stackSecondContainer,
-                                    color: Colors.amberAccent,
+                                    color: HexColor("#f2f2f2"),
                                   ),
                                 ],
                               ),
@@ -663,7 +676,7 @@ class _CarState extends State<Car> {
 
                         Positioned(
                           child: Container(
-                            height: 40.0,
+                            height: 45.0,
                             child: Row(children: <Widget>[
                               Container(
                                 width: mainContainerWidthWP,
@@ -675,6 +688,7 @@ class _CarState extends State<Car> {
                                     icon: Icon(Icons.keyboard_arrow_down),
                                     iconSize: 18,
                                     elevation: 16,
+                                    iconEnabledColor: Colors.amber[900],
                                     style: TextStyle(color: Colors.black),
                                     onChanged: (_newSelected) {
                                       setState(() {
@@ -725,17 +739,26 @@ class _CarState extends State<Car> {
                             SizedBox(height: 2.0,),
 
                             Container(
-                              height: 40.0,
+                              height: 45.0,
                               child: TextField(
                                 maxLines: 1,
+                                autocorrect: false,
                                 controller: carPriceController,
                                 keyboardType: TextInputType.number,
                                 inputFormatters: <TextInputFormatter>[
                                   FilteringTextInputFormatter.digitsOnly
                                 ],
                                 decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: 'Car Price',
+                                  hintText: 'Car Price',
+                                  filled: true,
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                    borderSide: BorderSide(color: Colors.grey[400]),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                    borderSide: BorderSide(color: Colors.grey[400]),
+                                  ),
                                 ),
                                 style: TextStyle(
                                   fontSize: 12.0,
@@ -785,7 +808,7 @@ class _CarState extends State<Car> {
                       children: <Widget>[
 
                         Container(
-                          height: 40.0,
+                          height: 45.0,
                           width: containerHalfWidth,
                           alignment: Alignment.centerLeft,
                           decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
@@ -796,32 +819,34 @@ class _CarState extends State<Car> {
                               Builder(builder: (context) {
                                 if (orientation.index == Orientation.landscape.index) {
                                   return Container(
-                                    height: 40.0,
+                                    height: 45.0,
                                     width: containerHalfWidthWP,
                                     child: Row(
                                       children: <Widget>[
                                         Container(
                                           width: landStackHalfContainer,
+                                          color: Colors.white,
                                         ),
                                         Container(
                                           width: landStackHalfContainer1,
-                                          color: Colors.amberAccent,
+                                          color: HexColor("#f2f2f2"),
                                         ),
                                       ],
                                     ),
                                   );
                                 } else {
                                   return Container(
-                                    height: 40.0,
+                                    height: 45.0,
                                     width: containerHalfWidthWP,
                                     child: Row(
                                       children: <Widget>[
                                         Container(
                                           width: stackHalfContainer,
+                                          color: Colors.white,
                                         ),
                                         Container(
                                           width: stackHalfContainer1,
-                                          color: Colors.amberAccent,
+                                          color: HexColor("#f2f2f2"),
                                         ),
                                       ],
                                     ),
@@ -831,7 +856,7 @@ class _CarState extends State<Car> {
 
                               Positioned(
                                 child: Container(
-                                  height: 40.0,
+                                  height: 45.0,
                                   child: Row(
                                     children: <Widget>[
                                       Container(
@@ -845,6 +870,7 @@ class _CarState extends State<Car> {
                                             icon: Icon(Icons.keyboard_arrow_down),
                                             iconSize: 18,
                                             elevation: 16,
+                                            iconEnabledColor: Colors.amber[900],
                                             value: driverSelectItem,
                                             style: TextStyle(color: Colors.black),
                                             onChanged: (_newSelected) {
@@ -877,18 +903,27 @@ class _CarState extends State<Car> {
                         SizedBox(width: 10.0,),
 
                         Container(
-                          height: 40.0,
+                          height: 45.0,
                           width: containerHalfWidth,
                           child: TextField(
                             maxLines: 1,
+                            autocorrect: false,
                             controller: capacityController,
                             keyboardType: TextInputType.number,
                             inputFormatters: <TextInputFormatter>[
                               FilteringTextInputFormatter.digitsOnly
                             ],
                             decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: 'capacity',
+                              hintText: 'Capacity',
+                              filled: true,
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                borderSide: BorderSide(color: Colors.grey[400]),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                borderSide: BorderSide(color: Colors.grey[400]),
+                              ),
                             ),
                             style: TextStyle(
                               fontSize: 12.0,
@@ -907,7 +942,7 @@ class _CarState extends State<Car> {
 
                     /// select Helper spinner(dropdown list)
                     Container(
-                      height: 40.0,
+                      height: 45.0,
                       width: mainContainerWidth,
                       alignment: Alignment.centerLeft,
                       decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
@@ -917,12 +952,15 @@ class _CarState extends State<Car> {
                         Builder(builder: (context) {
                           if (orientation.index == Orientation.landscape.index) {
                             return Container(
-                              height: 40.0,
+                              height: 45.0,
                               width: mainContainerWidthWP,
                               child: Row(
                                 children: <Widget>[
                                   Container(
+                                    height: 45.0,
                                     width: (landStackContainer),
+                                    alignment: Alignment.centerLeft,
+                                    color: Colors.white,
                                     padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                                     child: Text(
                                       helperSelectItem == null ? "Helper" : helperSelectItem,
@@ -933,19 +971,22 @@ class _CarState extends State<Car> {
                                   ),
                                   Container(
                                     width: landStackContainer1,
-                                    color: Colors.amberAccent,
+                                    color: HexColor("#f2f2f2"),
                                   ),
                                 ],
                               ),
                             );
                           } else {
                             return Container(
-                              height: 40.0,
+                              height: 45.0,
                               width: mainContainerWidthWP,
                               child: Row(
                                 children: <Widget>[
                                   Container(
+                                    height: 45.0,
                                     width: (stackFirstContainer),
+                                    alignment: Alignment.centerLeft,
+                                    color: Colors.white,
                                     padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                                     child: Text(
                                       helperSelectItem == null ? "Helper" : helperSelectItem,
@@ -956,7 +997,7 @@ class _CarState extends State<Car> {
                                   ),
                                   Container(
                                     width: stackSecondContainer,
-                                    color: Colors.amberAccent,
+                                    color: HexColor("#f2f2f2"),
                                   ),
                                 ],
                               ),
@@ -966,7 +1007,7 @@ class _CarState extends State<Car> {
 
                         Positioned(
                           child: Container(
-                            height: 40.0,
+                            height: 45.0,
                             child: Row(children: <Widget>[
                               Container(
                                 width: mainContainerWidthWP,
@@ -978,6 +1019,7 @@ class _CarState extends State<Car> {
                                     icon: Icon(Icons.keyboard_arrow_down),
                                     iconSize: 18,
                                     elevation: 16,
+                                    iconEnabledColor: Colors.amber[900],
                                     style: TextStyle(color: Colors.black),
                                     onChanged: (_newSelected) {
                                       setState(() {
@@ -1098,7 +1140,7 @@ class _CarState extends State<Car> {
 
                     /// select Passenger spinner(dropdown list)
                     Container(
-                      height: 40.0,
+                      height: 45.0,
                       width: mainContainerWidth,
                       alignment: Alignment.centerLeft,
                       decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
@@ -1108,12 +1150,15 @@ class _CarState extends State<Car> {
                         Builder(builder: (context) {
                           if (orientation.index == Orientation.landscape.index) {
                             return Container(
-                              height: 40.0,
+                              height: 45.0,
                               width: mainContainerWidthWP,
                               child: Row(
                                 children: <Widget>[
                                   Container(
+                                    height: 45.0,
                                     width: (landStackContainer),
+                                    alignment: Alignment.centerLeft,
+                                    color: Colors.white,
                                     padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                                     child: Text(
                                       passengerSelectItem == null ? "Select Passenger" : passengerSelectItem,
@@ -1124,19 +1169,22 @@ class _CarState extends State<Car> {
                                   ),
                                   Container(
                                     width: landStackContainer1,
-                                    color: Colors.amberAccent,
+                                    color: HexColor("#f2f2f2"),
                                   ),
                                 ],
                               ),
                             );
                           } else {
                             return Container(
-                              height: 40.0,
+                              height: 45.0,
                               width: mainContainerWidthWP,
                               child: Row(
                                 children: <Widget>[
                                   Container(
+                                    height: 45.0,
                                     width: (stackFirstContainer),
+                                    alignment: Alignment.centerLeft,
+                                    color: Colors.white,
                                     padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                                     child: Text(
                                       passengerSelectItem == null ? "Select Passenger" : passengerSelectItem,
@@ -1147,7 +1195,7 @@ class _CarState extends State<Car> {
                                   ),
                                   Container(
                                     width: stackSecondContainer,
-                                    color: Colors.amberAccent,
+                                    color: HexColor("#f2f2f2"),
                                   ),
                                 ],
                               ),
@@ -1157,7 +1205,7 @@ class _CarState extends State<Car> {
 
                         Positioned(
                           child: Container(
-                            height: 40.0,
+                            height: 45.0,
                             child: Row(children: <Widget>[
                               Container(
                                 width: mainContainerWidthWP,
@@ -1169,6 +1217,7 @@ class _CarState extends State<Car> {
                                     icon: Icon(Icons.keyboard_arrow_down),
                                     iconSize: 18,
                                     elevation: 16,
+                                    iconEnabledColor: Colors.amber[900],
                                     style: TextStyle(color: Colors.black),
                                     onChanged: (_newSelected) {
                                       setState(() {
@@ -1233,54 +1282,59 @@ class _CarState extends State<Car> {
 
                         GestureDetector(
                           child: Container(
-                            height: 40.0,
+                            height: 45.0,
                             width: containerHalfWidth,
                             decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
 
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  Container(
-                                    height: 39.0,
-                                    width: 40.0,
-                                    child: RaisedButton(
-                                      padding: EdgeInsets.all(0.0),
-                                      color: Colors.amberAccent,
-                                      child: Icon(
-                                        Icons.calendar_today_outlined,
-                                        size: 15.0,
-                                      ),
-                                      onPressed: () {
-                                        showDatePicker(
-                                                context: context,
-                                                initialDate: DateTime.now(),
-                                                firstDate: DateTime.now(),
-                                                lastDate: DateTime(2222)
-                                        ).then((date) {
-                                          setState(() {
-                                            formattedDate = dateFormat.format(date);
-                                            print("Formatted date is: $formattedDate");
-                                            newDate = new DateTime(date.year + 1, date.month, date.day);
-                                            newDateFormat = dateFormat.format(newDate);
-                                            print("new Date is: $newDate");
+                            child: Container(
+                              height: 45.0,
+                              width: containerHalfWidth,
+                              color: Colors.white,
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Container(
+                                      height: 45.0,
+                                      width: 40.0,
+                                      child: RaisedButton(
+                                        padding: EdgeInsets.all(0.0),
+                                        color: HexColor("#f2f2f2"),
+                                        child: Icon(
+                                          Icons.calendar_today_outlined,
+                                          size: 15.0,
+                                        ),
+                                        onPressed: () {
+                                          showDatePicker(
+                                                  context: context,
+                                                  initialDate: DateTime.now(),
+                                                  firstDate: DateTime.now(),
+                                                  lastDate: DateTime(2222)
+                                          ).then((date) {
+                                            setState(() {
+                                              formattedDate = dateFormat.format(date);
+                                              print("Formatted date is: $formattedDate");
+                                              newDate = new DateTime(date.year + 1, date.month, date.day);
+                                              newDateFormat = dateFormat.format(newDate);
+                                              print("new Date is: $newDate");
+                                            });
                                           });
-                                        });
-                                      },
-                                    ),
-                                  ),
-
-                                  Container(
-                                    alignment: Alignment.centerLeft,
-                                    padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-
-                                    child: Text(formattedDate == null ? "Picked Date" : formattedDate.toString(),
-                                      style: TextStyle(
-                                        fontSize: 12.0,
+                                        },
                                       ),
                                     ),
-                                  ),
 
-                                ]),
+                                    Container(
+                                      alignment: Alignment.centerLeft,
+                                      padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+
+                                      child: Text(formattedDate == null ? "Picked Date" : formattedDate.toString(),
+                                        style: TextStyle(
+                                          fontSize: 12.0,
+                                        ),
+                                      ),
+                                    ),
+
+                                  ]),
+                            ),
                           ),
                           onTap: () {
                             showDatePicker(
@@ -1303,7 +1357,7 @@ class _CarState extends State<Car> {
                         SizedBox(width: 10.0,),
 
                         Container(
-                          height: 40.0,
+                          height: 45.0,
                           width: containerHalfWidth,
                           alignment: Alignment.centerLeft,
                           decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
