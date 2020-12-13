@@ -793,7 +793,7 @@ class _OverseasMedicalState extends State<OverseasMedical> {
     preferences.setString("totalAmount", totalAmount.toString());
     print("total amount passing :" + totalAmount.toString());
     preferences.commit();
-    customToast("Date save successfully");
+    print("Date save successfully");
   }
 
   YYDialog YYDialogDialog(BuildContext context) {

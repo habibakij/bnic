@@ -45,10 +45,12 @@ class _MotorCycleState extends State<MotorCycle> {
   String getPlanId;
   String getPlanListUrl= 'http://online.bnicl.net/api/plan-type/list';
   Future<String> getPlanList() async {
+    EasyLoading.show();
     var response = await http.get(getPlanListUrl);
     if(response.statusCode == 200){
       var decode = json.decode(response.body);
       setState(() {
+        EasyLoading.dismiss();
         planList= decode['list'];
       });
       print("Plan list are: $planList");

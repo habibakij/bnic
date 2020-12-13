@@ -696,12 +696,12 @@ class _InfoDetailsState extends State<InfoDetails> {
         paymentPageUrl= decode['GatewayPageURL'];
         print("Status is: $status and $paymentPageUrl");
         if(status.endsWith("SUCCESS")){
-          customToast("You are able to pay");
+          print("You are able to pay");
           EasyLoading.dismiss();
           Navigator.push(context, MaterialPageRoute(builder: (context)=> PaymentPage(paymentPageUrl)));
         } else{
           EasyLoading.dismiss();
-          customToast("Server Error");
+          customToast("Somethings wrong please try again.");
         }
       });
       print("SSL area: $decode");

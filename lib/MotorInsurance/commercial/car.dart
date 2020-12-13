@@ -37,8 +37,47 @@ class _CarState extends State<Car> {
   bool carPriceVisibility = false;
   bool facilityVisibility = false;
   bool facilityListVisibility = false;
-
   bool check = true;
+
+  void customDialog(BuildContext context, String msg) {
+    showDialog(context: context,
+        builder: (context) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10.0))
+            ),
+            child: Container(
+              height: 200.0,
+              width: 100.0,
+              padding: EdgeInsets.all(0.0),
+              child: Column(
+                children: <Widget>[
+
+                  SizedBox(height: 10.0,),
+
+                  Text(msg, style: TextStyle(fontSize: 14.0,),),
+
+                  SizedBox(height: 10.0,),
+
+                  Image.asset("assetimage/logo.png", color: HexColor("#F9A825"), height: 80.0,),
+
+                  SizedBox(height: 20.0,),
+
+                  RaisedButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0))
+                    ),
+                    color: HexColor("#F9A825"),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text("OK", style: TextStyle(color: Colors.white),),)
+                ],
+              ),
+            ),
+          );
+        });
+  }
 
   void customToast(String msg) {
     Fluttertoast.showToast(
@@ -57,10 +96,12 @@ class _CarState extends State<Car> {
   String planId;
   String getPlanListUrl = 'http://online.bnicl.net/api/plan-type/list';
   Future<String> getPlanList() async {
+    EasyLoading.show();
     var response = await http.get(getPlanListUrl);
     if (response.statusCode == 200) {
       var decode = json.decode(response.body);
       setState(() {
+        EasyLoading.dismiss();
         planList = decode['list'];
       });
       print("Plan list are: $planList");
@@ -101,6 +142,7 @@ class _CarState extends State<Car> {
     }).then((response) {
       var decode = json.decode(response.body);
       setState(() {
+        EasyLoading.dismiss();
         OverseasJsonModel.fromJson(decode);
         OverseasJsonModel overseasJsonModel =
             OverseasJsonModel.fromJson(decode);
@@ -179,7 +221,7 @@ class _CarState extends State<Car> {
         EasyLoading.dismiss();
         priceStatus = decode['status'];
         if(priceStatus == 0){
-          customToast("No Terrif Plan Available");
+          customDialog(context, "No Terrif Plan Available");
         } else{
           terrifList = decode['terrif'];
           totalCast = decode['total_cost'];
@@ -187,6 +229,7 @@ class _CarState extends State<Car> {
           print("priceStatus is: $priceStatus and type is: ${priceStatus.runtimeType}");
           trLength = terrifList.length == null ? 0 : terrifList.length;
 
+          saveDataSP();
           if (trLength > 0) {
             showDialog(
                 context: context,
@@ -245,7 +288,6 @@ class _CarState extends State<Car> {
                     ),
 
                     actions: <Widget>[
-
                       Container(
                         width: 300.0,
                         child: Row(
@@ -466,9 +508,7 @@ class _CarState extends State<Car> {
                                         print(planListItem);
                                       });
                                     },
-                                    items: planList
-                                        ?.map<DropdownMenuItem<String>>(
-                                            (_item) {
+                                    items: planList?.map<DropdownMenuItem<String>>((_item) {
                                       return DropdownMenuItem<String>(
                                         child: Text(
                                           _item['name'].toString(),
@@ -588,14 +628,15 @@ class _CarState extends State<Car> {
                                           vehiclesTypeListItem = "Vehicle Type";
                                           subTypeFlag++;
                                           print("value is: $_item");
-                                          int _index =
-                                              subTypeList.indexOf(_item);
+                                          int _index = subTypeList.indexOf(_item);
                                           print("index is: $_index");
                                           if (_index == 1) {
                                             subTypeId = 9.toString();
+                                            EasyLoading.show();
                                             getVehiclesTypeList();
                                           } else {
                                             subTypeId = 2.toString();
+                                            EasyLoading.show();
                                             getVehiclesTypeList();
                                           }
                                         },
@@ -707,9 +748,9 @@ class _CarState extends State<Car> {
                                         value: _item.name.toString(),
                                         onTap: () {
                                           vehiclesTypeId = _item.id.toString();
-                                          print(
-                                              "vehicles Type Id: $vehiclesTypeId");
+                                          print("vehicles Type Id: $vehiclesTypeId");
                                           vehiclesSeatList = _item.seat;
+                                          EasyLoading.show();
                                           customList(vehiclesSeatList);
                                         },
                                       );
@@ -1463,7 +1504,6 @@ class _CarState extends State<Car> {
       getQuotePost(planId, _typeId, _subTypeId, vehiclesTypeId, passengerId.toString(), passengerNo.toString(),
           capacityController.text.toString(), carPriceController.text.toString(), facilityIdList.toString());
     });
-    saveDataSP();
   }
 
   void customList(List<Seat> vehiclesSeatList) {
@@ -1478,6 +1518,7 @@ class _CarState extends State<Car> {
         driverSelectId = s.id.toString();
         print("helperSelectId is: $helperSelectId");
         setState(() {
+          EasyLoading.dismiss();
           customDriverList.add(s);
         });
       } else if (s.name.toString() == "Name.HELPER") {
@@ -1486,6 +1527,7 @@ class _CarState extends State<Car> {
         helperSelectId = s.id.toString();
         print("helperSelectId is: $helperSelectId");
         setState(() {
+          EasyLoading.dismiss();
           customHelperList.add(s);
         });
       } else if (s.name.toString() == "Name.PASSENGER") {
@@ -1495,6 +1537,7 @@ class _CarState extends State<Car> {
         print("passengerSelectId is: $passengerSelectId");
         String itemlength;
         setState(() {
+          EasyLoading.dismiss();
           customPassengerList.add(s);
           // ignore: missing_return
           customPassengerList.map<String>((_item) {

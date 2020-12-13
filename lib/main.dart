@@ -139,13 +139,17 @@ class _MyHomePageState extends State<MyHomePage> {
               width: 100.0,
               child: Column(
                 children: <Widget>[
+
+                  SizedBox(height: 20.0,),
+
+                  Text("This feature will be available soon.", style: TextStyle(fontSize: 14.0,),),
+
                   SizedBox(height: 10.0,),
-                  Image.asset("assetimage/logo.png", color: HexColor("#F9A825"),
-                    height: 100.0,),
+
+                  Image.asset("assetimage/logo.png", color: HexColor("#F9A825"), height: 80.0,),
+
                   SizedBox(height: 10.0,),
-                  Text("This feature will be available soon.",
-                    style: TextStyle(fontSize: 14.0,),),
-                  SizedBox(height: 10.0,),
+
                   RaisedButton(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(5.0))
@@ -180,9 +184,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void connectivityStatus() async {
     print("The statement 'this machine is connected to the Internet' is: ");
     print(await DataConnectionChecker().hasConnection);
-    // returns a bool
 
-    // We can also get an enum value instead of a bool
     print("Current status: ${await DataConnectionChecker().connectionStatus}");
     connectionChecker= await DataConnectionChecker().connectionStatus;
 
@@ -192,17 +194,8 @@ class _MyHomePageState extends State<MyHomePage> {
       dialogConnectionTest(context, "No Internet Connection");
     }
 
-    // prints either DataConnectionStatus.connected
-    // or DataConnectionStatus.disconnected
-
-    // This returns the last results from the last call
-    // to either hasConnection or connectionStatus
     print("Last results: ${DataConnectionChecker().lastTryResults}");
 
-    // actively listen for status updates
-    // this will cause DataConnectionChecker to check periodically
-    // with the interval specified in DataConnectionChecker().checkInterval
-    // until listener.cancel() is called
     var listener = DataConnectionChecker().onStatusChange.listen((status) {
       switch (status) {
         case DataConnectionStatus.connected:
@@ -214,7 +207,6 @@ class _MyHomePageState extends State<MyHomePage> {
       }
     });
 
-    // close listener after 30 seconds, so the program doesn't run forever
     await Future.delayed(Duration(seconds: 30));
     await listener.cancel();
   }

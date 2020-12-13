@@ -40,7 +40,9 @@ dependencies:
   countdown_flutter: ^0.1.2
   data_connection_checker: ^0.3.4
 
+
 dev_dependencies:
+  flutter_launcher_icons: "^0.8.0"
   flutter_test:
     sdk: flutter
 
@@ -65,6 +67,13 @@ flutter:
     - assetimage/car.png
     - assetimage/bike.png
     - assetimage/notconnect.jpg
+    - assetimage/notfound.png
+
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assetimage/logo.png"
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -41,6 +41,8 @@ class _MotorDetailsState extends State<MotorDetails> {
       getBrandFromSP, getMenuYearFromSP, getRegNumberFromSP, getRegDateFromSP, getEngNumberFromSP, getChassisNoFromSP, getPlanNameFromSP,
       getVehiclesTypeFromSP,getDriverFromSP, getCapacityFromSP, getPassengerFromSP, getPoStartDateFromSP, getPoEndDateFromSP, getTotalCastFromSP;
 
+  double convertTaka;
+
   bool check= true;
   String privacyPolicyText= "I hereby declare that the details furnished above are true and correct to the best of my "
       "knowledge and belief and I undertake to inform you of any changes therein immediately."
@@ -911,9 +913,14 @@ class _MotorDetailsState extends State<MotorDetails> {
 
   Future<String> postPaymentInformation() async {
     EasyLoading.show();
+    convertTaka= double.parse(getTotalCastFromSP.replaceAll(',', ''));
+    print("Converted taka as double $convertTaka");
+    amount= convertTaka.toString();
+    print("core amount $amount");
+
     print(id);
     print(password);
-    print(getTotalCastFromSP);
+    print(amount);
     print(transactionId);
     print(getNameFromSP);
     print(getEmailFromSP);
@@ -930,7 +937,7 @@ class _MotorDetailsState extends State<MotorDetails> {
     await http.post(paymentPostUrl, body: {
       'store_id': id.toString(),
       'store_passwd': password.toString(),
-      'total_amount': getTotalCastFromSP.toString(),
+      'total_amount': amount.toString(),
       'tran_id': transactionId.toString(),
       'cus_name': getNameFromSP.toString(),
       'cus_email': getEmailFromSP.toString(),
@@ -953,12 +960,12 @@ class _MotorDetailsState extends State<MotorDetails> {
         paymentPageUrl= decode['GatewayPageURL'];
         print("Status is: $status and $paymentPageUrl");
         if(status.endsWith("SUCCESS")){
-          customToast("You are able to pay");
+          print("You are able to pay");
           EasyLoading.dismiss();
           Navigator.push(context, MaterialPageRoute(builder: (context)=> PaymentPage(paymentPageUrl)));
         } else{
           EasyLoading.dismiss();
-          customToast("Server Error");
+          customToast("Somethings wrong please try again.");
         }
       });
       print("SSL area: $decode");
