@@ -231,116 +231,7 @@ class _CarState extends State<Car> {
 
           saveDataSP();
           if (trLength > 0) {
-            showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    title: Text(
-                      'Motor Insurance Quotation',
-                      style: TextStyle(fontSize: 14.0),
-                    ),
-                    contentPadding: EdgeInsets.fromLTRB(25.0, 10.0, 0.0, 0.0),
-
-                    content: Container(
-                      height: 200.0,
-                      child: ListView.builder(
-                        itemCount: trLength,
-                        itemBuilder: (ctx, index) {
-                          return Container(
-                            child: Row(
-                              children: <Widget>[
-
-                                Container(
-                                  height: 40.0,
-                                  width: 110.0,
-                                  alignment: Alignment.centerLeft,
-                                  decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
-                                  padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-
-                                  child: Text(
-                                    terrifList[index]['title'].toString() == null ? "null" : terrifList[index]['title'].toString(),
-                                    style: TextStyle(
-                                      fontSize: 12.0,
-                                    ),
-                                  ),
-                                ),
-
-                                SizedBox(width: 2.0,),
-
-                                Container(
-                                  height: 40.0,
-                                  width: 110.0,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
-
-                                  child: Text(
-                                    terrifList[index]['total_cost'].toString() == null ? "null" : terrifList[index]['total_cost'].toString(),
-                                    style: TextStyle(
-                                      fontSize: 12.0,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-
-                    actions: <Widget>[
-                      Container(
-                        width: 300.0,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-
-                            Container(
-                              width: 120.0,
-                              child: RaisedButton(
-                                color: Colors.amber,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    side: BorderSide(color: Colors.red)
-                                ),
-                                child: Text(
-                                  "Go Back",
-                                  style: TextStyle(
-                                      fontSize: 16.0, color: Colors.black),
-                                ),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                              ),
-                            ),
-
-                            SizedBox(width: 5.0,),
-
-                            Container(
-                              width: 120.0,
-                              child: RaisedButton(
-                                color: Colors.amber,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    side: BorderSide(color: Colors.red)
-                                ),
-                                child: Text(
-                                  "Buy Insurance",
-                                  style: TextStyle(
-                                      fontSize: 16.0, color: Colors.black),
-                                ),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => CarInfoEntry()));
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  );
-                });
+            _showMyDialog();
           } else {
             EasyLoading.dismiss();
             customToast("length null");
@@ -1445,6 +1336,118 @@ class _CarState extends State<Car> {
       ),
     );
   }
+
+
+  Future<void> _showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return CupertinoAlertDialog(
+
+          title: Text( 'Motor Insurance Quotation',style: TextStyle(fontSize: 18.0),),
+
+          content: Container(
+            height: 200.0,
+            width: 225.0,
+            child: ListView.builder(
+              itemCount: trLength,
+              itemBuilder: (ctx, index) {
+                return Container(
+                  child: Row(
+                    children: <Widget>[
+
+                      Container(
+                        height: 40.0,
+                        width: 110.0,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+                        padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
+
+                        child: Text(
+                          terrifList[index]['title'].toString() == null ? "null" : terrifList[index]['title'].toString(),
+                          style: TextStyle(
+                            fontSize: 12.0,
+                          ),
+                        ),
+                      ),
+
+                      SizedBox(width: 2.0,),
+
+                      Container(
+                        height: 40.0,
+                        width: 110.0,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
+
+                        child: Text(
+                          terrifList[index]['total_cost'].toString() == null ? "null" : terrifList[index]['total_cost'].toString(),
+                          style: TextStyle(
+                            fontSize: 12.0,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+
+          actions: <Widget>[
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+
+                Container(
+                  width: 100.0,
+                  child: RaisedButton(
+                    color: Colors.amber,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        side: BorderSide(color: Colors.red)
+                    ),
+                    child: Text(
+                      "Go Back",
+                      style: TextStyle(fontSize: 12.0, color: Colors.black),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
+
+                SizedBox(width: 5.0,),
+
+                Container(
+                  width: 110.0,
+                  child: RaisedButton(
+                    color: Colors.amber,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        side: BorderSide(color: Colors.red)
+                    ),
+                    child: Text(
+                      "Buy Insurance",
+                      style: TextStyle(fontSize: 12.0, color: Colors.black),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => CarInfoEntry()));
+                    },
+                  ),
+                ),
+              ],
+            ),
+
+          ],
+        );
+      },
+    );
+  }
+
 
   void checkValidity() {
     if (planListItem == null) {
