@@ -51,6 +51,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   var connectionChecker;
+  bool checkNetworkConnection= true;
 
   /// Internet connection Dialog
   void dialogConnectionTest(BuildContext context, String msg) {
@@ -66,15 +67,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: <Widget>[
                   SizedBox(height: 10.0,),
 
-                  Text(msg, style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),),
-
-                  Image.asset(
-                    "assetimage/notconnect.jpg",
-                    height: 100.0,
-                    width: 80.0,
-                  ),
+                  Image.asset("assetimage/notconnect.jpg", height: 100.0, width: 80.0,),
 
                   SizedBox(height: 10.0,),
+
+                  Text(msg, style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),),
 
                   SizedBox(height: 10.0,),
 
@@ -140,13 +137,13 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Column(
                 children: <Widget>[
 
-                  SizedBox(height: 20.0,),
+                  SizedBox(height: 10.0,),
 
-                  Text("This feature will be available soon.", style: TextStyle(fontSize: 14.0,),),
+                  Image.asset("assetimage/logo.png", color: HexColor("#F9A825"), height: 100.0, width: 100.0,),
 
                   SizedBox(height: 10.0,),
 
-                  Image.asset("assetimage/logo.png", color: HexColor("#F9A825"), height: 80.0,),
+                  Text("This feature will be available soon.", style: TextStyle(fontSize: 14.0,),),
 
                   SizedBox(height: 10.0,),
 
@@ -158,7 +155,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: Text("OK", style: TextStyle(color: Colors.white),),)
+                    child: Text("OK", style: TextStyle(color: Colors.white),),
+                  ),
                 ],
               ),
             ),
@@ -209,6 +207,18 @@ class _MyHomePageState extends State<MyHomePage> {
 
     await Future.delayed(Duration(seconds: 30));
     await listener.cancel();
+  }
+
+  /// custom toast
+  void customToast(String msg) {
+    Fluttertoast.showToast(
+        msg: msg,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+        fontSize: 12.0);
   }
 
   @override

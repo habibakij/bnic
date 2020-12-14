@@ -40,6 +40,9 @@ class _BranchOfficeState extends State<BranchOffice> {
             javascriptMode: JavascriptMode.unrestricted,
             onWebViewCreated: (WebViewController webViewController) {
               _controller.complete(webViewController);
+              setState(() {
+                print("checke comcplete ${_controller.isCompleted}");
+              });
             },
           ),
         ),

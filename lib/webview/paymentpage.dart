@@ -29,11 +29,13 @@ class _PaymentPageState extends State<PaymentPage> {
   void initState() {
     _done= false;
     // TODO: implement initState
+    print("check comcplete ${_controller.isCompleted}");
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    print("check comcplete 22 ${_controller.isCompleted}");
     return WillPopScope(
 
       onWillPop: _willPopCallback,
@@ -77,6 +79,9 @@ class _PaymentPageState extends State<PaymentPage> {
               javascriptMode: JavascriptMode.unrestricted,
               onWebViewCreated: (WebViewController webViewController) {
                 _controller.complete(webViewController);
+                setState(() {
+                  print("check comcplete ${_controller.isCompleted}");
+                });
               },
             ),
         ),
