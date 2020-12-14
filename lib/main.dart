@@ -340,77 +340,75 @@ class _MyHomePageState extends State<MyHomePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Container(
-                  //margin: const EdgeInsets.all(5.0),
-                  //padding: const EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black)),
-                  child: FlatButton(
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          height: 80.0,
-                          width: 120.0,
-                          child: Image.asset(
-                            "assetimage/motor.png", color: HexColor(
-                              "#F9A825"),),
-                        ),
-                        SizedBox(height: 10.0,),
-                        Container(
-                          height: 20.0,
-                          width: 100.0,
-                          child: Text(
-                            "Motor Insurance",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 12.0,
-                            ),
+
+                Card(
+                  elevation: 10.0,
+                  shape: BeveledRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+
+                      Container(
+                        height: 90.0,
+                        width: 150.0,
+                        child: Image.asset("assetimage/motor.png", color: HexColor("#F9A825"),),
+                      ),
+
+                      SizedBox(height: 10.0,),
+
+                      Container(
+                        width: 150.0,
+                        padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
+                        child: Text(
+                          "Motor Insurance",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 12.0,
                           ),
                         ),
-                      ],
-                    ),
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => MotorInsurance()));
-                    },
+                      ),
+                    ],
                   ),
                 ),
+
                 SizedBox(width: 10.0,),
 
-                Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black)),
-                  child: FlatButton(
-                    child: Column(
-                      children: <Widget>[
-                        SizedBox(height: 15.0,),
-                        Container(
-                          height: 50.0,
-                          width: 120.0,
-                          child: Image.asset(
-                            "assetimage/travel.png", color: HexColor(
-                              "#F9A825"),),
-                        ),
-                        SizedBox(height: 15.0,),
-                        Container(
-                          height: 30.0,
-                          width: 100.0,
-                          child: Text(
-                            "Overseas Medical Insurance (Health)",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 12.0,
-                            ),
+                Card(
+                  elevation: 10.0,
+                  shape: BeveledRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+
+                      Container(
+                        height: 50.0,
+                        width: 150.0,
+                        child: Image.asset("assetimage/travel.png", color: HexColor("#F9A825"),),
+                      ),
+
+                      SizedBox(height: 30.0,),
+
+                      Container(
+                        width: 150.0,
+                        padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
+                        child: Text(
+                          "Overseas Medical Insurance (Health)",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 12.0,
                           ),
                         ),
-                      ],
-                    ),
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => OverseasMedical()));
-                    },
+                      ),
+                    ],
                   ),
                 ),
+
               ],
             ),
 
@@ -420,76 +418,75 @@ class _MyHomePageState extends State<MyHomePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black)),
-                  child: FlatButton(
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          height: 90.0,
-                          width: 120.0,
-                          child: Image.asset(
-                            "assetimage/marin.png", color: HexColor(
-                              "#F9A825"),),
-                        ),
-                        SizedBox(height: 10.0,),
-                        Container(
-                          height: 20.0,
-                          width: 100.0,
-                          child: Text(
-                            "Marin Insurance",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 12.0,
-                            ),
+
+                Card(
+                  elevation: 10.0,
+                  shape: BeveledRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+
+                      Container(
+                        height: 90.0,
+                        width: 150.0,
+                        child: Image.asset("assetimage/marin.png", color: HexColor("#F9A825"),),
+                      ),
+
+                      SizedBox(height: 10.0,),
+
+                      Container(
+                        width: 150.0,
+                        padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
+                        child: Text(
+                          "Marin Insurance",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 12.0,
                           ),
                         ),
-                      ],
-                    ),
-                    onPressed: () {
-                      customDialog(context);
-                    },
+                      ),
+                    ],
                   ),
                 ),
 
-                SizedBox(
-                  width: 10.0,
-                ),
-                Container(
-                  //margin: const EdgeInsets.all(5.0),
-                  //padding: const EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black)),
-                  child: FlatButton(
-                    child: Column(
-                      children: <Widget>[
-                        SizedBox(height: 10.0,),
-                        Container(
-                          height: 70.0,
-                          width: 120.0,
-                          child: Image.asset(
-                            "assetimage/fire.png", color: HexColor("#F9A825"),),
-                        ),
-                        SizedBox(height: 20.0,),
-                        Container(
-                          height: 20.0,
-                          width: 100.0,
-                          child: Text(
-                            "Fire Insurance",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 12.0,
-                            ),
+                SizedBox(width: 10.0,),
+
+                Card(
+                  elevation: 10.0,
+                  shape: BeveledRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+
+                      Container(
+                        height: 80.0,
+                        width: 150.0,
+                        child: Image.asset("assetimage/fire.png", color: HexColor("#F9A825"),),
+                      ),
+
+                      SizedBox(height: 20.0,),
+
+                      Container(
+                        width: 150.0,
+                        padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
+                        child: Text(
+                          "Fire Insurance",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 12.0,
                           ),
                         ),
-                      ],
-                    ),
-                    onPressed: () {
-                      customDialog(context);
-                    },
+                      ),
+                    ],
                   ),
                 ),
+
               ],
             ),
 

@@ -140,22 +140,30 @@ class _MotorInsuranceState extends State<MotorInsurance> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
 
-              Container(
-                decoration: BoxDecoration(border: Border.all(color: Colors.black)),
-                child: FlatButton(
+              GestureDetector(
+                child: Card(
+                  elevation: 10.0,
+                  shape: BeveledRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Container(
                         height: 90.0,
-                        width: 120.0,
+                        width: 150.0,
                         child: Image.asset("assetimage/car.png", color: HexColor("#F9A825"),),
                       ),
+
                       SizedBox(height: 10.0,),
+
                       Container(
-                        height: 30.0,
-                        width: 120.0,
+                        width: 150.0,
+                        padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
                         child: Text(
                           "Private & Commercial Vehicles",
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 12.0,
@@ -164,33 +172,38 @@ class _MotorInsuranceState extends State<MotorInsurance> {
                       ),
                     ],
                   ),
-                  onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => Car()));
-                  },
                 ),
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Car()));
+                },
               ),
 
               SizedBox(width: 10.0,),
 
-              Container(
-                //margin: const EdgeInsets.all(5.0),
-                //padding: const EdgeInsets.all(10.0),
-                decoration: BoxDecoration(border: Border.all(color: Colors.black)),
-                child: FlatButton(
+              GestureDetector(
+                child: Card(
+                  elevation: 10.0,
+                  shape: BeveledRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      SizedBox(height: 10.0,),
+
                       Container(
-                        height: 70.0,
-                        width: 120.0,
+                        height: 90.0,
+                        width: 150.0,
                         child: Image.asset("assetimage/bike.png", color: HexColor("#F9A825"),),
                       ),
+
                       SizedBox(height: 20.0,),
+
                       Container(
-                        height: 30.0,
-                        width: 100.0,
+                        width: 150.0,
+                        padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
                         child: Text(
                           "Motor Cycle Insurance",
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 12.0,
@@ -199,18 +212,14 @@ class _MotorInsuranceState extends State<MotorInsurance> {
                       ),
                     ],
                   ),
-                  onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => MotorCycle()));
-                  },
                 ),
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => MotorCycle()));
+                },
               ),
 
             ],
-          ),
-
-            SizedBox(height: 20.0,),
-
-          ]
+          ),]
         ),
       ),
     );

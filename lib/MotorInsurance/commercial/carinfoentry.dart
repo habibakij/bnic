@@ -152,7 +152,7 @@ class _EnterDetailsState extends State<EnterDetails> {
 
                 /// Title information
                 Container(
-                  height: 45.0,
+                  height: 40.0,
                   width: mainContainerWidth,
                   alignment: Alignment.centerLeft,
                   padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
@@ -172,26 +172,18 @@ class _EnterDetailsState extends State<EnterDetails> {
 
                 /// Insured name TextField
                 Container(
-                  height: 45.0,
+                  height: 40.0,
+                  decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
                   child: TextField(
                     maxLines: 1,
                     autocorrect: false,
                     controller: nameController,
                     decoration: InputDecoration(
-                      hintText: 'Insured Name same as BRTA Registration',
+                      hintText: 'Insured name same as brta registration',
                       filled: true,
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                        borderSide: BorderSide(color: Colors.grey[400]),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                        borderSide: BorderSide(color: Colors.grey[400]),
-                      ),
+                      border: InputBorder.none,
                     ),
-                    style: TextStyle(
-                      fontSize: 12.0,
-                    ),
+                    style: TextStyle(fontSize: 15.0,),
                   ),
                 ),
 
@@ -203,7 +195,8 @@ class _EnterDetailsState extends State<EnterDetails> {
 
                 /// Insured address TextField
                 Container(
-                  height: 45.0,
+                  height: 40.0,
+                  decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
                   child: TextField(
                     maxLines: 1,
                     autocorrect: false,
@@ -211,18 +204,9 @@ class _EnterDetailsState extends State<EnterDetails> {
                     decoration: InputDecoration(
                       hintText: 'Address',
                       filled: true,
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                        borderSide: BorderSide(color: Colors.grey[400]),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                        borderSide: BorderSide(color: Colors.grey[400]),
-                      ),
+                      border: InputBorder.none,
                     ),
-                    style: TextStyle(
-                      fontSize: 12.0,
-                    ),
+                    style: TextStyle(fontSize: 15.0,),
                   ),
                 ),
 
@@ -238,7 +222,7 @@ class _EnterDetailsState extends State<EnterDetails> {
                   Builder(builder: (context) {
                     if (orientation.index == Orientation.landscape.index) {
                       return Container(
-                        height: 45.0,
+                        height: 40.0,
                         width: mainContainerWidthWP,
                         child: Row(
                           children: <Widget>[
@@ -255,7 +239,7 @@ class _EnterDetailsState extends State<EnterDetails> {
                       );
                     } else {
                       return Container(
-                        height: 45.0,
+                        height: 40.0,
                         width: mainContainerWidthWP,
                         child: Row(
                           children: <Widget>[
@@ -275,7 +259,7 @@ class _EnterDetailsState extends State<EnterDetails> {
 
                   Positioned(
                     child: Container(
-                      height: 45.0,
+                      height: 40.0,
                       child: Row(
                         children: <Widget> [
                           Container(
@@ -325,7 +309,7 @@ class _EnterDetailsState extends State<EnterDetails> {
 
                 /// Checkbox and text for same as insured city, address
                 Container(
-                  height: 45.0,
+                  height: 40.0,
                   width: mainContainerWidth,
                   child: Row(
                     children: <Widget> [
@@ -378,7 +362,8 @@ class _EnterDetailsState extends State<EnterDetails> {
 
                       /// Mailing address textField
                       Container(
-                        height: 45.0,
+                        height: 40.0,
+                        decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
                         child: TextField(
                           maxLines: 1,
                           autocorrect: false,
@@ -386,18 +371,9 @@ class _EnterDetailsState extends State<EnterDetails> {
                           decoration: InputDecoration(
                             hintText: 'Mailing Address',
                             filled: true,
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                              borderSide: BorderSide(color: Colors.grey[400]),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                              borderSide: BorderSide(color: Colors.grey[400]),
-                            ),
+                            border: InputBorder.none,
                           ),
-                          style: TextStyle(
-                            fontSize: 12.0,
-                          ),
+                          style: TextStyle(fontSize: 15.0,),
                         ),
                       ),
 
@@ -411,7 +387,7 @@ class _EnterDetailsState extends State<EnterDetails> {
                         Builder(builder: (context) {
                           if (orientation.index == Orientation.landscape.index) {
                             return Container(
-                              height: 45.0,
+                              height: 40.0,
                               width: mainContainerWidthWP,
                               child: Row(
                                 children: <Widget>[
@@ -428,7 +404,7 @@ class _EnterDetailsState extends State<EnterDetails> {
                             );
                           } else {
                             return Container(
-                              height: 45.0,
+                              height: 40.0,
                               width: mainContainerWidthWP,
                               child: Row(
                                 children: <Widget>[
@@ -448,7 +424,7 @@ class _EnterDetailsState extends State<EnterDetails> {
 
                         Positioned(
                           child: Container(
-                            height: 45.0,
+                            height: 40.0,
                             child: Row(
                               children: <Widget> [
                                 Container(
@@ -504,11 +480,10 @@ class _EnterDetailsState extends State<EnterDetails> {
 
                 /// Mobile TextField
                 Container(
-                  height: 65.0,
+                  height: 40.0,
+                  decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
                   child: TextField(
                     maxLines: 1,
-                    maxLength: 11,
-                    autocorrect: false,
                     controller: mobileController,
                     keyboardType: TextInputType.number,
                     inputFormatters: <TextInputFormatter>[
@@ -517,20 +492,13 @@ class _EnterDetailsState extends State<EnterDetails> {
                     decoration: InputDecoration(
                       hintText: 'Mobile',
                       filled: true,
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                        borderSide: BorderSide(color: Colors.grey[400]),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                        borderSide: BorderSide(color: Colors.grey[400]),
-                      ),
+                      border: InputBorder.none,
                     ),
-                    style: TextStyle(
-                      fontSize: 12.0,
-                    ),
+                    style: TextStyle(fontSize: 15.0,),
                   ),
                 ),
+
+                SizedBox(height: 15.0,),
 
                 Text("Email", style: TextStyle(fontSize: 12.0, color: HexColor("#008577"),),),
 
@@ -538,7 +506,8 @@ class _EnterDetailsState extends State<EnterDetails> {
 
                 ///Email TextField
                 Container(
-                  height: 45.0,
+                  height: 40.0,
+                  decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
                   child: TextField(
                     maxLines: 1,
                     autocorrect: false,
@@ -546,18 +515,9 @@ class _EnterDetailsState extends State<EnterDetails> {
                     decoration: InputDecoration(
                       hintText: 'Email',
                       filled: true,
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                        borderSide: BorderSide(color: Colors.grey[400]),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                        borderSide: BorderSide(color: Colors.grey[400]),
-                      ),
+                      border: InputBorder.none,
                     ),
-                    style: TextStyle(
-                      fontSize: 12.0,
-                    ),
+                    style: TextStyle(fontSize: 15.0,),
                   ),
                 ),
 
@@ -569,7 +529,8 @@ class _EnterDetailsState extends State<EnterDetails> {
 
                 /// Brand TextField
                 Container(
-                  height: 45.0,
+                  height: 40.0,
+                  decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
                   child: TextField(
                     maxLines: 1,
                     autocorrect: false,
@@ -577,18 +538,9 @@ class _EnterDetailsState extends State<EnterDetails> {
                     decoration: InputDecoration(
                       hintText: 'Vehicles Brand/Make',
                       filled: true,
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                        borderSide: BorderSide(color: Colors.grey[400]),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                        borderSide: BorderSide(color: Colors.grey[400]),
-                      ),
+                      border: InputBorder.none,
                     ),
-                    style: TextStyle(
-                      fontSize: 12.0,
-                    ),
+                    style: TextStyle(fontSize: 15.0,),
                   ),
                 ),
 
@@ -644,7 +596,7 @@ class _EnterDetailsState extends State<EnterDetails> {
                           Builder(builder: (context) {
                             if (orientation.index == Orientation.landscape.index) {
                               return Container(
-                                height: 45.0,
+                                height: 40.0,
                                 width: containerHalfWidthWP,
                                 child: Row(
                                   children: <Widget>[
@@ -661,7 +613,7 @@ class _EnterDetailsState extends State<EnterDetails> {
                               );
                             } else {
                               return Container(
-                                height: 45.0,
+                                height: 40.0,
                                 width: containerHalfWidthWP,
                                 child: Row(
                                   children: <Widget>[
@@ -681,7 +633,7 @@ class _EnterDetailsState extends State<EnterDetails> {
 
                           Positioned(
                               child: Container(
-                                height: 45.0,
+                                height: 40.0,
                                 child: Row(
                                   children: <Widget> [
                                     Container(
@@ -735,7 +687,7 @@ class _EnterDetailsState extends State<EnterDetails> {
                       child: GestureDetector(
 
                         child: Container(
-                          height: 45.0,
+                          height: 40.0,
                           width: containerHalfWidth,
                           color: Colors.white,
                           child: Row(
@@ -743,7 +695,7 @@ class _EnterDetailsState extends State<EnterDetails> {
                               children: <Widget>[
 
                                 Container(
-                                  height: 45.0,
+                                  height: 40.0,
                                   width: 40.0,
                                   child: RaisedButton(
                                     color: HexColor("#f2f2f2"),
@@ -808,7 +760,8 @@ class _EnterDetailsState extends State<EnterDetails> {
 
                 /// Registration number TextField
                 Container(
-                  height: 45.0,
+                  height: 40.0,
+                  decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
                   child: TextField(
                     maxLines: 1,
                     autocorrect: false,
@@ -816,18 +769,9 @@ class _EnterDetailsState extends State<EnterDetails> {
                     decoration: InputDecoration(
                       hintText: 'Registration Number',
                       filled: true,
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                        borderSide: BorderSide(color: Colors.grey[400]),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                        borderSide: BorderSide(color: Colors.grey[400]),
-                      ),
+                      border: InputBorder.none,
                     ),
-                    style: TextStyle(
-                      fontSize: 12.0,
-                    ),
+                    style: TextStyle(fontSize: 15.0,),
                   ),
                 ),
 
@@ -839,7 +783,8 @@ class _EnterDetailsState extends State<EnterDetails> {
 
                 /// Engine Number TextField
                 Container(
-                  height: 45.0,
+                  height: 40.0,
+                  decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
                   child: TextField(
                     maxLines: 1,
                     autocorrect: false,
@@ -847,18 +792,9 @@ class _EnterDetailsState extends State<EnterDetails> {
                     decoration: InputDecoration(
                       hintText: 'Engine Number',
                       filled: true,
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                        borderSide: BorderSide(color: Colors.grey[400]),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                        borderSide: BorderSide(color: Colors.grey[400]),
-                      ),
+                      border: InputBorder.none,
                     ),
-                    style: TextStyle(
-                      fontSize: 12.0,
-                    ),
+                    style: TextStyle(fontSize: 15.0,),
                   ),
                 ),
 
@@ -870,7 +806,8 @@ class _EnterDetailsState extends State<EnterDetails> {
 
                 /// Chassis No TextField
                 Container(
-                  height: 45.0,
+                  height: 40.0,
+                  decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
                   child: TextField(
                     maxLines: 1,
                     autocorrect: false,
@@ -878,18 +815,9 @@ class _EnterDetailsState extends State<EnterDetails> {
                     decoration: InputDecoration(
                       hintText: 'Chassis No',
                       filled: true,
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                        borderSide: BorderSide(color: Colors.grey[400]),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                        borderSide: BorderSide(color: Colors.grey[400]),
-                      ),
+                      border: InputBorder.none,
                     ),
-                    style: TextStyle(
-                      fontSize: 12.0,
-                    ),
+                    style: TextStyle(fontSize: 15.0,),
                   ),
                 ),
 

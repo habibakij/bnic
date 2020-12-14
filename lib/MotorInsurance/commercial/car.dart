@@ -390,7 +390,7 @@ class _CarState extends State<Car> {
                   children: <Widget>[
 
                     Container(
-                      height: 45.0,
+                      height: 40.0,
                       width: mainContainerWidth,
                       alignment: Alignment.centerLeft,
                       padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
@@ -412,7 +412,7 @@ class _CarState extends State<Car> {
 
                     /// select Plan type spinner(dropdown list)
                     Container(
-                      height: 45.0,
+                      height: 40.0,
                       width: mainContainerWidth,
                       alignment: Alignment.centerLeft,
                       decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
@@ -421,7 +421,7 @@ class _CarState extends State<Car> {
                         Builder(builder: (context) {
                           if (orientation.index == Orientation.landscape.index) {
                             return Container(
-                              height: 45.0,
+                              height: 40.0,
                               width: mainContainerWidthWP,
                               child: Row(
                                 children: <Widget>[
@@ -438,7 +438,7 @@ class _CarState extends State<Car> {
                             );
                           } else {
                             return Container(
-                              height: 45.0,
+                              height: 40.0,
                               width: mainContainerWidthWP,
                               child: Row(
                                 children: <Widget>[
@@ -458,7 +458,7 @@ class _CarState extends State<Car> {
 
                         Positioned(
                           child: Container(
-                            height: 45.0,
+                            height: 40.0,
                             child: Row(children: <Widget>[
                               Container(
                                 width: mainContainerWidthWP,
@@ -521,7 +521,7 @@ class _CarState extends State<Car> {
 
                     /// select Sub type spinner(dropdown list)
                     Container(
-                      height: 45.0,
+                      height: 40.0,
                       width: mainContainerWidth,
                       alignment: Alignment.centerLeft,
                       decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
@@ -531,7 +531,7 @@ class _CarState extends State<Car> {
                         Builder(builder: (context) {
                           if (orientation.index == Orientation.landscape.index) {
                             return Container(
-                              height: 45.0,
+                              height: 40.0,
                               width: mainContainerWidthWP,
                               child: Row(
                                 children: <Widget>[
@@ -548,7 +548,7 @@ class _CarState extends State<Car> {
                             );
                           } else {
                             return Container(
-                              height: 45.0,
+                              height: 40.0,
                               width: mainContainerWidthWP,
                               child: Row(
                                 children: <Widget>[
@@ -568,7 +568,7 @@ class _CarState extends State<Car> {
 
                         Positioned(
                           child: Container(
-                            height: 45.0,
+                            height: 40.0,
                             child: Row(children: <Widget>[
                               Container(
                                 width: mainContainerWidthWP,
@@ -632,7 +632,7 @@ class _CarState extends State<Car> {
 
                     /// select Vehicle type spinner(dropdown list)
                     Container(
-                      height: 45.0,
+                      height: 40.0,
                       width: mainContainerWidth,
                       alignment: Alignment.centerLeft,
                       decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
@@ -642,7 +642,7 @@ class _CarState extends State<Car> {
                         Builder(builder: (context) {
                           if (orientation.index == Orientation.landscape.index) {
                             return Container(
-                              height: 45.0,
+                              height: 40.0,
                               width: mainContainerWidthWP,
                               child: Row(
                                 children: <Widget>[
@@ -664,12 +664,12 @@ class _CarState extends State<Car> {
                             );
                           } else {
                             return Container(
-                              height: 45.0,
+                              height: 40.0,
                               width: mainContainerWidthWP,
                               child: Row(
                                 children: <Widget>[
                                   Container(
-                                    height: 45.0,
+                                    height: 40.0,
                                     width: (stackFirstContainer),
                                     alignment: Alignment.centerLeft,
                                     color: Colors.white,
@@ -690,7 +690,7 @@ class _CarState extends State<Car> {
 
                         Positioned(
                           child: Container(
-                            height: 45.0,
+                            height: 40.0,
                             child: Row(children: <Widget>[
                               Container(
                                 width: mainContainerWidthWP,
@@ -753,7 +753,8 @@ class _CarState extends State<Car> {
                             SizedBox(height: 2.0,),
 
                             Container(
-                              height: 45.0,
+                              height: 40.0,
+                              decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
                               child: TextField(
                                 maxLines: 1,
                                 autocorrect: false,
@@ -765,18 +766,9 @@ class _CarState extends State<Car> {
                                 decoration: InputDecoration(
                                   hintText: 'Car Price',
                                   filled: true,
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                                    borderSide: BorderSide(color: Colors.grey[400]),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                                    borderSide: BorderSide(color: Colors.grey[400]),
-                                  ),
+                                  border: InputBorder.none,
                                 ),
-                                style: TextStyle(
-                                  fontSize: 12.0,
-                                ),
+                                style: TextStyle(fontSize: 15.0,),
                               ),
                             ),
                           ],
@@ -822,7 +814,7 @@ class _CarState extends State<Car> {
                       children: <Widget>[
 
                         Container(
-                          height: 45.0,
+                          height: 40.0,
                           width: containerHalfWidth,
                           alignment: Alignment.centerLeft,
                           decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
@@ -833,7 +825,7 @@ class _CarState extends State<Car> {
                               Builder(builder: (context) {
                                 if (orientation.index == Orientation.landscape.index) {
                                   return Container(
-                                    height: 45.0,
+                                    height: 40.0,
                                     width: containerHalfWidthWP,
                                     child: Row(
                                       children: <Widget>[
@@ -850,7 +842,7 @@ class _CarState extends State<Car> {
                                   );
                                 } else {
                                   return Container(
-                                    height: 45.0,
+                                    height: 40.0,
                                     width: containerHalfWidthWP,
                                     child: Row(
                                       children: <Widget>[
@@ -870,7 +862,7 @@ class _CarState extends State<Car> {
 
                               Positioned(
                                 child: Container(
-                                  height: 45.0,
+                                  height: 40.0,
                                   child: Row(
                                     children: <Widget>[
                                       Container(
@@ -917,8 +909,9 @@ class _CarState extends State<Car> {
                         SizedBox(width: 10.0,),
 
                         Container(
-                          height: 45.0,
+                          height: 40.0,
                           width: containerHalfWidth,
+                          decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
                           child: TextField(
                             maxLines: 1,
                             autocorrect: false,
@@ -930,18 +923,9 @@ class _CarState extends State<Car> {
                             decoration: InputDecoration(
                               hintText: 'Capacity',
                               filled: true,
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                                borderSide: BorderSide(color: Colors.grey[400]),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                                borderSide: BorderSide(color: Colors.grey[400]),
-                              ),
+                              border: InputBorder.none,
                             ),
-                            style: TextStyle(
-                              fontSize: 12.0,
-                            ),
+                            style: TextStyle(fontSize: 15.0,),
                           ),
                         ),
 
@@ -956,7 +940,7 @@ class _CarState extends State<Car> {
 
                     /// select Helper spinner(dropdown list)
                     Container(
-                      height: 45.0,
+                      height: 40.0,
                       width: mainContainerWidth,
                       alignment: Alignment.centerLeft,
                       decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
@@ -966,12 +950,12 @@ class _CarState extends State<Car> {
                         Builder(builder: (context) {
                           if (orientation.index == Orientation.landscape.index) {
                             return Container(
-                              height: 45.0,
+                              height: 40.0,
                               width: mainContainerWidthWP,
                               child: Row(
                                 children: <Widget>[
                                   Container(
-                                    height: 45.0,
+                                    height: 40.0,
                                     width: (landStackContainer),
                                     alignment: Alignment.centerLeft,
                                     color: Colors.white,
@@ -992,12 +976,12 @@ class _CarState extends State<Car> {
                             );
                           } else {
                             return Container(
-                              height: 45.0,
+                              height: 40.0,
                               width: mainContainerWidthWP,
                               child: Row(
                                 children: <Widget>[
                                   Container(
-                                    height: 45.0,
+                                    height: 40.0,
                                     width: (stackFirstContainer),
                                     alignment: Alignment.centerLeft,
                                     color: Colors.white,
@@ -1021,7 +1005,7 @@ class _CarState extends State<Car> {
 
                         Positioned(
                           child: Container(
-                            height: 45.0,
+                            height: 40.0,
                             child: Row(children: <Widget>[
                               Container(
                                 width: mainContainerWidthWP,
@@ -1154,7 +1138,7 @@ class _CarState extends State<Car> {
 
                     /// select Passenger spinner(dropdown list)
                     Container(
-                      height: 45.0,
+                      height: 40.0,
                       width: mainContainerWidth,
                       alignment: Alignment.centerLeft,
                       decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
@@ -1164,12 +1148,12 @@ class _CarState extends State<Car> {
                         Builder(builder: (context) {
                           if (orientation.index == Orientation.landscape.index) {
                             return Container(
-                              height: 45.0,
+                              height: 40.0,
                               width: mainContainerWidthWP,
                               child: Row(
                                 children: <Widget>[
                                   Container(
-                                    height: 45.0,
+                                    height: 40.0,
                                     width: (landStackContainer),
                                     alignment: Alignment.centerLeft,
                                     color: Colors.white,
@@ -1190,12 +1174,12 @@ class _CarState extends State<Car> {
                             );
                           } else {
                             return Container(
-                              height: 45.0,
+                              height: 40.0,
                               width: mainContainerWidthWP,
                               child: Row(
                                 children: <Widget>[
                                   Container(
-                                    height: 45.0,
+                                    height: 40.0,
                                     width: (stackFirstContainer),
                                     alignment: Alignment.centerLeft,
                                     color: Colors.white,
@@ -1219,7 +1203,7 @@ class _CarState extends State<Car> {
 
                         Positioned(
                           child: Container(
-                            height: 45.0,
+                            height: 40.0,
                             child: Row(children: <Widget>[
                               Container(
                                 width: mainContainerWidthWP,
@@ -1296,19 +1280,19 @@ class _CarState extends State<Car> {
 
                         GestureDetector(
                           child: Container(
-                            height: 45.0,
+                            height: 40.0,
                             width: containerHalfWidth,
                             decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
 
                             child: Container(
-                              height: 45.0,
+                              height: 40.0,
                               width: containerHalfWidth,
                               color: Colors.white,
                               child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: <Widget>[
                                     Container(
-                                      height: 45.0,
+                                      height: 40.0,
                                       width: 40.0,
                                       child: RaisedButton(
                                         padding: EdgeInsets.all(0.0),
@@ -1371,7 +1355,7 @@ class _CarState extends State<Car> {
                         SizedBox(width: 10.0,),
 
                         Container(
-                          height: 45.0,
+                          height: 40.0,
                           width: containerHalfWidth,
                           alignment: Alignment.centerLeft,
                           decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
@@ -1432,6 +1416,7 @@ class _CarState extends State<Car> {
           content: Container(
             height: 200.0,
             width: 225.0,
+            padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
             child: ListView.builder(
               itemCount: trLength,
               itemBuilder: (ctx, index) {
@@ -1529,7 +1514,6 @@ class _CarState extends State<Car> {
       },
     );
   }
-
 
   void checkValidity() {
     if (planListItem == null) {
