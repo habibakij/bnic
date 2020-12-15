@@ -52,7 +52,7 @@ class _commercialConformationState extends State<commercialConformation> {
 
  class _PreviewDetailsState extends State<PreviewDetails> {
 
-  bool check= true;
+  bool check= false;
   String privacyPolicyText= "I hereby declare that the details furnished above are true and correct to the best of my "
       "knowledge and belief and I undertake to inform you of any changes therein immediately."
       "I also declare that all the documents to operate the vehicle on public road are current and valid.";
@@ -834,7 +834,7 @@ class _commercialConformationState extends State<commercialConformation> {
                                    height: 24.0,
                                    width: 24.0,
                                    child: Checkbox(
-                                     checkColor: Colors.greenAccent,
+                                     checkColor: Colors.white,
                                      activeColor: HexColor("#F9A825"),
                                      value: check,
                                      onChanged: (bool value){

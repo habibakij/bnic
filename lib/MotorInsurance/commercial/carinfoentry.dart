@@ -183,7 +183,7 @@ class _EnterDetailsState extends State<EnterDetails> {
                       filled: true,
                       border: InputBorder.none,
                     ),
-                    style: TextStyle(fontSize: 15.0,),
+                    style: TextStyle(fontSize: 15.0),
                   ),
                 ),
 
@@ -369,7 +369,7 @@ class _EnterDetailsState extends State<EnterDetails> {
                           autocorrect: false,
                           controller: mailingAddressController,
                           decoration: InputDecoration(
-                            hintText: 'Mailing Address',
+                            hintText: 'Mailing address',
                             filled: true,
                             border: InputBorder.none,
                           ),
@@ -536,7 +536,7 @@ class _EnterDetailsState extends State<EnterDetails> {
                     autocorrect: false,
                     controller: vehiclesBrandController,
                     decoration: InputDecoration(
-                      hintText: 'Vehicles Brand/Make',
+                      hintText: 'Vehicles brand/make',
                       filled: true,
                       border: InputBorder.none,
                     ),
@@ -767,7 +767,7 @@ class _EnterDetailsState extends State<EnterDetails> {
                     autocorrect: false,
                     controller: regNumberController,
                     decoration: InputDecoration(
-                      hintText: 'Registration Number',
+                      hintText: 'Registration number',
                       filled: true,
                       border: InputBorder.none,
                     ),
@@ -790,7 +790,7 @@ class _EnterDetailsState extends State<EnterDetails> {
                     autocorrect: false,
                     controller: engineController,
                     decoration: InputDecoration(
-                      hintText: 'Engine Number',
+                      hintText: 'Engine number',
                       filled: true,
                       border: InputBorder.none,
                     ),
@@ -813,7 +813,7 @@ class _EnterDetailsState extends State<EnterDetails> {
                     autocorrect: false,
                     controller: chassisController,
                     decoration: InputDecoration(
-                      hintText: 'Chassis No',
+                      hintText: 'Chassis no',
                       filled: true,
                       border: InputBorder.none,
                     ),
@@ -887,6 +887,8 @@ class _EnterDetailsState extends State<EnterDetails> {
       customToast("Enter Mailing Address");
     } else if(mobileController.text.toString() == ''){
       customToast("Enter Mobile");
+    } else if(mobileController.text.length != 11){
+      customToast("Enter 11 digit");
     } else if(emailController.text.toString() == ''){
       customToast("Enter Email");
     } else if(vehiclesBrandController.text.toString() == ''){

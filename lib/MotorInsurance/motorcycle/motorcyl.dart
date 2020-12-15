@@ -28,6 +28,46 @@ class _MotorCycleState extends State<MotorCycle> {
   var formattedDate, newDateFormat;
   var newDate;
 
+  void customDialog(BuildContext context, String msg) {
+    showDialog(context: context,
+        builder: (context) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10.0))
+            ),
+            child: Container(
+              height: 200.0,
+              width: 100.0,
+              padding: EdgeInsets.all(0.0),
+              child: Column(
+                children: <Widget>[
+
+                  SizedBox(height: 10.0,),
+
+                  Image.asset("assetimage/logo.png", color: HexColor("#F9A825"), height: 80.0,),
+
+                  SizedBox(height: 20.0,),
+
+                  Text(msg, style: TextStyle(fontSize: 14.0,),),
+
+                  SizedBox(height: 10.0,),
+
+                  RaisedButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0))
+                    ),
+                    color: HexColor("#F9A825"),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text("OK", style: TextStyle(color: Colors.white),),)
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
   void customToast(String msg){
     Fluttertoast.showToast(
         msg: msg,
@@ -95,6 +135,7 @@ class _MotorCycleState extends State<MotorCycle> {
   List<int> passengerNo, passengerId;
   List terrifList;
   String totalCast;
+  int status;
   String getQuotePostUrl= 'http://online.bnicl.net/api/motor/price-quote';
   int trLength= 0;
   Future<String> getQuotePost(String planId, String typeId, String subTypeId, String vehiclesTypeId, String passengerId,
@@ -111,18 +152,24 @@ class _MotorCycleState extends State<MotorCycle> {
     }).then((response) {
       var decode = json.decode(response.body);
       setState(() {
-        EasyLoading.dismiss();
-        terrifList= decode['terrif'];
-        totalCast= decode['total_cost'];
-        trLength= terrifList.length == null ? 0 : terrifList.length;
-
-        if(trLength > 0){
-          _showMyDialog();
-        } else{
+        status= decode['status'];
+        if(status == 0){
+          customDialog(context, "No Terrif Plan Available");
           EasyLoading.dismiss();
-          customToast("length null");
+        }else{
+          EasyLoading.dismiss();
+          terrifList= decode['terrif'];
+          totalCast= decode['total_cost'];
+          trLength= terrifList.length == null ? 0 : terrifList.length;
+
+          if(trLength > 0){
+            _showMyDialog();
+          } else{
+            EasyLoading.dismiss();
+            customToast("length null");
+          }
+          print("trLength is: $trLength");
         }
-        print("trLength is: $trLength");
       });
       print("get Quote area: $terrifList and total cast: $totalCast");
     });

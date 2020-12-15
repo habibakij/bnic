@@ -56,13 +56,13 @@ class _CarState extends State<Car> {
 
                   SizedBox(height: 10.0,),
 
-                  Text(msg, style: TextStyle(fontSize: 14.0,),),
-
-                  SizedBox(height: 10.0,),
-
                   Image.asset("assetimage/logo.png", color: HexColor("#F9A825"), height: 80.0,),
 
                   SizedBox(height: 20.0,),
+
+                  Text(msg, style: TextStyle(fontSize: 14.0,),),
+
+                  SizedBox(height: 10.0,),
 
                   RaisedButton(
                     shape: RoundedRectangleBorder(

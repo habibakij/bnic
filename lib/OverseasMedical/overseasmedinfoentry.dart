@@ -153,27 +153,17 @@ class _containerBodyState extends State<containerBody> {
                 SizedBox(height: 2.0,),
 
                 Container(
-                  height: 45.0,
-                  alignment: Alignment.center,
+                  height: 40.0,
+                  decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
                   child: TextField(
-                    //maxLines: 1,
-                    autocorrect: false,
+                    maxLines: 1,
                     controller: nameController,
                     decoration: InputDecoration(
                       hintText: 'Name',
                       filled: true,
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                        borderSide: BorderSide(color: Colors.grey[400]),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                        borderSide: BorderSide(color: Colors.grey[400]),
-                      ),
+                      border: InputBorder.none,
                     ),
-                    style: TextStyle(
-                      fontSize: 12.0,
-                    ),
+                    style: TextStyle(fontSize: 15.0,),
                   ),
                 ),
 
@@ -184,26 +174,17 @@ class _containerBodyState extends State<containerBody> {
                 SizedBox(height: 2.0,),
 
                 Container(
-                  height: 45.0,
+                  height: 40.0,
+                  decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
                   child: TextField(
                     maxLines: 1,
-                    autocorrect: false,
                     controller: addressController,
                     decoration: InputDecoration(
                       hintText: 'Address',
                       filled: true,
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                        borderSide: BorderSide(color: Colors.grey[400]),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                        borderSide: BorderSide(color: Colors.grey[400]),
-                      ),
+                      border: InputBorder.none,
                     ),
-                    style: TextStyle(
-                      fontSize: 12.0,
-                    ),
+                    style: TextStyle(fontSize: 15.0,),
                   ),
                 ),
 
@@ -216,7 +197,7 @@ class _containerBodyState extends State<containerBody> {
                   Builder(builder: (context) {
                     if (orientation.index == Orientation.landscape.index) {
                       return Container(
-                        height: 45.0,
+                        height: 40.0,
                         width: mainContainerWidthWP,
                         child: Row(
                           children: <Widget>[
@@ -233,7 +214,7 @@ class _containerBodyState extends State<containerBody> {
                       );
                     } else {
                       return Container(
-                        height: 45.0,
+                        height: 40.0,
                         width: mainContainerWidthWP,
                         child: Row(
                           children: <Widget>[
@@ -253,7 +234,7 @@ class _containerBodyState extends State<containerBody> {
 
                   Positioned(
                     child: Container(
-                      height: 45.0,
+                      height: 40.0,
                       child: Row(
                         children: <Widget> [
                           Container(
@@ -304,10 +285,10 @@ class _containerBodyState extends State<containerBody> {
                 SizedBox(height: 2.0,),
 
                 Container(
-                  height: 45.0,
+                  height: 40.0,
+                  decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
                   child: TextField(
                     maxLines: 1,
-                    autocorrect: false,
                     controller: mobileController,
                     keyboardType: TextInputType.number,
                     inputFormatters: <TextInputFormatter>[
@@ -316,18 +297,9 @@ class _containerBodyState extends State<containerBody> {
                     decoration: InputDecoration(
                       hintText: 'Mobile',
                       filled: true,
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                        borderSide: BorderSide(color: Colors.grey[400]),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                        borderSide: BorderSide(color: Colors.grey[400]),
-                      ),
+                      border: InputBorder.none,
                     ),
-                    style: TextStyle(
-                      fontSize: 12.0,
-                    ),
+                    style: TextStyle(fontSize: 15.0,),
                   ),
                 ),
 
@@ -338,26 +310,17 @@ class _containerBodyState extends State<containerBody> {
                 SizedBox(height: 2.0,),
 
                 Container(
-                  height: 45.0,
+                  height: 40.0,
+                  decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
                   child: TextField(
                     maxLines: 1,
-                    autocorrect: false,
                     controller: emailController,
                     decoration: InputDecoration(
                       hintText: 'Email',
                       filled: true,
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                        borderSide: BorderSide(color: Colors.grey[400]),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                        borderSide: BorderSide(color: Colors.grey[400]),
-                      ),
+                      border: InputBorder.none,
                     ),
-                    style: TextStyle(
-                      fontSize: 12.0,
-                    ),
+                    style: TextStyle(fontSize: 15.0,),
                   ),
                 ),
 
@@ -368,26 +331,17 @@ class _containerBodyState extends State<containerBody> {
                 SizedBox(height: 2.0,),
 
                 Container(
-                  height: 45.0,
+                  height: 40.0,
+                  decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
                   child: TextField(
                     maxLines: 1,
-                    autocorrect: false,
                     controller: passportController,
                     decoration: InputDecoration(
                       hintText: 'Passport',
                       filled: true,
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                        borderSide: BorderSide(color: Colors.grey[400]),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                        borderSide: BorderSide(color: Colors.grey[400]),
-                      ),
+                      border: InputBorder.none,
                     ),
-                    style: TextStyle(
-                      fontSize: 12.0,
-                    ),
+                    style: TextStyle(fontSize: 15.0,),
                   ),
                 ),
 
@@ -402,7 +356,7 @@ class _containerBodyState extends State<containerBody> {
                   Builder(builder: (context) {
                     if (orientation.index == Orientation.landscape.index) {
                       return Container(
-                        height: 45.0,
+                        height: 40.0,
                         width: mainContainerWidthWP,
                         child: Row(
                           children: <Widget>[
@@ -419,7 +373,7 @@ class _containerBodyState extends State<containerBody> {
                       );
                     } else {
                       return Container(
-                        height: 45.0,
+                        height: 40.0,
                         width: mainContainerWidthWP,
                         child: Row(
                           children: <Widget>[
@@ -439,7 +393,7 @@ class _containerBodyState extends State<containerBody> {
 
                   Positioned(
                     child: Container(
-                      height: 45.0,
+                      height: 40.0,
                       child: Row(
                         children: <Widget> [
                           Container(
@@ -487,26 +441,17 @@ class _containerBodyState extends State<containerBody> {
                 SizedBox(height: 2.0,),
 
                 Container(
-                  height: 45.0,
+                  height: 40.0,
+                  decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
                   child: TextField(
                     maxLines: 1,
-                    autocorrect: false,
                     controller: countryController,
                     decoration: InputDecoration(
                       hintText: 'Country',
                       filled: true,
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                        borderSide: BorderSide(color: Colors.grey[400]),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                        borderSide: BorderSide(color: Colors.grey[400]),
-                      ),
+                      border: InputBorder.none,
                     ),
-                    style: TextStyle(
-                      fontSize: 12.0,
-                    ),
+                    style: TextStyle(fontSize: 15.0,),
                   ),
                 ),
 
@@ -546,6 +491,8 @@ class _containerBodyState extends State<containerBody> {
       customToast("Enter Address");
     } else if(mobileController.text.isEmpty){
       customToast("Enter Mobile Number");
+    } else if(mobileController.text.length != 11){
+      customToast("Enter 11 digit");
     } else if(emailController.text.isEmpty){
       customToast("Enter Email");
     } else if(passportController.text.isEmpty){

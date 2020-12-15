@@ -234,6 +234,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
+
             DrawerHeader(
               padding: EdgeInsets.all(0.1),
               child: Container(
@@ -276,42 +277,37 @@ class _MyHomePageState extends State<MyHomePage> {
                 color: Colors.blue,
               ),
             ),
-            CustomListTile(Icons.person, "About Us", () =>
-            {
+
+            CustomListTile(Icons.person, "About Us", () => {
               Navigator.pop(context),
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => AboutUS())),
+              Navigator.push(context, MaterialPageRoute(builder: (context) => AboutUS())),
             }),
-            CustomListTile(Icons.business, "Company Profile", () =>
-            {
+
+            CustomListTile(Icons.business, "Company Profile", () => {
               Navigator.pop(context),
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => CompanyProfile())),
+              Navigator.push(context, MaterialPageRoute(builder: (context) => CompanyProfile())),
             }),
-            CustomListTile(Icons.people, "Board of Director", () =>
-            {
+
+            CustomListTile(Icons.people, "Board of Director", () => {
               Navigator.pop(context),
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => DirectorBoard())),
+              Navigator.push(context, MaterialPageRoute(builder: (context) => DirectorBoard())),
             }),
-            CustomListTile(Icons.business_center, "Management", () =>
-            {
+
+            CustomListTile(Icons.business_center, "Management", () => {
               Navigator.pop(context),
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Management())),
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Management())),
             }),
-            CustomListTile(Icons.offline_pin_outlined, "Branch Office", () =>
-            {
+
+            CustomListTile(Icons.offline_pin_outlined, "Branch Office", () => {
               Navigator.pop(context),
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => BranchOffice())),
+              Navigator.push(context, MaterialPageRoute(builder: (context) => BranchOffice())),
             }),
-            CustomListTile(Icons.info, "Claim Information", () =>
-            {
+
+            CustomListTile(Icons.info, "Claim Information", () => {
               Navigator.pop(context),
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ClaimInformation())),
+              Navigator.push(context, MaterialPageRoute(builder: (context) => ClaimInformation())),
             }),
+
           ],
         ),
       ),
@@ -319,178 +315,212 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SingleChildScrollView(
         padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
         scrollDirection: Axis.vertical,
-        child: Column(
-          children: <Widget>[
+        child: Container(
+          color: HexColor("#f5f5f5"),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
 
-            SizedBox(height: 10.0,),
+              SizedBox(height: 10.0,),
 
-            Container(
-              height: 100.0,
-              width: 100.0,
-              child: Image.asset("assetimage/logo.png"),
-            ),
+              Container(
+                height: 100.0,
+                width: 100.0,
+                child: Image.asset("assetimage/logo.png"),
+              ),
 
-            SizedBox(height: 20.0,),
+              SizedBox(height: 20.0,),
 
-            Text("Buy Insurance Online", style: TextStyle(fontSize: 18.0,),),
+              Text("Buy Insurance Online", style: TextStyle(fontSize: 18.0,),),
 
-            SizedBox(height: 20.0,),
+              SizedBox(height: 20.0,),
 
-            /// first row with two property MOTOR & OVERPASS MEDICAL insurance
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
+              /// first row with two property MOTOR & OVERPASS MEDICAL insurance
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
 
-                Card(
-                  elevation: 10.0,
-                  shape: BeveledRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
+                  GestureDetector(
 
-                      Container(
-                        height: 90.0,
-                        width: 150.0,
-                        child: Image.asset("assetimage/motor.png", color: HexColor("#F9A825"),),
+                    child: Card(
+                      elevation: 10.0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
                       ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
 
-                      SizedBox(height: 10.0,),
-
-                      Container(
-                        width: 150.0,
-                        padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
-                        child: Text(
-                          "Motor Insurance",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 12.0,
+                          Container(
+                            height: 90.0,
+                            width: 150.0,
+                            child: Image.asset("assetimage/motor.png", color: HexColor("#F9A825"),),
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
 
-                SizedBox(width: 10.0,),
+                          SizedBox(height: 10.0,),
 
-                Card(
-                  elevation: 10.0,
-                  shape: BeveledRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-
-                      Container(
-                        height: 50.0,
-                        width: 150.0,
-                        child: Image.asset("assetimage/travel.png", color: HexColor("#F9A825"),),
-                      ),
-
-                      SizedBox(height: 30.0,),
-
-                      Container(
-                        width: 150.0,
-                        padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
-                        child: Text(
-                          "Overseas Medical Insurance (Health)",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 12.0,
+                          Container(
+                            width: 150.0,
+                            padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
+                            child: Text(
+                              "Motor Insurance",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 12.0,
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
+                    ),
+
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => MotorInsurance()));
+                    },
                   ),
-                ),
 
-              ],
-            ),
+                  SizedBox(width: 5.0,),
 
-            SizedBox(height: 20.0,),
+                  GestureDetector(
 
-            /// second row with two property MARIN & FIRE insurance
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-
-                Card(
-                  elevation: 10.0,
-                  shape: BeveledRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-
-                      Container(
-                        height: 90.0,
-                        width: 150.0,
-                        child: Image.asset("assetimage/marin.png", color: HexColor("#F9A825"),),
+                    child: Card(
+                      elevation: 10.0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
                       ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
 
-                      SizedBox(height: 10.0,),
-
-                      Container(
-                        width: 150.0,
-                        padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
-                        child: Text(
-                          "Marin Insurance",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 12.0,
+                          Container(
+                            height: 60.0,
+                            width: 150.0,
+                            padding: EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 0.0),
+                            child: Image.asset("assetimage/travel.png", color: HexColor("#F9A825"),),
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
 
-                SizedBox(width: 10.0,),
+                          SizedBox(height: 20.0,),
 
-                Card(
-                  elevation: 10.0,
-                  shape: BeveledRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-
-                      Container(
-                        height: 80.0,
-                        width: 150.0,
-                        child: Image.asset("assetimage/fire.png", color: HexColor("#F9A825"),),
-                      ),
-
-                      SizedBox(height: 20.0,),
-
-                      Container(
-                        width: 150.0,
-                        padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
-                        child: Text(
-                          "Fire Insurance",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 12.0,
+                          Container(
+                            width: 150.0,
+                            padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
+                            child: Text(
+                              "Overseas Medical Insurance (Health)",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 12.0,
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
+                    ),
+
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => OverseasMedical()));
+                    },
                   ),
-                ),
 
-              ],
-            ),
+                ],
+              ),
 
-          ],
+              SizedBox(height: 5.0,),
+
+              /// second row with two property MARIN & FIRE insurance
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+
+                  GestureDetector(
+
+                    child: Card(
+                      elevation: 10.0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+
+                          Container(
+                            height: 90.0,
+                            width: 150.0,
+                            child: Image.asset("assetimage/marin.png", color: HexColor("#F9A825"),),
+                          ),
+
+                          SizedBox(height: 10.0,),
+
+                          Container(
+                            width: 150.0,
+                            padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
+                            child: Text(
+                              "Marin Insurance",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 12.0,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    onTap: (){
+                      customDialog(context);
+                    },
+                  ),
+
+                  SizedBox(width: 5.0,),
+
+                  GestureDetector(
+
+                    child: Card(
+                      elevation: 10.0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+
+                          Container(
+                            height: 80.0,
+                            width: 150.0,
+                            padding: EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 0.0),
+                            child: Image.asset("assetimage/fire.png", color: HexColor("#F9A825"),),
+                          ),
+
+                          SizedBox(height: 20.0,),
+
+                          Container(
+                            width: 150.0,
+                            padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
+                            child: Text(
+                              "Fire Insurance",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 12.0,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    onTap: (){
+                      customDialog(context);
+                    },
+                  ),
+
+                ],
+              ),
+
+            ],
+          ),
         ),
       ),
     );
@@ -511,22 +541,22 @@ class CustomListTile extends StatelessWidget {
     return InkWell(
       splashColor: HexColor("#F9A825"),
       onTap: onTap,
+
       child: Container(
         height: 40.0,
+        padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
+
             Row(
               children: <Widget>[
-                Icon(icon),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
+                Icon(icon, color: HexColor("#737373"),),
+                Padding(padding: const EdgeInsets.all(8.0),
+
                   child: Text(
                     title,
-                    style: TextStyle(
-                      fontSize: 12.0,
-                    ),
-                  ),
+                    style: TextStyle(fontSize: 12.0,),),
                 ),
               ],
             ),

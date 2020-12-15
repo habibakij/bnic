@@ -534,7 +534,7 @@ class _InfoDetailsState extends State<InfoDetails> {
                                 height: 24.0,
                                 width: 24.0,
                                 child: Checkbox(
-                                  checkColor: Colors.greenAccent,
+                                  checkColor: Colors.white,
                                   activeColor: HexColor("#F9A825"),
                                   value: check,
                                   onChanged: (bool value){

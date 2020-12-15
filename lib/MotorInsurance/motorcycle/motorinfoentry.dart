@@ -183,7 +183,7 @@ class _BikeDetailsState extends State<BikeDetails> {
                     maxLines: 1,
                     controller: nameController,
                     decoration: InputDecoration(
-                      hintText: 'Insured Name same as BRTA Registration',
+                      hintText: 'Insured name same as btra registration',
                       filled: true,
                       border: InputBorder.none,
                     ),
@@ -495,7 +495,7 @@ class _BikeDetailsState extends State<BikeDetails> {
                       FilteringTextInputFormatter.digitsOnly
                     ],
                     decoration: InputDecoration(
-                      hintText: 'Max 11 digit',
+                      hintText: 'Mobile',
                       filled: true,
                       border: InputBorder.none,
                     ),
@@ -537,7 +537,7 @@ class _BikeDetailsState extends State<BikeDetails> {
                     maxLines: 1,
                     controller: vehiclesBrandController,
                     decoration: InputDecoration(
-                      hintText: 'Vehicles Brand/Make',
+                      hintText: 'Vehicles brand/make',
                       filled: true,
                       border: InputBorder.none,
                     ),
@@ -756,7 +756,7 @@ class _BikeDetailsState extends State<BikeDetails> {
                     maxLines: 1,
                     controller: regNumberController,
                     decoration: InputDecoration(
-                      hintText: 'Registration Number',
+                      hintText: 'Registration number',
                       filled: true,
                       border: InputBorder.none,
                     ),
@@ -778,7 +778,7 @@ class _BikeDetailsState extends State<BikeDetails> {
                     maxLines: 1,
                     controller: engineController,
                     decoration: InputDecoration(
-                      hintText: 'Engine Number',
+                      hintText: 'Engine number',
                       filled: true,
                       border: InputBorder.none,
                     ),
@@ -800,7 +800,7 @@ class _BikeDetailsState extends State<BikeDetails> {
                     maxLines: 1,
                     controller: chassisController,
                     decoration: InputDecoration(
-                      hintText: 'Chassis No',
+                      hintText: 'Chassis no',
                       filled: true,
                       border: InputBorder.none,
                     ),
@@ -872,8 +872,10 @@ class _BikeDetailsState extends State<BikeDetails> {
       customToast("Enter Address");
     } else if(mailingAddressController.text.toString() == ''){
       customToast("Enter Mailing Address");
-    } else if(mobileController.text.toString() == ''){
+    } else if(mobileController.text.toString() == '' ){
       customToast("Enter Mobile");
+    } else if(mobileController.text.length != 11){
+      customToast("Enter 11 digit");
     } else if(emailController.text.toString() == ''){
       customToast("Enter Email");
     } else if(vehiclesBrandController.text.toString() == ''){

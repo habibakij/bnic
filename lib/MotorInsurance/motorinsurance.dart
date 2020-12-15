@@ -143,8 +143,8 @@ class _MotorInsuranceState extends State<MotorInsurance> {
               GestureDetector(
                 child: Card(
                   elevation: 10.0,
-                  shape: BeveledRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
                   ),
 
                   child: Column(
@@ -183,8 +183,8 @@ class _MotorInsuranceState extends State<MotorInsurance> {
               GestureDetector(
                 child: Card(
                   elevation: 10.0,
-                  shape: BeveledRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -218,8 +218,8 @@ class _MotorInsuranceState extends State<MotorInsurance> {
                 },
               ),
 
-            ],
-          ),]
+            ],),
+          ]
         ),
       ),
     );
