@@ -44,6 +44,7 @@ class _MotorDetailsState extends State<MotorDetails> {
   double convertTaka;
 
   bool check= false;
+  int checkBoxCount= 0;
   String privacyPolicyText= "I hereby declare that the details furnished above are true and correct to the best of my "
       "knowledge and belief and I undertake to inform you of any changes therein immediately."
       "I also declare that all the documents to operate the vehicle on public road are current and valid.";
@@ -785,13 +786,31 @@ class _MotorDetailsState extends State<MotorDetails> {
                                   width: privacyContainerWidth,
                                   child: Column(
                                     children: <Widget> [
-                                      Container(
-                                        child: Text(
-                                          privacyPolicyText,
-                                          style: TextStyle(
-                                            fontSize: 12.0,
+
+                                      GestureDetector(
+
+                                        child: Container(
+                                          child: Text(
+                                            privacyPolicyText,
+                                            style: TextStyle(
+                                              fontSize: 12.0,
+                                            ),
                                           ),
                                         ),
+
+                                        onTap: (){
+                                          setState(() {
+                                            checkBoxCount++;
+                                            print("checkBoxCount: $checkBoxCount");
+                                            if((checkBoxCount % 2) != 0){
+                                              check = true;
+                                              print("checkBoxCount_if: $check");
+                                            } else {
+                                              check = false;
+                                              print("checkBoxCount_else: $check");
+                                            }
+                                          });
+                                        },
                                       ),
 
                                       SizedBox(height: 10.0,),
@@ -813,6 +832,7 @@ class _MotorDetailsState extends State<MotorDetails> {
                                           },
                                         ),
                                       ),
+
                                     ],
                                   ),
                                 ),

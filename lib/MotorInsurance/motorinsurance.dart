@@ -132,7 +132,7 @@ class _MotorInsuranceState extends State<MotorInsurance> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget> [
 
-            Text("By Motor Insurance", style: TextStyle(fontSize: 20.0, color: Colors.black,),),
+            Text("Buy Motor Insurance", style: TextStyle(fontSize: 20.0, color: Colors.black,),),
 
             SizedBox(height: 20.0,),
 

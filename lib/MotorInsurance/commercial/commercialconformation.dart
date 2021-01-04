@@ -61,6 +61,7 @@ class _commercialConformationState extends State<commercialConformation> {
       getRegNumberFromSP, getRegDateFromSP, getEngNumberFromSP, getChassisNoFromSP, getPlanNameFromSP, getVehiclesTypeFromSP,getDriverFromSP, getCapacityFromSP,
       getContactorFromSP, contactor= '0', getHelperFromSP, getPassengerFromSP, getPoStartDateFromSP, getPoEndDateFromSP, getTotalCastFromSP;
 
+  int checkBoxCount= 0;
   double convertTaka;
 
   /// SSL Commerce area
@@ -852,13 +853,30 @@ class _commercialConformationState extends State<commercialConformation> {
                                    width: privacyContainerWidth,
                                    child: Column(
                                      children: <Widget> [
-                                       Container(
-                                         child: Text(
-                                           privacyPolicyText,
-                                           style: TextStyle(
-                                             fontSize: 12.0,
+
+                                       GestureDetector(
+                                         child: Container(
+                                           child: Text(
+                                             privacyPolicyText,
+                                             style: TextStyle(
+                                               fontSize: 12.0,
+                                             ),
                                            ),
                                          ),
+
+                                         onTap: (){
+                                           setState(() {
+                                             checkBoxCount++;
+                                             print("checkBoxCount: $checkBoxCount");
+                                             if((checkBoxCount % 2) != 0){
+                                               check = true;
+                                               print("checkBoxCount_if: $check");
+                                             } else {
+                                               check = false;
+                                               print("checkBoxCount_else: $check");
+                                             }
+                                           });
+                                         },
                                        ),
 
                                        SizedBox(height: 10.0,),
@@ -949,7 +967,7 @@ class _commercialConformationState extends State<commercialConformation> {
      );
    }
 
-  Future<String> postPaymentInformation() async {
+   Future<String> postPaymentInformation() async {
     EasyLoading.show();
     convertTaka= double.parse(getTotalCastFromSP.replaceAll(',', ''));
     print("Converted taka as double $convertTaka");

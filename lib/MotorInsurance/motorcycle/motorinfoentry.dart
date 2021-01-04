@@ -66,7 +66,6 @@ class _BikeDetailsState extends State<BikeDetails> {
         fontSize: 12.0);
   }
 
-
   /// Get City list from JSON
   var getMailingCityListItem;
   var getMailingCityListId;
@@ -112,7 +111,24 @@ class _BikeDetailsState extends State<BikeDetails> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    nameController.dispose();
+    addressController.dispose();
+    mailingAddressController.dispose();
+    mobileController.dispose();
+    emailController.dispose();
+    vehiclesBrandController.dispose();
+    regNumberController.dispose();
+    engineController.dispose();
+    chassisController.dispose();
+  }
+
   var mediaQueryWidth;
+  int checkBoxCount= 0;
+
   double mainContainerWidth, mainContainerWidthWP, stackFirstContainer, stackSecondContainer, containerHalfWidth, containerHalfWidthWP,
       stackHalfContainer, stackHalfContainer1;
   Orientation orientation;
@@ -341,13 +357,28 @@ class _BikeDetailsState extends State<BikeDetails> {
 
                       SizedBox(width: 10.0,),
 
-                      Container(
-                        child: Text(
-                          "Insured and Mailing Address are same ?",
-                          style: TextStyle(
-                            fontSize: 12.0,
+                      GestureDetector(
+                        child: Container(
+                          child: Text(
+                            "Insured and Mailing Address are same ?",
+                            style: TextStyle(
+                              fontSize: 12.0,
+                            ),
                           ),
                         ),
+                        onTap: (){
+                          setState(() {
+                            checkBoxCount++;
+                            print("checkBoxCount: $checkBoxCount");
+                            if((checkBoxCount % 2) != 0){
+                              check = true;
+                              print("checkBoxCount_if: $check");
+                            } else {
+                              check = false;
+                              print("checkBoxCount_else: $check");
+                            }
+                          });
+                        },
                       ),
 
                     ],
@@ -495,7 +526,7 @@ class _BikeDetailsState extends State<BikeDetails> {
                       FilteringTextInputFormatter.digitsOnly
                     ],
                     decoration: InputDecoration(
-                      hintText: 'Mobile',
+                      hintText: '01717 - 722666',
                       filled: true,
                       border: InputBorder.none,
                     ),
@@ -875,7 +906,7 @@ class _BikeDetailsState extends State<BikeDetails> {
     } else if(mobileController.text.toString() == '' ){
       customToast("Enter Mobile");
     } else if(mobileController.text.length != 11){
-      customToast("Enter 11 digit");
+      customToast("Make sure your mobile 11 digit");
     } else if(emailController.text.toString() == ''){
       customToast("Enter Email");
     } else if(vehiclesBrandController.text.toString() == ''){

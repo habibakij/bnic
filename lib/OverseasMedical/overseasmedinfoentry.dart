@@ -95,6 +95,18 @@ class _containerBodyState extends State<containerBody> {
     getCityList();
   }
 
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    nameController.dispose();
+    addressController.dispose();
+    mobileController.dispose();
+    emailController.dispose();
+    passportController.dispose();
+    countryController.dispose();
+  }
+
   var mediaQueryWidth;
   double mainContainerWidth, mainContainerWidthWP, stackFirstContainer, stackSecondContainer, containerHalfWidth, containerHalfWidthWP;
   Orientation orientation;
@@ -295,7 +307,7 @@ class _containerBodyState extends State<containerBody> {
                       FilteringTextInputFormatter.digitsOnly
                     ],
                     decoration: InputDecoration(
-                      hintText: 'Mobile',
+                      hintText: '01717 - 722666',
                       filled: true,
                       border: InputBorder.none,
                     ),
@@ -492,7 +504,7 @@ class _containerBodyState extends State<containerBody> {
     } else if(mobileController.text.isEmpty){
       customToast("Enter Mobile Number");
     } else if(mobileController.text.length != 11){
-      customToast("Enter 11 digit");
+      customToast("Make sure your mobile 11 digit");
     } else if(emailController.text.isEmpty){
       customToast("Enter Email");
     } else if(passportController.text.isEmpty){

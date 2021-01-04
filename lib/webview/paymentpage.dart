@@ -2,16 +2,12 @@
 ///CREATED BY AK IJ
 ///25-11-2020
 
-import 'dart:async';
-import 'dart:io';
 import 'package:countdown_flutter/countdown_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
-import '../main.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
 class PaymentPage extends StatefulWidget {
   String paymentPageUrl;
@@ -22,29 +18,21 @@ class PaymentPage extends StatefulWidget {
 }
 
 class _PaymentPageState extends State<PaymentPage> {
+  FlutterWebviewPlugin flutterWebviewPlugin = FlutterWebviewPlugin();
 
-  Completer<WebViewController> _controller = new Completer<WebViewController>();
   var _done;
-  InAppWebViewController webView;
-  String url = "";
-  double progress = 0;
-
   @override
   void initState() {
-    _done = false;
-    // TODO: implement initState
-    print("check comcplete ${_controller.isCompleted}");
     super.initState();
+    _done = false;
+    flutterWebviewPlugin.onStateChanged.listen((WebViewStateChanged wvs) {});
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WebviewScaffold(
+      url: widget.paymentPageUrl,
+      withZoom: true,
+      hidden: true,
 
       appBar: AppBar(
         backgroundColor: HexColor("#F9A825"),
@@ -77,66 +65,7 @@ class _PaymentPageState extends State<PaymentPage> {
         ],
       ),
 
-      body: WillPopScope(
-        onWillPop: _willPopCallback,
-        child: Container(
-            child: Column(children: <Widget>[
-
-              Container(
-                  padding: EdgeInsets.all(10.0),
-                  child: progress < 1.0 ? LinearProgressIndicator(
-                      value: progress, backgroundColor: Colors.amberAccent) : Container()
-              ),
-
-              Expanded(
-                child: Container(
-                  margin: const EdgeInsets.all(10.0),
-                  child: InAppWebView(
-                    initialUrl: widget.paymentPageUrl,
-                    initialHeaders: {},
-                    initialOptions: InAppWebViewGroupOptions(
-                        crossPlatform: InAppWebViewOptions(
-                          debuggingEnabled: true,
-                        )
-                    ),
-                    onWebViewCreated: (InAppWebViewController controller) {
-                      webView = controller;
-                    },
-                    onLoadStart: (InAppWebViewController controller,
-                        String url) {
-                      setState(() {
-                        this.url = url;
-                      });
-                    },
-                    onLoadStop: (InAppWebViewController controller,
-                        String url) async {
-                      setState(() {
-                        this.url = url;
-                      });
-                    },
-                    onProgressChanged: (InAppWebViewController controller,
-                        int progress) {
-                      setState(() {
-                        this.progress = progress / 100;
-                      });
-                    },
-                  ),
-                ),
-              ),
-
-            ])
-        ),
-      ),
     );
   }
-
-  Future<bool> _willPopCallback() async {
-    bool canNavigate = await webView.canGoBack();
-    if (canNavigate) {
-      webView.goBack();
-      return false;
-    } else {
-      return true;
-    }
-  }
 }
+

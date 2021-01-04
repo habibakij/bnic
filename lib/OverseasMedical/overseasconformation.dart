@@ -58,6 +58,8 @@ class _InfoDetailsState extends State<InfoDetails> {
   String getTypeFromSP, getOMPCategoryFromSP, getStayPeriodFromSP, getBirthDayFromSP, taka;
   double convertTaka;
 
+  int checkBoxCount= 0;
+
   /// SSL Commerce area
   String status;
   String id= 'bnicllive';
@@ -552,13 +554,30 @@ class _InfoDetailsState extends State<InfoDetails> {
                                 width: privacyContainerWidth,
                                 child: Column(
                                   children: <Widget> [
-                                    Container(
-                                      child: Text(
-                                        privacyPolicyText,
-                                        style: TextStyle(
-                                          fontSize: 12.0,
+
+                                    GestureDetector(
+                                      child: Container(
+                                        child: Text(
+                                          privacyPolicyText,
+                                          style: TextStyle(
+                                            fontSize: 12.0,
+                                          ),
                                         ),
                                       ),
+
+                                      onTap: (){
+                                        setState(() {
+                                          checkBoxCount++;
+                                          print("checkBoxCount: $checkBoxCount");
+                                          if((checkBoxCount % 2) != 0){
+                                            check = true;
+                                            print("checkBoxCount_if: $check");
+                                          } else {
+                                            check = false;
+                                            print("checkBoxCount_else: $check");
+                                          }
+                                        });
+                                      },
                                     ),
 
                                     SizedBox(height: 10.0,),
